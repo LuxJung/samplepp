@@ -1,0 +1,40 @@
+package main;
+
+import java.sql.Date;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+public class BoardVO {
+	private DataSource dataFactory;
+	private Connection conn;
+	private PreparedStatement pstmt;
+
+	public BoardVO(String title, String userId, String contents) {
+		// TODO Auto-generated constructor stub
+	}
+
+	public List<BoardVO> listBoard() {
+		List<BoardVO> boardList = new ArrayList();
+		try {
+			conn = dataFactory.getConnection();
+			String query = "select * from  t_member order by joinDate desc";
+			System.out.println(query);
+			pstmt = conn.prepareStatement(query);
+			ResultSet rs = pstmt.executeQuery();
+			while (rs.next()) {
+				String title = rs.getString("title");
+				String userId = rs.getString("userId");
+				String contents = rs.getString("contents");
+				BoardVO boardVO = new BoardVO(title, userId, contents);
+				boardList.add(boardVO);
+			}
+			rs.close();
+			pstmt.close();
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return boardList;
+	}
+}
