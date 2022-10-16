@@ -21,7 +21,7 @@
 <c:choose>
 	<c:when test="${empty articlesList }">
 		<p>리스트가 없다능</p>
-		<c:redirect url="/board"></c:redirect>
+		<c:redirect url="/board/listArticles.do"></c:redirect>
 	</c:when>
 	<c:when test="${!empty articlesList }">
 	<ol>	

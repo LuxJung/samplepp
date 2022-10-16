@@ -46,7 +46,12 @@ public class BoardContoller extends HttpServlet {
 				articlesList = boardService.listArticles();
 				request.setAttribute("articlesList", articlesList);
 				nextPage = "/listboard.jsp";
-				RequestDispatcher dispatch = request.getRequestDispatcher("/listboard.jsp");
+				RequestDispatcher dispatch = request.getRequestDispatcher(nextPage);
+				dispatch.forward(request, response);
+			}else if(action.equals("/articleForm.do")) {
+				//page702
+				nextPage = "/newgoods.jsp";
+				RequestDispatcher dispatch = request.getRequestDispatcher(nextPage);
 				dispatch.forward(request, response);
 			}
 		} catch (Exception e) {
