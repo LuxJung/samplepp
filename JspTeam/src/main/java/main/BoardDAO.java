@@ -26,21 +26,37 @@ public class BoardDAO {
 			e.printStackTrace();
 		}
 	}
-
+	
+	//게시판 리스트 뿌려주기
 	public List<BoardVO> listBoard() {
-		List<BoardVO> boardsList = new ArrayList<>();
+		List<BoardVO> boardList = new ArrayList<>();
 		try {
 			conn = dataFactory.getConnection();
-			String query = "select * from  board";
+			String query = "select * from  board_t";
 			System.out.println(query);
 			pstmt = conn.prepareStatement(query);
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next()) {
+				int num_aticle = rs.getInt("num_aticle");
+				String nickname = rs.getString("nickname");
+				String category = rs.getString("category");
 				String title = rs.getString("title");
-				String name = rs.getString("name");
 				String contents = rs.getString("contents");
-				BoardVO BoardVO = new BoardVO(title, name, contents);
-				boardsList.add(BoardVO);
+				int intdeal_status = rs.getInt("deal_status");
+				Date upload = rs.getDate("upload");
+				String goods_name = rs.getString("goods_name");
+				int num_cmnt = rs.getInt("num_cmnt");
+				String deal_status = null;
+				if(intdeal_status ==0) {
+					deal_status = "판매중";
+				}else if(intdeal_status ==1) {
+					deal_status = "예약중";
+				}else {
+					deal_status = "판매완료";
+				}
+				BoardVO BoardVO = new BoardVO(num_aticle, nickname, category, title, 
+									contents, deal_status, upload, goods_name, num_cmnt);
+				boardList.add(BoardVO);
 			}
 			rs.close();
 			pstmt.close();
@@ -48,26 +64,47 @@ public class BoardDAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return boardsList;
+		return boardList;
 	}
-
-	public void addMember(BoardVO bd) {
+	
+	public List<BoardVO> selectAllArticles(){
+		List<BoardVO> atriclesList = new ArrayList<>();
 		try {
 			conn = dataFactory.getConnection();
-			String title = bd.getTitle();
-			String name = bd.getName();
-			String contents = bd.getContents();
-			String query = "INSERT INTO t_member(title, name, contents)" + " VALUES(?, ? ,?)";
+			String query = "SELECT num_aticle, nickname, title, deal_status, upload FROM board_t";
 			System.out.println(query);
 			pstmt = conn.prepareStatement(query);
-			pstmt.setString(1, title);
-			pstmt.setString(2, name);
-			pstmt.setString(3, contents);
-			pstmt.executeUpdate();
+			ResultSet rs = pstmt.executeQuery();
+			while (rs.next()) {
+				int num_aticle = rs.getInt("num_aticle");
+				String nickname = rs.getString("nickname");
+				String title = rs.getString("title");
+				int intdeal_status = rs.getInt("deal_status");
+				String deal_status = null;
+				if(intdeal_status ==0) {
+					deal_status = "판매중";
+				}else if(intdeal_status ==1) {
+					deal_status = "예약중";
+				}else {
+					deal_status = "판매완료";
+				}
+				Date upload = rs.getDate("upload");
+				BoardVO BoardVO = new BoardVO(num_aticle, nickname,  
+										title, deal_status, upload);
+				atriclesList.add(BoardVO);
+			}
+			for (BoardVO boardVO : atriclesList) {
+				System.out.print("boardList 확인 - 닉네임 : "+boardVO.getNickname()+" | ");
+		        System.out.println("글제목 : "+boardVO.getTitle());
+			}
+			rs.close();
 			pstmt.close();
 			conn.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		return atriclesList;	
 	}
+
+	
 }

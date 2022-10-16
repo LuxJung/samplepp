@@ -13,10 +13,11 @@
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
-	<classpathentry kind="lib" path="D:/jml_data/JSP4Team_workspace/JspTeam/src/main/webapp/WEB-INF/lib/mariadb-java-client-2.7.6.jar"/>
-	<classpathentry kind="lib" path="D:/jml_data/JSP4Team_workspace/JspTeam/src/main/webapp/WEB-INF/lib/taglibs-standard-compat-1.2.5.jar"/>
-	<classpathentry kind="lib" path="D:/jml_data/JSP4Team_workspace/JspTeam/src/main/webapp/WEB-INF/lib/taglibs-standard-impl-1.2.5.jar"/>
-	<classpathentry kind="lib" path="D:/jml_data/JSP4Team_workspace/JspTeam/src/main/webapp/WEB-INF/lib/taglibs-standard-jstlel-1.2.5.jar"/>
-	<classpathentry kind="lib" path="D:/jml_data/JSP4Team_workspace/JspTeam/src/main/webapp/WEB-INF/lib/taglibs-standard-spec-1.2.5.jar"/>
+	<classpathentry kind="lib" path="D:/JSP/JSP_Workspace/DbTest/JspTeam/src/main/webapp/WEB-INF/lib/mariadb-java-client-2.7.6.jar"/>
+	<classpathentry kind="lib" path="D:/JSP/JSP_Workspace/DbTest/JspTeam/src/main/webapp/WEB-INF/lib/taglibs-standard-compat-1.2.5.jar"/>
+	<classpathentry kind="lib" path="D:/JSP/JSP_Workspace/DbTest/JspTeam/src/main/webapp/WEB-INF/lib/taglibs-standard-impl-1.2.5.jar"/>
+	<classpathentry kind="lib" path="D:/JSP/JSP_Workspace/DbTest/JspTeam/src/main/webapp/WEB-INF/lib/taglibs-standard-jstlel-1.2.5.jar"/>
+	<classpathentry kind="lib" path="D:/JSP/JSP_Workspace/DbTest/JspTeam/src/main/webapp/WEB-INF/lib/taglibs-standard-spec-1.2.5.jar"/>
+	<classpathentry kind="lib" path="D:/JSP/JSP_Workspace/DbTest/JspTeam/src/main/webapp/WEB-INF/lib/tomcat-dbcp-7.0.30.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
