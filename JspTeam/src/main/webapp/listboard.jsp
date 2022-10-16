@@ -4,6 +4,7 @@
 <%@ page import="java.util.*" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<c:set var="contextPath"  value="${pageContext.request.contextPath}"  />
 <% request.setCharacterEncoding("UTF-8");%>
 <!DOCTYPE html>
 <html>
@@ -16,7 +17,7 @@
 </head>
 <body>
 <h1>글목록</h1>
-
+<div style="border:1px solid #000000;">
 <c:choose>
 	<c:when test="${empty articlesList }">
 		<p>리스트가 없다능</p>
@@ -41,5 +42,7 @@
 	</ol>
 	</c:when>
 </c:choose>
+</div>
+<a href="${contextPath}/board/articleForm.do">글쓰기</a>
 </body>
 </html>
