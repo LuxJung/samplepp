@@ -12,44 +12,46 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-
 @WebServlet("/board/*")
 public class BoardContoller extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	BoardService boardService;
 	BoardVO boardVO;
-	//BoardDAO boardDAO;
+
+	// BoardDAO boardDAO;
 	public void init() throws ServletException {
-		//boardDAO = new BoardDAO();
+		// boardDAO = new BoardDAO();
 		boardService = new BoardService();
 		System.out.println("초기화");
 	}
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		doHandle(request, response);
 	}
 
-
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		doHandle(request, response);
 	}
 
-	private void doHandle(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	private void doHandle(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
-		response.setContentType("text/html;charset=utf-8");		
+		response.setContentType("text/html;charset=utf-8");
 		String nextPage = "";
 		String action = request.getPathInfo();
-		System.out.println("action: "+action);
+		System.out.println("action: " + action);
 		try {
 			List<BoardVO> articlesList = new ArrayList<>();
-			if(action == null || action.equals("/listArticles.do")) {
+			if (action == null || action.equals("/listArticles.do")) {
 				articlesList = boardService.listArticles();
 				request.setAttribute("articlesList", articlesList);
 				nextPage = "/listboard.jsp";
 				RequestDispatcher dispatch = request.getRequestDispatcher(nextPage);
 				dispatch.forward(request, response);
-			}else if(action.equals("/articleForm.do")) {
-				//page702
+			} else if (action.equals("/articleForm.do")) {
+				// page702 여기부터 바로 ㄱㄱ
 				nextPage = "/newgoods.jsp";
 				RequestDispatcher dispatch = request.getRequestDispatcher(nextPage);
 				dispatch.forward(request, response);
@@ -57,17 +59,17 @@ public class BoardContoller extends HttpServlet {
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
-		/*List<BoardVO> boardList = boardDAO.listBoard();
-		for (BoardVO boardVO : boardList) {
-			System.out.print("닉네임 : "+boardVO.getNickname()+" | ");
-	        System.out.print("글제목 : "+boardVO.getTitle()+" | ");
-	        System.out.println("글내용 : "+boardVO.getContents());
-		}
-		request.setAttribute("boardList", boardList);*/
-		
-		//response.sendRedirect("/JspTeam/listboard.jsp");
-		
-		//response.sendRedirect("/listboard.jsp");
-		
+		/*
+		 * List<BoardVO> boardList = boardDAO.listBoard(); for (BoardVO boardVO :
+		 * boardList) { System.out.print("닉네임 : "+boardVO.getNickname()+" | ");
+		 * System.out.print("글제목 : "+boardVO.getTitle()+" | ");
+		 * System.out.println("글내용 : "+boardVO.getContents()); }
+		 * request.setAttribute("boardList", boardList);
+		 */
+
+		// response.sendRedirect("/JspTeam/listboard.jsp");
+
+		// response.sendRedirect("/listboard.jsp");
+
 	}
 }
