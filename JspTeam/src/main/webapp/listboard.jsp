@@ -43,6 +43,6 @@
 	</c:when>
 </c:choose>
 </div>
-<a href="${contextPath}/board/articleForm.do">글쓰기</a>
+<a href="${contextPath}/board/addArticle.do">글쓰기</a>
 </body>
 </html>

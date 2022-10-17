@@ -4,16 +4,50 @@ import java.sql.Date;
 
 public class BoardVO {
 	
-	private int num_aticle;//
-	private String nickname;
-	private String category;
-	private String title;
-	private String contents;
-	private String deal_status;//
-	private Date upload;
-	private String goods_name;
-	private int num_cmnt;
+	private int num_aticle;// auto_inc
+	private String nickname; //not null
+	private String category; //not null
+	private String title;    //not null
+	private String contents; //not null
+	private String deal_status;//not null
+	private Date upload; //default
+	private String goods_name; //not null
+	private int num_cmnt; //null ok
 	
+	private int price; //NOT NULL
+	private String goods_img; // TEXT NOT NULL,
+	private String tag; // TEXT
+	
+	public int getPrice() {
+		return price;
+	}
+
+
+	public void setPrice(int price) {
+		this.price = price;
+	}
+
+
+	public String getGoods_img() {
+		return goods_img;
+	}
+
+
+	public void setGoods_img(String goods_img) {
+		this.goods_img = goods_img;
+	}
+
+
+	public String getTag() {
+		return tag;
+	}
+
+
+	public void setTag(String tag) {
+		this.tag = tag;
+	}
+
+
 	public BoardVO() {
 		System.out.println("BoardVO 생성자호출");
 	}

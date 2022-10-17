@@ -5,6 +5,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -104,6 +105,44 @@ public class BoardDAO {
 			e.printStackTrace();
 		}
 		return atriclesList;	
+	}
+
+	public void insertNewArticle(BoardVO board) {
+		System.out.println("insertNewArticle 시작하냐?");
+		try {
+			conn = dataFactory.getConnection();
+			System.out.println("insertNewArticle 시작하는데~?");
+			int num_aticle = board.getNum_aticle();
+			String nickname = board.getNickname();
+			String category = board.getCategory();
+			String title = board.getTitle();
+			String contents = board.getContents();
+			String deal_status = board.getDeal_status();
+			Date upload = board.getUpload();
+			String goods_name = board.getGoods_name();
+			String imageFileName = board.getGoods_img();
+			int num_cmnt = board.getNum_cmnt();
+			String query = "INSERT INTO board_t (num_aticle, nickname, category, "
+					+ "title, contents, deal_status, upload, goods_name, num_cmnt)"
+					+ " VALUES (?, ? , ?, ?, ?, ?, ?, ?, ?)";
+			System.out.println(query);
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, num_aticle);
+			pstmt.setString(2, nickname);
+			pstmt.setString(3, category);
+			pstmt.setString(4, title);
+			pstmt.setString(5, contents);
+			pstmt.setInt(6, Integer.parseInt(deal_status));
+			pstmt.setDate(7, upload); // 날짜 반환 실패!!!!!!!!!!!!!!!!!!!!!!
+			pstmt.setString(8, goods_name);
+			pstmt.setInt(9, num_cmnt);
+			pstmt.executeUpdate();
+			pstmt.close();
+			conn.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 	}
 
 	

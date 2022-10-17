@@ -1,5 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+	<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%
+  request.setCharacterEncoding("UTF-8");
+%> 
+<c:set var="contextPath"  value="${pageContext.request.contextPath}"  /> 
 <!DOCTYPE html>
 <html>
 <head>
@@ -23,7 +29,7 @@ ul, li {
 <body>
 	<h2>기본정보</h2>
 	<form name="articleForm" method="post"
-		action="${contextPath}/board/addArticle.do"
+		action="${contextPath}/board/pushArticle.do"
 		enctype="multipart/form-data">
 		<ul>
 			<li>
@@ -38,22 +44,20 @@ ul, li {
 			<li style="clear: boath;">
 				<div class="conttl">제목</div>
 				<div class="clb">
-					<input type="text" placeholder="상품 제목을 입력해주세요." value="">
+					<input type="text" placeholder="상품 제목을 입력해주세요." name="title" value="">
 				</div>
 			</li>
 			<li style="clear: boath;">
 				<div class="conttl">가격</div>
 				<div class="clb">
-					<input type="text" placeholder="숫자만 입력해주세요." value="">원
+					<input type="text" placeholder="숫자만 입력해주세요." name="price" value="">원
 				</div>
 			</li>
 			<li style="clear: boath;">
 				<div class="conttl">내용</div>
 				<div class="clb">
-					<input type="text"
-						placeholder="여러 장의 상품 사진과 구입 연도, 브랜드, 사용감, 하자 유무 등 구매자에게 필요한 정보를 꼭 포함해 주세요. (10자 이상)
-"
-						value="">
+					<input type="text"	placeholder="여러 장의 상품 사진과 구입 연도, 브랜드, 사용감, 하자 유무 등 구매자에게 필요한 정보를 꼭 포함해 주세요. (10자 이상)
+" name="content" value="">
 				</div>
 			</li>
 		</ul>

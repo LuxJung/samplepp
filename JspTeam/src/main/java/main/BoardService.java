@@ -12,5 +12,9 @@ public class BoardService {
 		List <BoardVO> atriclesList = boardDAO.selectAllArticles();
 		return atriclesList;
 	}
-
+	
+	public void addArticle (BoardVO board) {
+		System.out.println("addArticle 왔냐?");
+		boardDAO.insertNewArticle(board);
+	}
 }
