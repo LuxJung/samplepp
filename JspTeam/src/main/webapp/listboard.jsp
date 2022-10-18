@@ -10,7 +10,8 @@
 <html>
 <head>
 <style>
-/* ol,li{margin: 0; padding: 0;} */
+a{text-decoration: none; }
+a:hover{font-style: italic;}
 </style>
 <meta charset="UTF-8">
 <title>Insert title here</title>
@@ -32,12 +33,17 @@
 			<span style="width: 200px; display: inline-block;">날짜</span>
 		</li>
 	<c:forEach var="articles" items="${articlesList }">
-		<li >
+		
+		<li>
+			<a href="${contextPath}/board/readArticle.do?num_aticle=${articles.num_aticle}">
+			<span style="width: 150px; display: hidden;">${articles.num_aticle}</span>
 			<span style="width: 150px; display: inline-block;">${articles.nickname}</span>
 			<span style="width: 200px; display: inline-block;">${articles.title}</span>
 			<span style="width: 200px; display: inline-block;">${articles.deal_status}</span>
 			<span style="width: 200px; display: inline-block;">${articles.upload}</span>
+			</a>
 		</li>
+		
 	</c:forEach>
 	</ol>
 	</c:when>

@@ -5,7 +5,6 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +18,8 @@ public class BoardDAO {
 	private PreparedStatement pstmt;
 	private final String BOARD_INSERT_QUERY = "INSERT INTO board_t (nickname, category, title, contents, goods_name)"
 			+ " VALUES (?, ?, ?, ?, ?)";
-	private final String BOARD_LISTVIEW_QUERY = "SELECT num_aticle, nickname, title, deal_status, upload FROM board_t";
+	private final String BOARD_LIST_VIEW_QUERY = "SELECT num_aticle, nickname, title, deal_status, upload FROM board_t";
+	private final String BOARD_SELECT_VIEW_QUERY = "SELECT * FROM board_t where num_aticle=?";
 	public BoardDAO() {
 		try {
 			Context ctx = new InitialContext();
@@ -29,8 +29,8 @@ public class BoardDAO {
 			e.printStackTrace();
 		}
 	}
-	
-	//게시판 리스트 뿌려주기
+
+	// 게시판 리스트 뿌려주기
 	public List<BoardVO> listBoard() {
 		List<BoardVO> boardList = new ArrayList<>();
 		try {
@@ -50,15 +50,15 @@ public class BoardDAO {
 				String goods_name = rs.getString("goods_name");
 				int num_cmnt = rs.getInt("num_cmnt");
 				String deal_status = null;
-				if(intdeal_status ==0) {
+				if (intdeal_status == 0) {
 					deal_status = "판매중";
-				}else if(intdeal_status ==1) {
+				} else if (intdeal_status == 1) {
 					deal_status = "예약중";
-				}else {
+				} else {
 					deal_status = "판매완료";
 				}
-				BoardVO BoardVO = new BoardVO(num_aticle, nickname, category, title, 
-									contents, deal_status, upload, goods_name, num_cmnt);
+				BoardVO BoardVO = new BoardVO(num_aticle, nickname, category, title, contents, deal_status, upload,
+						goods_name, num_cmnt);
 				boardList.add(BoardVO);
 			}
 			rs.close();
@@ -69,13 +69,14 @@ public class BoardDAO {
 		}
 		return boardList;
 	}
-	
-	public List<BoardVO> selectAllArticles(){
+
+	public List<BoardVO> selectAllArticles() {
 		List<BoardVO> atriclesList = new ArrayList<>();
 		try {
 			conn = dataFactory.getConnection();
-			System.out.println("BOARD_LISTVIEW_QUERY 쿼리문 = [ "+BOARD_LISTVIEW_QUERY+" ]");
-			pstmt = conn.prepareStatement(BOARD_LISTVIEW_QUERY);
+			System.out.println("==================================");
+			System.out.println("BOARD_LIST_VIEW_QUERY 쿼리문 = [ " + BOARD_LIST_VIEW_QUERY + " ]");
+			pstmt = conn.prepareStatement(BOARD_LIST_VIEW_QUERY);
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next()) {
 				int num_aticle = rs.getInt("num_aticle");
@@ -83,34 +84,35 @@ public class BoardDAO {
 				String title = rs.getString("title");
 				int intdeal_status = rs.getInt("deal_status");
 				String deal_status = null;
-				if(intdeal_status ==0) {
+				if (intdeal_status == 0) {
 					deal_status = "판매중";
-				}else if(intdeal_status ==1) {
+				} else if (intdeal_status == 1) {
 					deal_status = "예약중";
-				}else {
+				} else {
 					deal_status = "판매완료";
 				}
 				Date upload = rs.getDate("upload");
-				BoardVO BoardVO = new BoardVO(num_aticle, nickname,  
-										title, deal_status, upload);
+				BoardVO BoardVO = new BoardVO(num_aticle, nickname, title, deal_status, upload);
 				atriclesList.add(BoardVO);
 			}
 			for (BoardVO boardVO : atriclesList) {
-				System.out.print("boardList 확인 = [ 닉네임 : "+boardVO.getNickname()+
-												" | 글제목 : "+boardVO.getTitle()+" ]");
-		        System.out.println();
+				System.out.print(
+						"boardList 확인 = [ 넘버링 :"+boardVO.getNum_aticle()+" | 닉네임 : " + boardVO.getNickname() + " | 글제목 : " + boardVO.getTitle() + " ]");
+				System.out.println();
 			}
+			System.out.println("==================================");
 			rs.close();
 			pstmt.close();
 			conn.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return atriclesList;	
+		return atriclesList;
 	}
 
-
-public void insertNewArticle(BoardVO board) {
+	//Create
+	//이미지만 넣으면 됩니다.
+	public void insertNewArticle(BoardVO board) {
 		System.out.println("insertNewArticle 시작하냐?");
 		try {
 			conn = dataFactory.getConnection();
@@ -119,25 +121,81 @@ public void insertNewArticle(BoardVO board) {
 			String title = board.getTitle();
 			String contents = board.getContents();
 			String goods_name = board.getGoods_name();
-			
-			System.out.println("BOARD_INSERT 쿼리문 = [ "+BOARD_INSERT_QUERY+" ]");
+			System.out.println("==================================");
+			System.out.println("BOARD_INSERT 쿼리문 = [ " + BOARD_INSERT_QUERY + " ]");
 			pstmt = conn.prepareStatement(BOARD_INSERT_QUERY);
 			pstmt.setString(1, nickname);
 			pstmt.setString(2, category);
 			pstmt.setString(3, title);
 			pstmt.setString(4, contents);
 			pstmt.setString(5, goods_name);
-			System.out.println("board_t 들어가는 내용 = [ 닉네임: "+nickname+", 카테고리: "+category+
-					", 제목: "+title+", 내용: "+contents+", 상품명: "+goods_name+" ]");
+			System.out.println("board_t 들어가는 내용 = [ 닉네임: " + nickname + ", 카테고리: " + category + ", 제목: " + title
+					+ ", 내용: " + contents + ", 상품명: " + goods_name + " ]");
+			System.out.println("==================================");
 			pstmt.executeUpdate();
 			pstmt.close();
 			conn.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+
+	}
+	
+	// Read
+	public BoardVO selectArticle(int num_aticle) {
+		System.out.println("selectArticle 시작하냐?");
+		BoardVO boardVO = new BoardVO();
+		try {
+			conn = dataFactory.getConnection();
+			System.out.println("==================================");
+			System.out.println("BOARD_SELECT_VIEW_QUERY 쿼리문 = [ " + BOARD_SELECT_VIEW_QUERY + " ]");
+			pstmt = conn.prepareStatement(BOARD_SELECT_VIEW_QUERY);
+			pstmt.setInt(1, num_aticle);
+			ResultSet rs = pstmt.executeQuery();
+			rs.next();
+			int search_num_aticle = rs.getInt("num_aticle");
+			String nickname = rs.getString("nickname");
+			String category = rs.getString("category");
+			String title = rs.getString("title");
+			String content = rs.getString("contents");
+			int int_deal_status = rs.getInt("deal_status");
+			String String_deal_status = null;
+			if (int_deal_status == 0) {
+				String_deal_status = "판매중";
+			} else if (int_deal_status == 1) {
+				String_deal_status = "예약중";
+			} else {
+				String_deal_status = "판매완료";
+			}
+			Date upload = rs.getDate("upload");
+			String goods_name = rs.getString("goods_name");
+			int num_cmnt = rs.getInt("num_cmnt");
+			
+			boardVO.setNum_aticle(search_num_aticle);
+			boardVO.setNickname(nickname);
+			boardVO.setCategory(category);
+			boardVO.setTitle(title);
+			boardVO.setContents(content);
+			boardVO.setDeal_status(String_deal_status);
+			boardVO.setUpload(upload);
+			boardVO.setGoods_name(goods_name);
+			boardVO.setNum_cmnt(num_cmnt);
+			
+			
+			System.out.println(
+					"boardVO 확인 = [ 넘버링 :"+boardVO.getNum_aticle()+
+					" | 닉네임 : " + boardVO.getNickname() + 
+					" | 글제목 : " + boardVO.getTitle() + " ]");
+			System.out.println("==================================");
+			
+			rs.close();
+			pstmt.close();
+			conn.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return boardVO;
 		
 	}
 
-
-	
 }

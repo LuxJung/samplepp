@@ -17,4 +17,11 @@ public class BoardService {
 		System.out.println("addArticle 왔냐?");
 		boardDAO.insertNewArticle(board);
 	}
+	
+	public BoardVO viewArticle (int num_article) {
+		BoardVO article = null;
+		article = boardDAO.selectArticle(num_article);
+		return article;
+		
+	}
 }

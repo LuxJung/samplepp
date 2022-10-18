@@ -60,7 +60,8 @@ public class BoardContoller extends HttpServlet {
 			} else if (action.equals("/addArticle.do")) {
 				// page710 여기부터 바로 ㄱㄱ
 				nextPage = "/addboard.jsp";
-			} else if(action.equals("/pushArticle.do")) {
+			} else if(action.equals("/createArticle.do")) {
+				//C
 				Map<String, String> articleMap = upload(request,response);
 				String title = articleMap.get("title");
 				String content = articleMap.get("content");
@@ -71,13 +72,21 @@ public class BoardContoller extends HttpServlet {
 				boardVO.setNickname("디폴트");
 				System.out.println("3");
 				boardVO.setCategory("디폴트");
-				boardVO.setTitle(title);
+				boardVO.setTitle(title); // addboard input에서 받아옴
 				boardVO.setContents(content);
 				boardVO.setGoods_name("디폴트");
 				boardVO.setGoods_img(imgFileName);
 				System.out.println("addArticle 직전");
 				boardService.addArticle(boardVO);
 				nextPage = "/listboard.jsp";
+			} else if(action.equals("/readArticle.do")) {
+				//R
+				String num_aticle = request.getParameter("num_aticle");
+				boardVO = boardService.viewArticle(Integer.parseInt(num_aticle));
+				request.setAttribute("article", boardVO);
+				nextPage = "/readboard.jsp";
+			} else if(action.equals("/modifyArticles.do")) {
+				//U
 			}
 			RequestDispatcher dispatch = request.getRequestDispatcher(nextPage);
 			dispatch.forward(request, response);
