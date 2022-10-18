@@ -19,7 +19,8 @@ public class BoardDAO {
 	private PreparedStatement pstmt;
 	private final String BOARD_INSERT_QUERY = "INSERT INTO board_t (nickname, category, title, contents, goods_name)"
 			+ " VALUES (?, ?, ?, ?, ?)";
-	private final String BOARD_LISTVIEW_QUERY = "SELECT num_aticle, nickname, title, deal_status, upload FROM board_t";
+	private final String BOARD_VIEW_QUERY = "INSERT INTO board_t (nickname, category, title, contents, goods_name)"
+			+ " VALUES (?, ?, ?, ?, ?)";
 	public BoardDAO() {
 		try {
 			Context ctx = new InitialContext();
@@ -74,8 +75,9 @@ public class BoardDAO {
 		List<BoardVO> atriclesList = new ArrayList<>();
 		try {
 			conn = dataFactory.getConnection();
-			System.out.println("BOARD_LISTVIEW_QUERY 쿼리문 = [ "+BOARD_LISTVIEW_QUERY+" ]");
-			pstmt = conn.prepareStatement(BOARD_LISTVIEW_QUERY);
+			String query = "SELECT num_aticle, nickname, title, deal_status, upload FROM board_t";
+			System.out.println(query);
+			pstmt = conn.prepareStatement(query);
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next()) {
 				int num_aticle = rs.getInt("num_aticle");
@@ -96,9 +98,8 @@ public class BoardDAO {
 				atriclesList.add(BoardVO);
 			}
 			for (BoardVO boardVO : atriclesList) {
-				System.out.print("boardList 확인 = [ 닉네임 : "+boardVO.getNickname()+
-												" | 글제목 : "+boardVO.getTitle()+" ]");
-		        System.out.println();
+				System.out.print("boardList 확인 - 닉네임 : "+boardVO.getNickname()+" | ");
+		        System.out.println("글제목 : "+boardVO.getTitle());
 			}
 			rs.close();
 			pstmt.close();

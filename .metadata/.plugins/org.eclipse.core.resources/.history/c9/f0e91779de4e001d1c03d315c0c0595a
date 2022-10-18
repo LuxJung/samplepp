@@ -19,7 +19,7 @@ public class BoardDAO {
 	private PreparedStatement pstmt;
 	private final String BOARD_INSERT_QUERY = "INSERT INTO board_t (nickname, category, title, contents, goods_name)"
 			+ " VALUES (?, ?, ?, ?, ?)";
-	private final String BOARD_LISTVIEW_QUERY = "SELECT num_aticle, nickname, title, deal_status, upload FROM board_t";
+
 	public BoardDAO() {
 		try {
 			Context ctx = new InitialContext();
@@ -74,8 +74,9 @@ public class BoardDAO {
 		List<BoardVO> atriclesList = new ArrayList<>();
 		try {
 			conn = dataFactory.getConnection();
-			System.out.println("BOARD_LISTVIEW_QUERY 쿼리문 = [ "+BOARD_LISTVIEW_QUERY+" ]");
-			pstmt = conn.prepareStatement(BOARD_LISTVIEW_QUERY);
+			String query = "SELECT num_aticle, nickname, title, deal_status, upload FROM board_t";
+			System.out.println(query);
+			pstmt = conn.prepareStatement(query);
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next()) {
 				int num_aticle = rs.getInt("num_aticle");
@@ -96,9 +97,8 @@ public class BoardDAO {
 				atriclesList.add(BoardVO);
 			}
 			for (BoardVO boardVO : atriclesList) {
-				System.out.print("boardList 확인 = [ 닉네임 : "+boardVO.getNickname()+
-												" | 글제목 : "+boardVO.getTitle()+" ]");
-		        System.out.println();
+				System.out.print("boardList 확인 - 닉네임 : "+boardVO.getNickname()+" | ");
+		        System.out.println("글제목 : "+boardVO.getTitle());
 			}
 			rs.close();
 			pstmt.close();
@@ -114,12 +114,23 @@ public void insertNewArticle(BoardVO board) {
 		System.out.println("insertNewArticle 시작하냐?");
 		try {
 			conn = dataFactory.getConnection();
+			System.out.println("insertNewArticle 시작하는데~?");
+			//int num_aticle = board.getNum_aticle();
 			String nickname = board.getNickname();
 			String category = board.getCategory();
 			String title = board.getTitle();
 			String contents = board.getContents();
+			//String deal_status = board.getDeal_status();
+			//Date upload = board.getUpload();
 			String goods_name = board.getGoods_name();
-			
+			System.out.println(goods_name);
+			//String imageFileName = board.getGoods_img();
+			//int num_cmnt = board.getNum_cmnt();
+			/*
+			 * String query =
+			 * "INSERT INTO board_t (nickname, category, title, contents, goods_name)" +
+			 * " VALUES (?, ?, ?, ?, ?)";
+			 */
 			System.out.println("BOARD_INSERT 쿼리문 = [ "+BOARD_INSERT_QUERY+" ]");
 			pstmt = conn.prepareStatement(BOARD_INSERT_QUERY);
 			pstmt.setString(1, nickname);
