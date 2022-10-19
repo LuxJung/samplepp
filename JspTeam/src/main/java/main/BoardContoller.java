@@ -54,14 +54,16 @@ public class BoardContoller extends HttpServlet {
 		try {
 			List<BoardVO> articlesList = new ArrayList<>();
 			if (action == null || action.equals("/listArticles.do")) {
+				
 				articlesList = boardService.listArticles();
+				
 				request.setAttribute("articlesList", articlesList);
 				nextPage = "/listboard.jsp";
 			} else if (action.equals("/addArticle.do")) {
 				// page710 여기부터 바로 ㄱㄱ
 				nextPage = "/addboard.jsp";
 			} else if(action.equals("/createArticle.do")) {
-				//C
+			//C
 				Map<String, String> articleMap = upload(request,response);
 				String title = articleMap.get("title");
 				String content = articleMap.get("content");
@@ -77,16 +79,25 @@ public class BoardContoller extends HttpServlet {
 				boardVO.setGoods_name("디폴트");
 				boardVO.setGoods_img(imgFileName);
 				System.out.println("addArticle 직전");
+				
 				boardService.addArticle(boardVO);
+				
 				nextPage = "/listboard.jsp";
 			} else if(action.equals("/readArticle.do")) {
-				//R
+			//R
 				String num_aticle = request.getParameter("num_aticle");
 				boardVO = boardService.viewArticle(Integer.parseInt(num_aticle));
+				/*더미 데이터 name 보냈습니다. 앞으로는 세션값과 비교를 해야합니다.*/
+				request.setAttribute("name", "불방망이타자");
 				request.setAttribute("article", boardVO);
 				nextPage = "/readboard.jsp";
+			
 			} else if(action.equals("/modifyArticles.do")) {
-				//U
+			//U
+				
+			} else if(action.equals("/deleteArticles.do")) {
+			//D
+				
 			}
 			RequestDispatcher dispatch = request.getRequestDispatcher(nextPage);
 			dispatch.forward(request, response);

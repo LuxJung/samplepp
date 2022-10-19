@@ -20,6 +20,9 @@ public class BoardDAO {
 			+ " VALUES (?, ?, ?, ?, ?)";
 	private final String BOARD_LIST_VIEW_QUERY = "SELECT num_aticle, nickname, title, deal_status, upload FROM board_t";
 	private final String BOARD_SELECT_VIEW_QUERY = "SELECT * FROM board_t where num_aticle=?";
+	private final String BOARD_UPDATE_QUERY = "UPDATE board_t ";
+	
+	
 	public BoardDAO() {
 		try {
 			Context ctx = new InitialContext();
@@ -197,5 +200,33 @@ public class BoardDAO {
 		return boardVO;
 		
 	}
+	
+	
+	public void updateArticle (BoardVO boardVO) {
+		System.out.println("updateArticle() 수행합니다");
+		int num_aticle = boardVO.getNum_aticle();		// auto_inc
+		String nickname = boardVO.getNickname(); 		//not null
+		String category = boardVO.getCategory(); 		//not null
+		String title = boardVO.getTitle();    			//not null
+		String contents = boardVO.getContents(); 		//not null
+		String deal_status = boardVO.getDeal_status();	//not null
+		Date upload = boardVO.getUpload(); 				//default
+		String goods_name = boardVO.getGoods_name(); 	//not null
+		int num_cmnt = boardVO.getNum_cmnt(); 		 	//null ok
+		// 추가 작업요망 String goods_img = boardVO.getGoods_img();
+		try {
+			conn = dataFactory.getConnection();
+			//이미지 추가 수정부분 1미만 업데이트 금지(이미지는 최소 1장이상 등록해주세요)
+			System.out.println("==================================");
+			System.out.println("BOARD_INSERT 쿼리문 = [ " + BOARD_INSERT_QUERY + " ]");
+			pstmt = conn.prepareStatement(BOARD_INSERT_QUERY);
+			
+		} catch (Exception e) {
+			String err = "!!! updateArticle() 에러 !!!";
+			System.out.println(err);
+			e.printStackTrace();
+		}
+	}
+	
 
 }

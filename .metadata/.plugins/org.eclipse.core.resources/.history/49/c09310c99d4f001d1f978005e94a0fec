@@ -1,0 +1,41 @@
+package main;
+
+import java.sql.Date;
+import java.util.List;
+
+public class BoardService {
+	BoardDAO boardDAO;
+	public BoardService() {
+		boardDAO = new BoardDAO();
+	}
+	
+	public List<BoardVO> listArticles() {
+		List <BoardVO> atriclesList = boardDAO.selectAllArticles();
+		return atriclesList;
+	}
+	
+	public void addArticle (BoardVO boardVO) {
+		System.out.println("addArticle() 수행합니다");
+		boardDAO.insertNewArticle(boardVO);
+	}
+	
+	public BoardVO viewArticle (int num_article) {
+		System.out.println("viewArticle() 수행합니다");
+		BoardVO article = null;
+		article = boardDAO.selectArticle(num_article);
+		return article;
+	}
+	
+	public void updateArticle (BoardVO boardVO) {
+		System.out.println("updateArticle() 수행합니다");
+		int num_aticle = boardVO.getNum_aticle();// auto_inc
+		String nickname = boardVO.getNickname(); //not null
+		String category = boardVO.getCategory(); //not null
+		String title = boardVO.getTitle();    //not null
+		String contents = boardVO.getContents(); //not null
+		String deal_status = boardVO.getDeal_status();//not null
+		Date upload = boardVO.getUpload(); //default
+		String goods_name = boardVO.getGoods_name(); //not null
+		int num_cmnt = boardVO.getNum_cmnt(); //null ok
+	}
+}

@@ -18,8 +18,20 @@
 <span style="width: 200px; display: inline-block;">${article.deal_status}</span>
 <span style="width: 200px; display: inline-block;">${article.upload}</span>
 <div>
-<a href="${contextPath}/board/listArticles.do">목록보기</a>
-<a href="${contextPath}/board/modifyArticles.do">수정하기</a>
+<!--더미 데이터 name 받았습니다. 앞으로는 세션값과 비교를 해야합니다.-->
+<c:set var="name" value="${name }"></c:set>
+<c:set var="nickname" value="${article.nickname }"></c:set>
+<c:choose>
+	<c:when test = "${nickname.equals(name)}">
+		<a href="${contextPath}/board/listArticles.do">목록보기</a>
+		<a href="${contextPath}/board/modifyArticles.do">수정하기</a>
+		<a href="${contextPath}/board/deleteArticles.do">삭제하기</a>
+	</c:when>
+	<c:otherwise>
+		<a href="${contextPath}/board/listArticles.do">목록보기</a>
+	</c:otherwise>
+</c:choose>
+
 </div>
 </body>
 </html>
