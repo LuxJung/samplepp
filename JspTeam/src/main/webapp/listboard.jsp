@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import="main.*"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" import="board.*"%>
 <%@ page import="java.io.PrintWriter" %>
 <%@ page import="java.util.*" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -36,7 +35,7 @@ a:hover{font-style: italic;}
 		
 		<li>
 			<a href="${contextPath}/board/readArticle.do?num_aticle=${articles.num_aticle}">
-			<span style="width: 150px; display: hidden;">${articles.num_aticle}</span>
+			<span style="width: 150px; display: none;">${articles.num_aticle}</span>
 			<span style="width: 150px; display: inline-block;">${articles.nickname}</span>
 			<span style="width: 200px; display: inline-block;">${articles.title}</span>
 			<span style="width: 200px; display: inline-block;">${articles.deal_status}</span>
@@ -49,6 +48,6 @@ a:hover{font-style: italic;}
 	</c:when>
 </c:choose>
 </div>
-<a href="${contextPath}/board/addArticle.do">글쓰기</a>
+<a href="${contextPath}/board/addArticleForm.do">글쓰기</a>
 </body>
 </html>

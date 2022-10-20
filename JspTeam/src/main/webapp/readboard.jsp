@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import="main.*"%>
+    pageEncoding="UTF-8" import="board.*"%>
 <%@ page import="java.io.PrintWriter" %>
 <%@ page import="java.util.*" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -18,6 +18,9 @@
 <span style="width: 200px; display: inline-block;">${article.deal_status}</span>
 <span style="width: 200px; display: inline-block;">${article.upload}</span>
 <div>
+<p>${article.goods_img }</p>
+<img alt="goods_img" src="${contextPath}/download.do?
+goods_img=${article.goods_img }&num_aticle=${articles.num_aticle}" id="preview">
 <!--더미 데이터 name 받았습니다. 앞으로는 세션값과 비교를 해야합니다.-->
 <c:set var="name" value="${name }"></c:set>
 <c:set var="nickname" value="${article.nickname }"></c:set>

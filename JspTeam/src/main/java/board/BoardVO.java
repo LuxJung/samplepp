@@ -1,4 +1,4 @@
-package main;
+package board;
 
 import java.sql.Date;
 
@@ -60,7 +60,6 @@ public class BoardVO {
 		this.title = title;
 		this.deal_status = deal_status;
 		this.upload = upload;
-		System.out.println("BoardVO 제목리스트 생성자호출");
 	}
 	
 	//글내용 전체 속성에 대한 생성자
@@ -76,7 +75,6 @@ public class BoardVO {
 		this.upload = upload;
 		this.goods_name = goods_name;
 		this.num_cmnt = num_cmnt;
-		System.out.println("BoardVO 전체내용 생성자호출");
 	}
 
 
@@ -188,7 +186,9 @@ public class BoardVO {
 	}
 
 
-
+	public void setImgFileNmae(String imgFileName) {
+		
+	}
 	
 
 

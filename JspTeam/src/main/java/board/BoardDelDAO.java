@@ -1,4 +1,4 @@
-package main;
+package board;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -8,13 +8,13 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
-public class BoardAddDAO {
+public class BoardDelDAO {
 	
 	private DataSource dataFactory;
 	private Connection conn;
 	private PreparedStatement pstmt;
 	
-	public BoardAddDAO() {
+	public BoardDelDAO() {
 		try {
 			Context ctx = new InitialContext();
 			Context envContext = (Context) ctx.lookup("java:/comp/env");
@@ -24,7 +24,7 @@ public class BoardAddDAO {
 		}
 	}
 	
-	public void addBoard(BoardVO bd) {
+	public void delBoard(BoardVO bd) {
 		try {
 			conn = dataFactory.getConnection();
 			String title = bd.getTitle();
