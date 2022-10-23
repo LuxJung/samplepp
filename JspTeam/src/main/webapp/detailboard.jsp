@@ -1,62 +1,83 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+	pageEncoding="UTF-8" import="board.*"%>
+<%@ page import="java.io.PrintWriter"%>
+<%@ page import="java.util.*"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<c:set var="contextPath" value="${pageContext.request.contextPath}" />
 <%
 request.setCharacterEncoding("UTF-8");
 %>
-<c:set var="contextPath" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html>
 <html>
+
 <head>
-<style type="text/css">
-ul, li {	list-style: none;}
-.conttl {	float: left;	width: 100px;}
-.clb {	clear: boath;}
-</style>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
 
 
 <script type="text/javascript" 
 src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=togeufhl9z&submodules=geocoder"></script>
 <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
-<script type="text/javascript">
-   function readURL(input) {
-      if (input.files && input.files[0]) {
-	      var reader = new FileReader();
-	      reader.onload = function (e) {
-	        $('#preview').attr('src', e.target.result);
-          }
-         reader.readAsDataURL(input.files[0]);
-      }
-  }  
-  function backToList(obj){
-    obj.action="${contextPath}/board/listArticles.do";
-    obj.submit();
-  }
+<style type="text/css">
+ul, li {
+	list-style: none;
+}
 
+.conttl {
+	float: left;
+	width: 100px;
+}
+
+.clb {
+	clear: boath;
+}
+</style>
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script type="text/javascript">
+	function remove_aticle(url, num_aticle) {
+		var form = document.createElement("form");
+		//var url = "${contextPath}/board/deleteArticles.do";
+		form.setAttribute("method", "post");
+		form.setAttribute("action", url);
+		var aricleNo = document.createElement("input");
+		aricleNo.setAttribute("type", "hidden");
+		aricleNo.setAttribute("name", "num_aticle");
+		aricleNo.setAttribute("value", num_aticle);
+		form.appendChild(aricleNo);
+		document.body.appendChild(form);
+		form.submit();
+	}
+	function backToList(obj){
+	    obj.action="${contextPath}/board/listArticles.do";
+	    obj.submit();
+	  }
 </script>
 <meta charset="UTF-8">
-<title>글쓰기창</title>
+<title>Insert title here</title>
 </head>
 <body>
-	<h2>글쓰기</h2>
 	<form name="articleForm" method="post"
-		action="${contextPath}/board/createArticle.do"
+		action="${contextPath}/board/modifyArticles.do"
 		enctype="multipart/form-data">
 		<ul>
-			
+			<li style="clear: boath;">
+				<div class="conttl">닉네임</div>
+				<div class="clb">
+					<input type="text" name="nickname" value="${article.nickname}">
+				</div>
+			</li>
 			<li style="clear: boath;">
 				<div class="conttl">제목</div>
 				<div class="clb">
 					<input type="text" placeholder="상품 제목을 입력해주세요." name="title"
-						>
+						value="${article.title}">
 				</div>
 			</li>
 			<li style="clear: boath;">
 				<div class="conttl">가격</div>
 				<div class="clb">
-					<input type="text" placeholder="숫자만 입력해주세요." name="price" >원
+					<input type="text" placeholder="숫자만 입력해주세요." name="price"
+						value="${article.price}">원
 				</div>
 			</li>
 			<li style="clear: boath;">
@@ -65,22 +86,39 @@ src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=togeufhl9z&sub
 					<input type="text"
 						placeholder="여러 장의 상품 사진과 구입 연도, 브랜드, 사용감, 하자 유무 등 구매자에게 필요한 정보를 꼭 포함해 주세요. (10자 이상)
 "
-						name="content" >
+						value="${article.contents}" name="content">
+				</div>
+			</li>
+			<li style="clear: boath;">
+				<div class="conttl">판매상태</div>
+				<div class="clb">
+					<input type="text"	value="${article.deal_status}" name="content">
+				</div>
+			</li>
+			<li style="clear: boath;">
+				<div class="conttl">등록일</div>
+				<div class="clb">
+					<input type="text"	value="${article.upload}" name="content">
 				</div>
 			</li>
 			<li>
-				<div class="conttl">상품이미지</div>
+				<div class="conttl">
+					상품이미지 
+					
+				</div>
+				<img alt="goods_img" width="500" height="500" src="${contextPath}/download.do?
+goods_img=${article.goods_img }&num_aticle=${article.num_aticle}">
 				<div class="clb">
 					<ul>
-						<li>이미지 등록 
-						<input type="file" name="goods_img" onchange="readURL(this)" />
-						<img alt="img" id ="preview" src="#" width="200" height="200">	
+						<li>이미지 수정 
+							<input type="file" name="goods_img"	onchange="readURL(this)" /> 
+							<img alt="img" id="preview" src="#"	width="200" height="200">
 						</li>
 					</ul>
 				</div>
 			</li>
 		</ul>
-		<div id="map" style="width:100%;height:400px;"></div>
+		<div class="clb" id="map" style="width:50%;height:400px;"></div>
 
 <script>
 var map = new naver.maps.Map("map", {
@@ -286,10 +324,33 @@ var marker = new naver.maps.Marker({
 var point = new naver.map.Point(128, 256);
 point.toString(); // '(128,256)'
 </script>
-		<input type="submit" value="글쓰기" />
-		<input type="button" value="목록보기"
-			onClick="backToList(this.form)" />
+		<!-- read.do에서 디폴트 네임 지정-->
+		<c:set var="name" value="${name }"></c:set>
+		<c:set var="nickname" value="${article.nickname }"></c:set>
+		<c:choose>
+			<c:when test="${nickname.equals(name)}">
+			<div id="btn_box">
+				<input type="button" value="목록보기" onClick="backToList(this.form)" />
+				<input type="submit" value="수정하기" />
+				<input type="button"
+					onclick="remove_aticle('${contextPath}/board/deleteArticles.do','${article.num_aticle}')"
+					value="삭제하기" />
+				<%-- href="${contextPath}/board/deleteArticles.do?num_aticle=${article.num_aticle}" --%>
+			</div>
+			<div id="btn_box_mdfy">
+				<input type="button" value="목록보기" onClick="backToList(this.form)" />
+				<input type="submit" value="수정하기" />
+				<%-- href="${contextPath}/board/deleteArticles.do?num_aticle=${article.num_aticle}" --%>
+			</div>
+			</c:when>
+			<c:otherwise>
+				<input type="button" value="목록보기" onClick="backToList(this.form)" />
+			</c:otherwise>
+		</c:choose>
+		
+		<p> ${name }</p>
+		<p> ${nickname }</p>
+</form>
 
-	</form>
 </body>
 </html>

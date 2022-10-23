@@ -67,14 +67,18 @@ public class BoardContoller extends HttpServlet {
 				Map<String, String> articleMap = upload(request,response);
 				String title = articleMap.get("title");
 				String content = articleMap.get("content");
+				String price = articleMap.get("price");
 				String imgFileName = articleMap.get("goods_img");
 				System.out.println("articleMap 에서 가져오는 title" + title);
 				System.out.println("articleMap 에서 가져오는 content" + content);
-				boardVO.setNickname("디폴트");
+				System.out.println("articleMap 에서 가져오는 price" + price);
+
+				boardVO.setNickname("테스트");
 				boardVO.setCategory("디폴트");
 				boardVO.setTitle(title); // addboard input을 map으로 줘서 받아옴
 				boardVO.setContents(content);
 				boardVO.setGoods_name("디폴트");
+				boardVO.setPrice(Integer.parseInt(price));
 				boardVO.setGoods_img(imgFileName);
 				int num_aticle = boardService.addArticle(boardVO);
 				
@@ -95,11 +99,13 @@ public class BoardContoller extends HttpServlet {
 			} else if(action.equals("/readArticle.do")) {
 			//R
 				String num_aticle = request.getParameter("num_aticle");
+				System.out.println("readArticle.do 서블렛 왔어요" + num_aticle);
 				boardVO = boardService.viewArticle(Integer.parseInt(num_aticle));
 				/*더미 데이터 name 보냈습니다. 앞으로는 세션값과 비교를 해야합니다.*/
 				request.setAttribute("name", "디폴트");
+				
 				request.setAttribute("article", boardVO);
-				nextPage = "/readboard.jsp";
+				nextPage = "/detailboard.jsp";
 			
 			} else if(action.equals("/modifyArticles.do")) {
 			//U
@@ -122,18 +128,42 @@ public class BoardContoller extends HttpServlet {
 				nextPage = "/addboard.jsp";
 			} else if(action.equals("/deleteArticles.do")) {
 			//D
-				
-			}
-			RequestDispatcher dispatch = request.getRequestDispatcher(nextPage);
-			dispatch.forward(request, response);
+				System.out.println("deleteArticles");
+				String num_aticle = request.getParameter("num_aticle");
+				System.out.println("num_aticle = "+num_aticle);
+				List<Integer> removeArticleNo = boardService.removeArticle(Integer.parseInt(num_aticle));
+				File imgDir = new File(BOARD_IMG_REPOSITORY+"//"+num_aticle);
+				if(imgDir.exists()) {
+					FileUtils.deleteDirectory(imgDir);
+					System.out.println(num_aticle+"번 폹더 삭제 완료");
+				}
+				PrintWriter pw = response.getWriter();
+				pw.print("<script>" 
+				         +"  alert('글을 삭제했습니다.');" 
+						 +" location.href='"+request.getContextPath()+"/board/listArticles.do';"
+				         +"</script>");
+				return;
+			}		
+		RequestDispatcher dispatch = request.getRequestDispatcher(nextPage);
+		dispatch.forward(request, response);
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
 	}
+	
 	private Map <String, String> upload(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException {
 	String encoding = "utf-8";
 	Map<String, String> articleMap = new HashMap<String, String>();
 	File currentDirPath = new File(BOARD_IMG_REPOSITORY);
+	if (!currentDirPath.exists()) {
+		try{
+			currentDirPath.mkdir(); //폴더 생성합니다.
+		    System.out.println("폴더가 생성되었습니다.");
+	        } 
+	        catch(Exception e){
+		    e.getStackTrace();
+		}        
+    }
 	DiskFileItemFactory factory = new DiskFileItemFactory();
 	factory.setRepository(currentDirPath);
 	factory.setSizeThreshold(1024 * 1024);

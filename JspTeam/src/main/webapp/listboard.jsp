@@ -19,10 +19,7 @@ a:hover{font-style: italic;}
 <h1>글목록</h1>
 <div style="border:1px solid #000000;">
 <c:choose>
-	<c:when test="${empty articlesList }">
-		<p>리스트가 없다능</p>
-		<c:redirect url="/board/listArticles.do"></c:redirect>
-	</c:when>
+	
 	<c:when test="${!empty articlesList }">
 	<ol>	
 	<li style="list-style: none;" value="0">
@@ -45,6 +42,13 @@ a:hover{font-style: italic;}
 		
 	</c:forEach>
 	</ol>
+	</c:when>
+	<c:when test="${empty articlesList }">
+		<p>리스트가 없다능</p>
+		<%-- 
+		<a href="${contextPath}/board/addArticleForm.do">글쓰기</a>
+		<c:redirect url="/board/listArticles.do"></c:redirect> 
+		--%>
 	</c:when>
 </c:choose>
 </div>
