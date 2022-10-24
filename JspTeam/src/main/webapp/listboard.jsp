@@ -9,37 +9,114 @@
 request.setCharacterEncoding("UTF-8");
 %>
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 <head>
-<!-- <link href="carousel.css" rel="stylesheet"> -->
-<link rel="canonical" href="https://getbootstrap.kr/docs/5.2/examples/headers/">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
-<link href="/docs/5.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
 
+<link rel="canonical" href="https://getbootstrap.kr/docs/5.2/examples/headers/">
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
+	crossorigin="anonymous">
+<link href="/docs/5.2/dist/css/bootstrap.min.css" rel="stylesheet"
+	integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
+	crossorigin="anonymous">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://getbootstrap.com/docs/5.2/assets/css/docs.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+<!-- <link href="carousel.css" rel="stylesheet"> -->
 <style>
-a { color: #999999;
+a {
+	color: #999999;
 	text-decoration: none;
 }
-.newatcl{position: fixed; right: 50px; bottom: 50px; font-size: 50px; width: 60px; height: 60px; background-color: #80d100; 
-text-align: center; line-height: 50px; border-radius: 50%;}
 
-      .bd-placeholder-img {font-size: 1.125rem; text-anchor: middle; -webkit-user-select: none; user-select: none;}
-      @media (min-width: 768px) {.bd-placeholder-img-lg {font-size: 3.5rem;}}
-      .b-example-divider {height: 3rem; background-color: rgba(0, 0, 0, .1); border: solid rgba(0, 0, 0, .15); border-width: 1px 0;        box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);}
-      .b-example-vr {flex-shrink: 0;width: 1.5rem; height: 100vh; }
-      .nav-scroller {position: relative; z-index: 2; height: 2.75rem;overflow-y: hidden;}
-      .nav-scroller .nav {display: flex; flex-wrap: nowrap; padding-bottom: 1rem; margin-top: -1px; overflow-x: auto; text-align: center; white-space: nowrap; -webkit-overflow-scrolling: touch;}
-      .bi { vertical-align: -.125em; fill: currentColor; color: #80d100;}
-      .login_false{display:none;}
-      .login_true{display:inline-block;}
+.newatcl {
+	position: fixed;
+	right: 50px;
+	bottom: 50px;
+	font-size: 50px;
+	width: 60px;
+	height: 60px;
+	background-color: #80d100;
+	text-align: center;
+	line-height: 50px;
+	border-radius: 50%;
+}
+
+.bd-placeholder-img {
+	font-size: 1.125rem;
+	text-anchor: middle;
+	-webkit-user-select: none;
+	user-select: none;
+}
+
+@media ( min-width : 768px) {
+	.bd-placeholder-img-lg {
+		font-size: 3.5rem;
+	}
+}
+
+.b-example-divider {
+	height: 3rem;
+	background-color: rgba(0, 0, 0, .1);
+	border: solid rgba(0, 0, 0, .15);
+	border-width: 1px 0;
+	box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em
+		rgba(0, 0, 0, .15);
+}
+
+.b-example-vr {
+	flex-shrink: 0;
+	width: 1.5rem;
+	height: 100vh;
+}
+
+.nav-scroller {
+	position: relative;
+	z-index: 2;
+	height: 2.75rem;
+	overflow-y: hidden;
+}
+
+.nav-scroller .nav {
+	display: flex;
+	flex-wrap: nowrap;
+	padding-bottom: 1rem;
+	margin-top: -1px;
+	overflow-x: auto;
+	text-align: center;
+	white-space: nowrap;
+	-webkit-overflow-scrolling: touch;
+}
+
+.bi {
+	vertical-align: -.125em;
+	fill: currentColor;
+	color: #80d100;
+	width:40px; 
+	height:40px;
+}
+
+.login_false {
+	display: none;
+}
+
+.login_true {
+	display: inline-block;
+}
+
+.mgt {
+	margin-top : 30px;
+}
 </style>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
 <body>
 	<!--심볼 그대로 둬두 될꺼에요-->
-	<svg xmlns="http://www.w3.org/2000/svg" version="1.0" width="40"
-		height="40" preserveAspectRatio="xMidYMid meet" style="display: none;">
+	<svg xmlns="http://www.w3.org/2000/svg" version="1.0" width="60"
+		height="60" preserveAspectRatio="xMidYMid meet" style="display: none;">
       <symbol id="bootstrap" viewBox="0 0 500 500">
          <g
 			transform="translate(0.000000,500.000000) scale(0.100000,-0.100000)"
@@ -169,10 +246,9 @@ text-align: center; line-height: 50px; border-radius: 50%;}
 			</ul>
 			<ul class="nav">
 				<!--클래스로 로그인 유무 display 조정-->
-				<li class="nav-item login_true "><a href="">
-						<!--마이페이지 이동--> <!--로그인 자기 이미지 띄우기--> <img
-						src="https://github.com/mdo.png" alt="mdo" width="40" height="40"
-						class="rounded-circle">
+				<li class="nav-item login_true "><a href=""> <!--마이페이지 이동-->
+						<!--로그인 자기 이미지 띄우기--> <img src="https://github.com/mdo.png"
+						alt="mdo" width="40" height="40" class="rounded-circle">
 				</a></li>
 				<li class="nav-item login_true "><a href="#"
 					class="nav-link link-dark px-2">Logout</a></li>
@@ -192,7 +268,7 @@ text-align: center; line-height: 50px; border-radius: 50%;}
 		<div class="container d-flex flex-wrap justify-content-center">
 			<a href="/"
 				class="d-flex align-items-center mb-3 mb-lg-0 me-lg-auto text-dark text-decoration-none">
-				<svg class="bi me-2" width="40" height="40">
+				<svg class="bi me-2" >
                <use xlink:href="#bootstrap" />
             </svg> <!--타이틀--> <span class="fs-4">Best Seller</span>
 			</a>
@@ -205,73 +281,53 @@ text-align: center; line-height: 50px; border-radius: 50%;}
 
 
 	<main>
-	<a class="newatcl" href="${contextPath}/board/addArticleForm.do">+</a>
-		<!--메인 컨테이너-->
-		  <div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
-    <div class="carousel-indicators">
-      <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-      <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
-      <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+    <div id="carouselExampleFade" class="carousel slide carousel-fade" data-bs-ride="carousel">
+      <div class="carousel-inner">
+        <div class="carousel-item">
+          <svg class="bd-placeholder-img bd-placeholder-img-lg d-block w-100" width="800" height="400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: First slide" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#777"></rect><text x="50%" y="50%" fill="#555" dy=".3em">First slide</text></svg>
+    
+        </div>
+        <div class="carousel-item active">
+          <svg class="bd-placeholder-img bd-placeholder-img-lg d-block w-100" width="800" height="400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Second slide" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#666"></rect><text x="50%" y="50%" fill="#444" dy=".3em">Second slide</text></svg>
+    
+        </div>
+        <div class="carousel-item">
+          <svg class="bd-placeholder-img bd-placeholder-img-lg d-block w-100" width="800" height="400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Third slide" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#555"></rect><text x="50%" y="50%" fill="#333" dy=".3em">Third slide</text></svg>
+    
+        </div>
+      </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
     </div>
-    <div class="carousel-inner">
-      <div class="carousel-item active">
-        <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"/></svg>
-
-        <div class="container">
-          <div class="carousel-caption text-start">
-            <h1>Example headline.</h1>
-            <p>Some representative placeholder content for the first slide of the carousel.</p>
-            <p><a class="btn btn-lg btn-primary" href="#">Sign up today</a></p>
-          </div>
-        </div>
-      </div>
-      <div class="carousel-item">
-        <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"/></svg>
-
-        <div class="container">
-          <div class="carousel-caption">
-            <h1>Another example headline.</h1>
-            <p>Some representative placeholder content for the second slide of the carousel.</p>
-            <p><a class="btn btn-lg btn-primary" href="#">Learn more</a></p>
-          </div>
-        </div>
-      </div>
-      <div class="carousel-item">
-        <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"/></svg>
-
-        <div class="container">
-          <div class="carousel-caption text-end">
-            <h1>One more for good measure.</h1>
-            <p>Some representative placeholder content for the third slide of this carousel.</p>
-            <p><a class="btn btn-lg btn-primary" href="#">Browse gallery</a></p>
-          </div>
-        </div>
-      </div>
-    </div>
-    <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
-      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Previous</span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
-      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Next</span>
-    </button>
-  </div>
+	</main>
 
 		<!--등록 제품 사진-->
-
+	<section>
+	<div class="container d-flex flex-wrap justify-content-center">
+	<h2 class="d-flex align-items-center mb-3 mb-lg-0 me-lg-auto text-dark text-decoration-none mgt">최근 등록 물품</h2>
+	</div>
 		<div class="album py-5 bg-light">
 			<div class="container">
 
 				<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
 					<c:choose>
+						<c:when test="${empty articlesList }">
+							<p>리스트가 없다능</p>
+							<c:redirect url="/board/listArticles.do"></c:redirect>
+						</c:when>
 						<c:when test="${!empty articlesList }">
 							<c:forEach var="articles" items="${articlesList }">
 								<div class="col">
 									<a
-								href="${contextPath}/board/readArticle.do?num_aticle=${articles.num_aticle}">
+										href="${contextPath}/board/readArticle.do?num_aticle=${articles.num_aticle}">
 										<div class="card shadow-sm">
-										<span style="width: 150px; display: none;">${articles.num_aticle}</span>
+											<span style="width: 150px; display: none;">${articles.num_aticle}</span>
 											<svg class="bd-placeholder-img card-img-top" width="100%"
 												height="225" xmlns="http://www.w3.org/2000/svg" role="img"
 												aria-label="Placeholder: Thumbnail"
@@ -294,7 +350,7 @@ text-align: center; line-height: 50px; border-radius: 50%;}
 															class="btn btn-sm btn-outline-secondary">Edit</button>
 													</div>
 													<small class="text-muted">${articles.upload}</small>
-												
+
 												</div>
 											</div>
 										</div>
@@ -302,48 +358,16 @@ text-align: center; line-height: 50px; border-radius: 50%;}
 								</div>
 							</c:forEach>
 						</c:when>
-
-						<c:when test="${empty articlesList }">
-							<p>리스트가 없다능</p>
-							<c:redirect url="/board/listArticles.do"></c:redirect>
-							<%-- 
-		<a href="${contextPath}/board/addArticleForm.do">글쓰기</a>
-		
-		--%>
-						</c:when>
 					</c:choose>
 				</div>
 			</div>
 		</div>
+	</section>
 
-
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br> <br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
+		<br> <br> <br> <br> <br> <br> <br>
+		<br> <br> <br> <br> <br> <br> <br>
+		<br> <br> <br> <br> <br> <br> <br>
+		<br> <br> <br> <br> <br> <br> <br>
 		<br>
 		<div style="border: 1px solid #000000;">
 			<c:choose>
@@ -379,9 +403,11 @@ text-align: center; line-height: 50px; border-radius: 50%;}
 				</c:when>
 			</c:choose>
 		</div>
-		
-		
+
+
 		<!--부트스트랩 적용-->
-<script src="/docs/5.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+		<script src="/docs/5.2/dist/js/bootstrap.bundle.min.js"
+			integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+			crossorigin="anonymous"></script>
 </body>
 </html>

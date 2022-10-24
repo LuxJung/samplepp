@@ -44,15 +44,6 @@ public class BoardService {
 	public void modifyArticle (BoardVO board) {
 		System.out.println("modifyArticle() 수행합니다");
 		boardUpdateDAO.updateArticle(board);
-<<<<<<< HEAD
-	}
-	
-	public List<Integer> removeArticle (int num_aticle) {
-		System.out.println("removeArticle() 수행합니다");
-		List<Integer> atriclesList =boardDelDAO.delBoard(num_aticle);
-		return atriclesList;
-=======
->>>>>>> origin/jm
 	}
 	
 	public List<Integer> removeArticle (int num_aticle) {

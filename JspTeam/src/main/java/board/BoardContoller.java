@@ -99,17 +99,6 @@ public class BoardContoller extends HttpServlet {
 				String num_aticle = request.getParameter("num_aticle");
 				System.out.println("readArticle.do 서블렛 왔어요" + num_aticle);
 				boardVO = boardService.viewArticle(Integer.parseInt(num_aticle));
-<<<<<<< HEAD
-				/*더미 데이터 name 보냈습니다. 앞으로는 세션값과 비교를 해야합니다.*/
-				request.setAttribute("name", "디폴트");
-				
-				request.setAttribute("article", boardVO);
-				nextPage = "/detailboard.jsp";
-			
-			} else if(action.equals("/modifyArticles.do")) {
-			//U
-				Map<String, String> articleMap = upload(request,response);
-=======
 				/* 더미 데이터 name 보냈습니다. 앞으로는 세션값과 비교를 해야합니다. */
 				request.setAttribute("name", "테스트");
 
@@ -119,7 +108,6 @@ public class BoardContoller extends HttpServlet {
 			} else if (action.equals("/modifyArticles.do")) {
 				// U
 				Map<String, String> articleMap = upload(request, response);
->>>>>>> origin/jm
 				String title = articleMap.get("title");
 				String content = articleMap.get("content");
 				String imgFileName = articleMap.get("goods_img");
@@ -136,28 +124,6 @@ public class BoardContoller extends HttpServlet {
 
 				boardService.modifyArticle(boardVO);
 				nextPage = "/addboard.jsp";
-<<<<<<< HEAD
-			} else if(action.equals("/deleteArticles.do")) {
-			//D
-				System.out.println("deleteArticles");
-				String num_aticle = request.getParameter("num_aticle");
-				System.out.println("num_aticle = "+num_aticle);
-				List<Integer> removeArticleNo = boardService.removeArticle(Integer.parseInt(num_aticle));
-				File imgDir = new File(BOARD_IMG_REPOSITORY+"//"+num_aticle);
-				if(imgDir.exists()) {
-					FileUtils.deleteDirectory(imgDir);
-					System.out.println(num_aticle+"번 폹더 삭제 완료");
-				}
-				PrintWriter pw = response.getWriter();
-				pw.print("<script>" 
-				         +"  alert('글을 삭제했습니다.');" 
-						 +" location.href='"+request.getContextPath()+"/board/listArticles.do';"
-				         +"</script>");
-				return;
-			}		
-		RequestDispatcher dispatch = request.getRequestDispatcher(nextPage);
-		dispatch.forward(request, response);
-=======
 			} else if (action.equals("/deleteArticles.do")) {
 				// D
 				System.out.println("deleteArticles");
@@ -176,49 +142,10 @@ public class BoardContoller extends HttpServlet {
 			}
 			RequestDispatcher dispatch = request.getRequestDispatcher(nextPage);
 			dispatch.forward(request, response);
->>>>>>> origin/jm
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
 	}
-<<<<<<< HEAD
-	
-	private Map <String, String> upload(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException {
-	String encoding = "utf-8";
-	Map<String, String> articleMap = new HashMap<String, String>();
-	File currentDirPath = new File(BOARD_IMG_REPOSITORY);
-	if (!currentDirPath.exists()) {
-		try{
-			currentDirPath.mkdir(); //폴더 생성합니다.
-		    System.out.println("폴더가 생성되었습니다.");
-	        } 
-	        catch(Exception e){
-		    e.getStackTrace();
-		}        
-    }
-	DiskFileItemFactory factory = new DiskFileItemFactory();
-	factory.setRepository(currentDirPath);
-	factory.setSizeThreshold(1024 * 1024);
-	ServletFileUpload upload = new ServletFileUpload(factory);
-	try {
-		List items = upload.parseRequest(request);
-		System.out.println("items.size()????"+items.size());
-		for (int i = 0; i < items.size(); i++) {
-			FileItem fileItem = (FileItem) items.get(i);
-			System.out.println("폼에서 넘어오니?"+fileItem.getFieldName()); 
-			if (fileItem.isFormField()) {
-				System.out.println(fileItem.getFieldName() + "=" + fileItem.getString(encoding));
-				articleMap.put(fileItem.getFieldName(), fileItem.getString(encoding));
-			} else {
-				System.out.println("파라미터명:" + fileItem.getFieldName());
-				System.out.println("파일명:" + fileItem.getName());
-				System.out.println("파일크기:" + fileItem.getSize() + "bytes");
-				//articleMap.put(fileItem.getFieldName(), fileItem.getName());
-				if (fileItem.getSize() > 0) {
-					int idx = fileItem.getName().lastIndexOf("\\");
-					if (idx == -1) {
-						idx = fileItem.getName().lastIndexOf("/");
-=======
 
 	private Map<String, String> upload(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -239,7 +166,6 @@ public class BoardContoller extends HttpServlet {
 						System.out.println("temp폴더가 생성되었습니다.");
 					} catch (Exception e) {
 						e.getStackTrace();
->>>>>>> origin/jm
 					}
 				}
 			}

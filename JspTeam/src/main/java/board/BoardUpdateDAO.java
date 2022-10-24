@@ -48,8 +48,4 @@ public class BoardUpdateDAO extends BoardDAO{
 		}
 	}
 	
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> origin/jm
