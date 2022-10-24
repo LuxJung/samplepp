@@ -1,0 +1,47 @@
+package board;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.sql.DataSource;
+
+public class BoardDelDAO extends BoardDAO{
+	
+	private final String BOARD_DELETE_QUERY = "INSERT INTO board_t (nickname, category, title, contents, goods_name)"
+			+ " VALUES (?, ?, ?, ?, ?) ";
+	public BoardDelDAO() {
+		super();
+	}
+	
+	public void createArticle(BoardVO bd) {
+		try {
+			System.out.println("BOARD_DELETE_QUERY 쿼리문 = [ " + BOARD_DELETE_QUERY + " ]");
+			String nickname = bd.getNickname();
+			String category = bd.getCategory();
+			String title = bd.getTitle();
+			String contents = bd.getContents();
+			String goods_name = bd.getGoods_name();
+			
+			dbQuery(BOARD_DELETE_QUERY);
+			
+			pstmt.setString(1, nickname);
+			pstmt.setString(2, category);
+			pstmt.setString(3, title);
+			pstmt.setString(4, contents);
+			pstmt.setString(5, goods_name);
+			
+			System.out.println("board_t 들어가는 내용 = [ 닉네임: " + nickname + ", 카테고리: " + category + ", 제목: " + title
+					+ ", 내용: " + contents + ", 상품명: " + goods_name + " ]");
+			System.out.println("==================================");
+			dbUpdate();
+			dbClose();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+		
+}

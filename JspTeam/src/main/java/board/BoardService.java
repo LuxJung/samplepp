@@ -9,11 +9,15 @@ public class BoardService {
 	BoardListDAO boardListDAO;
 	BoardCreateDAO boardCreateDAO;
 	BoardReadDAO boardReadDAO;
+	BoardUpdateDAO boardUpdateDAO;
+	BoardDelDAO boardDelDAO;
 	public BoardService() {
 		boardDAO = new BoardDAO();
 		boardListDAO = new BoardListDAO();
 		boardCreateDAO = new BoardCreateDAO();
 		boardReadDAO = new BoardReadDAO();
+		boardUpdateDAO = new BoardUpdateDAO();
+		boardDelDAO = new BoardDelDAO();
 	}
 	
 	//전체 글 목록
@@ -39,6 +43,12 @@ public class BoardService {
 	
 	public void modifyArticle (BoardVO board) {
 		System.out.println("modifyArticle() 수행합니다");
-		boardDAO.updateArticle(board);
+		boardUpdateDAO.updateArticle(board);
+	}
+	
+	public List<Integer> removeArticle (int num_aticle) {
+		System.out.println("removeArticle() 수행합니다");
+		List<Integer> atriclesList =boardDelDAO.delBoard(num_aticle);
+		return atriclesList;
 	}
 }
