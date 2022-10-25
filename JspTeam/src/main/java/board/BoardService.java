@@ -2,7 +2,9 @@ package board;
 
 import java.io.PrintWriter;
 import java.sql.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class BoardService {
 	BoardConnectDB boardConnectDB;
@@ -24,6 +26,16 @@ public class BoardService {
 	public List<BoardVO> showArticles() {
 		List <BoardVO> atriclesList = boardListDAO.boardListArticles();
 		return atriclesList;
+	}
+	
+	public Map listArticles(Map<String, Integer> pagingMap) {
+		Map articlesMap = new HashMap();
+		List<BoardVO> articlesList = boardListDAO.selectAllArticles(pagingMap);
+		int totArticles = boardListDAO.selectTotArticles();
+		articlesMap.put("articlesList", articlesList);
+		articlesMap.put("totArticles", totArticles);
+		//articlesMap.put("totArticles", 170);
+		return articlesMap;
 	}
 	
 	public int addArticle (BoardVO board) {
