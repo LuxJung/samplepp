@@ -69,12 +69,10 @@ public class BoardContoller extends HttpServlet {
 			} else if (action.equals("/createArticle.do")) {
 				// C-작업수행
 				Map<String, String> articleMap = upload(request, response);
-				
 				String title = articleMap.get("title");
 				String content = articleMap.get("content");
 				String price = articleMap.get("price");
 				String imgFileName = articleMap.get("goods_img");
-				
 				System.out.println("articleMap 에서 가져오는 title" + title);
 				System.out.println("articleMap 에서 가져오는 content" + content);
 				System.out.println("articleMap 에서 가져오는 price" + price);
@@ -86,7 +84,6 @@ public class BoardContoller extends HttpServlet {
 				boardVO.setGoods_name("디폴트");
 				boardVO.setPrice(Integer.parseInt(price));
 				boardVO.setGoods_img(imgFileName);
-				
 				int num_aticle = boardService.addArticle(boardVO);
 
 				if (imgFileName != null && imgFileName.length() != 0) {

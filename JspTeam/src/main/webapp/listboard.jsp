@@ -24,6 +24,7 @@ request.setCharacterEncoding("UTF-8");
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://getbootstrap.com/docs/5.2/assets/css/docs.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+
 <!-- <link href="carousel.css" rel="stylesheet"> -->
 <style>
 a {
@@ -114,7 +115,188 @@ a {
 <title>Insert title here</title>
 </head>
 <body>
-	<!--심볼 그대로 둬두 될꺼에요-->
+	
+	<nav class="py-2 bg-light border-bottom">
+		<div class="container d-flex flex-wrap">
+			<ul class="nav me-auto">
+				<!--여기 뭐 넣을지 생각....-->
+				<li class="nav-item"><a href="#"
+					class="nav-link link-dark px-2 active" aria-current="page">Home</a></li>
+				<li class="nav-item"><a href="#"
+					class="nav-link link-dark px-2">Features</a></li>
+				<li class="nav-item"><a href="#"
+					class="nav-link link-dark px-2">Pricing</a></li>
+				<li class="nav-item"><a href="#"
+					class="nav-link link-dark px-2">About</a></li>
+			</ul>
+			<ul class="nav">
+				<!--클래스로 로그인 유무 display 조정-->
+				<li class="nav-item login_true "><a href=""> <!--마이페이지 이동-->
+						<!--로그인 자기 이미지 띄우기--> <img src="https://github.com/mdo.png"
+						alt="mdo" width="40" height="40" class="rounded-circle">
+				</a></li>
+				<li class="nav-item login_true "><a href="#"
+					class="nav-link link-dark px-2">Logout</a></li>
+				<!--클래스로 로그인 유무 display 조정-->
+				<li class="nav-item login_false">
+					<!--로그인 페이지 이동--> <a href="#" class="nav-link link-dark px-2">Login</a>
+				</li>
+
+				<li class="nav-item login_false">
+					<!--회원가입 페이지 이동--> <a href="#" class="nav-link link-dark px-2">Sign
+						up</a>
+				</li>
+			</ul>
+		</div>
+	</nav>
+	
+	<header class="py-3 mb-4 border-bottom">
+		<div class="container d-flex flex-wrap justify-content-center">
+			<a href="/"
+				class="d-flex align-items-center mb-3 mb-lg-0 me-lg-auto text-dark text-decoration-none">
+				<svg class="bi me-2" >
+               <use xlink:href="#bootstrap" />
+            </svg> <!--타이틀--> <span class="fs-4">Best Seller</span>
+			</a>
+			<form class="col-12 col-lg-auto mb-3 mb-lg-0" role="search">
+				<input type="search" class="form-control" placeholder="제품 검색"
+					aria-label="Search">
+			</form>
+		</div>
+	</header>
+
+	<main>
+    <div id="carouselExampleFade" class="carousel slide carousel-fade" data-bs-ride="carousel">
+      <div class="carousel-inner">
+        <div class="carousel-item active" data-bs-interval="500">
+          <img src="../mainimg/001.png" class="d-block w-100" >
+        
+        </div>
+        <div class="carousel-item" data-bs-interval="500">
+          <img src="../mainimg/002.png" class="d-block w-100" >
+    
+        </div>
+        <div class="carousel-item" data-bs-interval="500">
+          <img src="../mainimg/003.png" class="d-block w-100" >
+    
+        </div>
+      </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div>
+	</main>
+
+		<!--등록 제품 사진-->
+	<section>
+	<a class="newatcl" href="${contextPath}/board/addArticleForm.do">+</a>
+	<div class="container d-flex flex-wrap justify-content-center">
+	<h2 class="d-flex align-items-center mb-3 mb-lg-0 me-lg-auto text-dark text-decoration-none mgt">오늘의 추천 상품</h2>
+	</div>
+		<div class="album py-5 bg-light">
+			<div class="container">
+
+				<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+					<c:choose>
+						<c:when test="${empty articlesList }">
+							<p>리스트가 없다능</p>
+							<c:redirect url="/board/listArticles.do"></c:redirect>
+						</c:when>
+						<c:when test="${!empty articlesList }">
+							<c:forEach var="articles" items="${articlesList }">
+								<div class="col">
+									<a
+										href="${contextPath}/board/readArticle.do?num_aticle=${articles.num_aticle}">
+										<div class="card shadow-sm">
+											<span style="width: 150px; display: none;">${articles.num_aticle}</span>
+											<svg class="bd-placeholder-img card-img-top" width="100%"
+												height="225" xmlns="http://www.w3.org/2000/svg" role="img"
+												aria-label="Placeholder: Thumbnail"
+												preserveAspectRatio="xMidYMid slice" focusable="false">
+												<title>Placeholder</title><rect width="100%" height="100%"
+													fill="#55595c" />
+												<text x="50%" y="50%" fill="#eceeef" dy=".3em">예약일때 표기ex ${articles.deal_status}</text>
+											</svg>
+
+											<div class="card-body">
+
+												<p class="card-text">${articles.title}</p>
+												<p class="card-text">${articles.contents}</p>
+												<div
+													class="d-flex justify-content-between align-items-center">
+													<div class="btn-group">
+														<button type="button"
+															class="btn btn-sm btn-outline-secondary">View</button>
+														<button type="button"
+															class="btn btn-sm btn-outline-secondary">Edit</button>
+													</div>
+													<small class="text-muted">${articles.upload}</small>
+
+												</div>
+											</div>
+										</div>
+									</a>
+								</div>
+							</c:forEach>
+						</c:when>
+					</c:choose>
+				</div>
+			</div>
+		</div>
+	</section>
+
+		<br> <br> <br> <br> <br> <br> <br>
+		<br> <br> <br> <br> <br> <br> <br>
+		<br> <br> <br> <br> <br> <br> <br>
+		<br> <br> <br> <br> <br> <br> <br>
+		<br>
+		<div style="border: 1px solid #000000;">
+			<c:choose>
+
+				<c:when test="${!empty articlesList }">
+					<ol>
+						<li style="list-style: none;" value="0"><span
+							style="width: 150px; display: inline-block;">닉넴</span> <span
+							style="width: 200px; display: inline-block;">제목</span> <span
+							style="width: 200px; display: inline-block;">상태</span> <span
+							style="width: 200px; display: inline-block;">날짜</span></li>
+						<c:forEach var="articles" items="${articlesList }">
+
+							<li><a
+								href="${contextPath}/board/readArticle.do?num_aticle=${articles.num_aticle}">
+									<span style="width: 150px; display: none;">${articles.num_aticle}</span>
+									<span style="width: 150px; display: inline-block;">${articles.nickname}</span>
+									<span style="width: 200px; display: inline-block;">${articles.title}</span>
+									<span style="width: 200px; display: inline-block;">${articles.deal_status}</span>
+									<span style="width: 200px; display: inline-block;">${articles.upload}</span>
+							</a></li>
+
+						</c:forEach>
+					</ol>
+				</c:when>
+				<c:when test="${empty articlesList }">
+					<p>리스트가 없다능</p>
+					<c:redirect url="/board/listArticles.do"></c:redirect>
+					<%-- 
+		<a href="${contextPath}/board/addArticleForm.do">글쓰기</a>
+		
+		--%>
+				</c:when>
+			</c:choose>
+		</div>
+
+
+		<!--부트스트랩 적용-->
+		<script src="/docs/5.2/dist/js/bootstrap.bundle.min.js"
+			integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+			crossorigin="anonymous"></script>
+			
+			<!--심볼 그대로 둬두 될꺼에요-->
 	<svg xmlns="http://www.w3.org/2000/svg" version="1.0" width="60"
 		height="60" preserveAspectRatio="xMidYMid meet" style="display: none;">
       <symbol id="bootstrap" viewBox="0 0 500 500">
@@ -230,184 +412,6 @@ a {
          </g>
       </symbol>
    </svg>
-
-	<nav class="py-2 bg-light border-bottom">
-		<div class="container d-flex flex-wrap">
-			<ul class="nav me-auto">
-				<!--여기 뭐 넣을지 생각....-->
-				<li class="nav-item"><a href="#"
-					class="nav-link link-dark px-2 active" aria-current="page">Home</a></li>
-				<li class="nav-item"><a href="#"
-					class="nav-link link-dark px-2">Features</a></li>
-				<li class="nav-item"><a href="#"
-					class="nav-link link-dark px-2">Pricing</a></li>
-				<li class="nav-item"><a href="#"
-					class="nav-link link-dark px-2">About</a></li>
-			</ul>
-			<ul class="nav">
-				<!--클래스로 로그인 유무 display 조정-->
-				<li class="nav-item login_true "><a href=""> <!--마이페이지 이동-->
-						<!--로그인 자기 이미지 띄우기--> <img src="https://github.com/mdo.png"
-						alt="mdo" width="40" height="40" class="rounded-circle">
-				</a></li>
-				<li class="nav-item login_true "><a href="#"
-					class="nav-link link-dark px-2">Logout</a></li>
-				<!--클래스로 로그인 유무 display 조정-->
-				<li class="nav-item login_false">
-					<!--로그인 페이지 이동--> <a href="#" class="nav-link link-dark px-2">Login</a>
-				</li>
-
-				<li class="nav-item login_false">
-					<!--회원가입 페이지 이동--> <a href="#" class="nav-link link-dark px-2">Sign
-						up</a>
-				</li>
-			</ul>
-		</div>
-	</nav>
-	<header class="py-3 mb-4 border-bottom">
-		<div class="container d-flex flex-wrap justify-content-center">
-			<a href="/"
-				class="d-flex align-items-center mb-3 mb-lg-0 me-lg-auto text-dark text-decoration-none">
-				<svg class="bi me-2" >
-               <use xlink:href="#bootstrap" />
-            </svg> <!--타이틀--> <span class="fs-4">Best Seller</span>
-			</a>
-			<form class="col-12 col-lg-auto mb-3 mb-lg-0" role="search">
-				<input type="search" class="form-control" placeholder="제품 검색"
-					aria-label="Search">
-			</form>
-		</div>
-	</header>
-
-
-	<main>
-    <div id="carouselExampleFade" class="carousel slide carousel-fade" data-bs-ride="carousel">
-      <div class="carousel-inner">
-        <div class="carousel-item">
-          <svg class="bd-placeholder-img bd-placeholder-img-lg d-block w-100" width="800" height="400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: First slide" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#777"></rect><text x="50%" y="50%" fill="#555" dy=".3em">First slide</text></svg>
-    
-        </div>
-        <div class="carousel-item active">
-          <svg class="bd-placeholder-img bd-placeholder-img-lg d-block w-100" width="800" height="400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Second slide" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#666"></rect><text x="50%" y="50%" fill="#444" dy=".3em">Second slide</text></svg>
-    
-        </div>
-        <div class="carousel-item">
-          <svg class="bd-placeholder-img bd-placeholder-img-lg d-block w-100" width="800" height="400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Third slide" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#555"></rect><text x="50%" y="50%" fill="#333" dy=".3em">Third slide</text></svg>
-    
-        </div>
-      </div>
-      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Previous</span>
-      </button>
-      <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Next</span>
-      </button>
-    </div>
-	</main>
-
-		<!--등록 제품 사진-->
-	<section>
-	<div class="container d-flex flex-wrap justify-content-center">
-	<h2 class="d-flex align-items-center mb-3 mb-lg-0 me-lg-auto text-dark text-decoration-none mgt">최근 등록 물품</h2>
-	</div>
-		<div class="album py-5 bg-light">
-			<div class="container">
-
-				<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-					<c:choose>
-						<c:when test="${empty articlesList }">
-							<p>리스트가 없다능</p>
-							<c:redirect url="/board/listArticles.do"></c:redirect>
-						</c:when>
-						<c:when test="${!empty articlesList }">
-							<c:forEach var="articles" items="${articlesList }">
-								<div class="col">
-									<a
-										href="${contextPath}/board/readArticle.do?num_aticle=${articles.num_aticle}">
-										<div class="card shadow-sm">
-											<span style="width: 150px; display: none;">${articles.num_aticle}</span>
-											<svg class="bd-placeholder-img card-img-top" width="100%"
-												height="225" xmlns="http://www.w3.org/2000/svg" role="img"
-												aria-label="Placeholder: Thumbnail"
-												preserveAspectRatio="xMidYMid slice" focusable="false">
-												<title>Placeholder</title><rect width="100%" height="100%"
-													fill="#55595c" />
-												<text x="50%" y="50%" fill="#eceeef" dy=".3em">예약일때 표기ex ${articles.deal_status}</text>
-											</svg>
-
-											<div class="card-body">
-
-												<p class="card-text">${articles.title}</p>
-												<p class="card-text">${articles.contents}</p>
-												<div
-													class="d-flex justify-content-between align-items-center">
-													<div class="btn-group">
-														<button type="button"
-															class="btn btn-sm btn-outline-secondary">View</button>
-														<button type="button"
-															class="btn btn-sm btn-outline-secondary">Edit</button>
-													</div>
-													<small class="text-muted">${articles.upload}</small>
-
-												</div>
-											</div>
-										</div>
-									</a>
-								</div>
-							</c:forEach>
-						</c:when>
-					</c:choose>
-				</div>
-			</div>
-		</div>
-	</section>
-
-		<br> <br> <br> <br> <br> <br> <br>
-		<br> <br> <br> <br> <br> <br> <br>
-		<br> <br> <br> <br> <br> <br> <br>
-		<br> <br> <br> <br> <br> <br> <br>
-		<br>
-		<div style="border: 1px solid #000000;">
-			<c:choose>
-
-				<c:when test="${!empty articlesList }">
-					<ol>
-						<li style="list-style: none;" value="0"><span
-							style="width: 150px; display: inline-block;">닉넴</span> <span
-							style="width: 200px; display: inline-block;">제목</span> <span
-							style="width: 200px; display: inline-block;">상태</span> <span
-							style="width: 200px; display: inline-block;">날짜</span></li>
-						<c:forEach var="articles" items="${articlesList }">
-
-							<li><a
-								href="${contextPath}/board/readArticle.do?num_aticle=${articles.num_aticle}">
-									<span style="width: 150px; display: none;">${articles.num_aticle}</span>
-									<span style="width: 150px; display: inline-block;">${articles.nickname}</span>
-									<span style="width: 200px; display: inline-block;">${articles.title}</span>
-									<span style="width: 200px; display: inline-block;">${articles.deal_status}</span>
-									<span style="width: 200px; display: inline-block;">${articles.upload}</span>
-							</a></li>
-
-						</c:forEach>
-					</ol>
-				</c:when>
-				<c:when test="${empty articlesList }">
-					<p>리스트가 없다능</p>
-					<c:redirect url="/board/listArticles.do"></c:redirect>
-					<%-- 
-		<a href="${contextPath}/board/addArticleForm.do">글쓰기</a>
-		
-		--%>
-				</c:when>
-			</c:choose>
-		</div>
-
-
-		<!--부트스트랩 적용-->
-		<script src="/docs/5.2/dist/js/bootstrap.bundle.min.js"
-			integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
-			crossorigin="anonymous"></script>
+			
 </body>
 </html>
