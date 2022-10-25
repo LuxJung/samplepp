@@ -3,7 +3,7 @@ package board;
 import java.sql.Date;
 import java.sql.ResultSet;
 
-public class BoardReadDAO extends BoardDAO{
+public class BoardReadDAO {
 	//private final String BOARD_SELECT_VIEW_QUERY = "SELECT * FROM board_t where num_aticle=?";
 	private final String BOARD_SELECT_VIEW_QUERY =  "SELECT * FROM board_t "
 												+ "JOIN  goods_t ON "
@@ -20,9 +20,9 @@ public class BoardReadDAO extends BoardDAO{
 		try {
 			System.out.println("==================================");
 			System.out.println("BOARD_SELECT_VIEW_QUERY 쿼리문 = [ " + BOARD_SELECT_VIEW_QUERY + " ]");
-			pstmt=dbQuery(BOARD_SELECT_VIEW_QUERY);
-			pstmt.setInt(1, num_aticle);
-			ResultSet rs = dbRead(pstmt);
+			BoardConnectDB.pstmt=BoardConnectDB.dbQuery(BOARD_SELECT_VIEW_QUERY);
+			BoardConnectDB.pstmt.setInt(1, num_aticle);
+			ResultSet rs = BoardConnectDB.dbRead(BoardConnectDB.pstmt);
 			rs.next();
 			int search_num_aticle = rs.getInt("num_aticle");
 			String nickname = rs.getString("nickname");
@@ -63,7 +63,7 @@ public class BoardReadDAO extends BoardDAO{
 			System.out.println("==================================");
 			
 			rs.close(); 
-			dbClose();
+			BoardConnectDB.dbClose();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

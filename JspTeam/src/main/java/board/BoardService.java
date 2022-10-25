@@ -5,14 +5,14 @@ import java.sql.Date;
 import java.util.List;
 
 public class BoardService {
-	BoardDAO boardDAO;
+	BoardConnectDB boardConnectDB;
 	BoardListDAO boardListDAO;
 	BoardCreateDAO boardCreateDAO;
 	BoardReadDAO boardReadDAO;
 	BoardUpdateDAO boardUpdateDAO;
 	BoardDelDAO boardDelDAO;
 	public BoardService() {
-		boardDAO = new BoardDAO();
+		boardConnectDB = new BoardConnectDB();
 		boardListDAO = new BoardListDAO();
 		boardCreateDAO = new BoardCreateDAO();
 		boardReadDAO = new BoardReadDAO();

@@ -3,7 +3,7 @@ package board;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class BoardCreateDAO extends BoardDAO{
+public class BoardCreateDAO {
 	
 	private final String BOARD_INSERT_QUERY = "INSERT INTO board_t (nickname, category, title, contents, goods_name)"
 			+ " VALUES (?, ?, ?, ?, ?) ";
@@ -24,19 +24,19 @@ public class BoardCreateDAO extends BoardDAO{
 			String contents = bd.getContents();
 			String goods_name = bd.getGoods_name();
 			
-			dbQuery(BOARD_INSERT_QUERY);
+			BoardConnectDB.dbQuery(BOARD_INSERT_QUERY);
 			
-			pstmt.setString(1, nickname);
-			pstmt.setString(2, category);
-			pstmt.setString(3, title);
-			pstmt.setString(4, contents);
-			pstmt.setString(5, goods_name);
+			BoardConnectDB.pstmt.setString(1, nickname);
+			BoardConnectDB.pstmt.setString(2, category);
+			BoardConnectDB.pstmt.setString(3, title);
+			BoardConnectDB.pstmt.setString(4, contents);
+			BoardConnectDB.pstmt.setString(5, goods_name);
 			
 			System.out.println("board_t 들어가는 내용 = [ 닉네임: " + nickname + ", 카테고리: " + category + ", 제목: " + title
 					+ ", 내용: " + contents + ", 상품명: " + goods_name + " ]");
 			System.out.println("==================================");
-			dbUpdate();
-			dbClose();
+			BoardConnectDB.dbUpdate();
+			BoardConnectDB.dbClose();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -45,7 +45,7 @@ public class BoardCreateDAO extends BoardDAO{
 	public int createArticleNum(BoardVO bd) {
 		try {
 			System.out.println("BOARD_NUMBERUNG_QUERY 쿼리문 = [ " + BOARD_NUMBERUNG_QUERY + " ]");	
-			ResultSet rs = dbRead(dbQuery(BOARD_NUMBERUNG_QUERY));
+			ResultSet rs = BoardConnectDB.dbRead(BoardConnectDB.dbQuery(BOARD_NUMBERUNG_QUERY));
 			rs.next();
 			int setnum = rs.getInt("num_aticle");
 			System.out.println(setnum);
@@ -67,15 +67,15 @@ public class BoardCreateDAO extends BoardDAO{
 			int num = bd.getNum_aticle();
 			int price = bd.getPrice();
 			String goods_img = bd.getGoods_img();
-			dbQuery(BOARD_INSERT_IMG_QUERY);
-			pstmt.setInt(1, num);
-			pstmt.setInt(2, price);
-			pstmt.setString(3, goods_img);
+			BoardConnectDB.dbQuery(BOARD_INSERT_IMG_QUERY);
+			BoardConnectDB.pstmt.setInt(1, num);
+			BoardConnectDB.pstmt.setInt(2, price);
+			BoardConnectDB.pstmt.setString(3, goods_img);
 			System.out.println("goods_T 들어가는 내용 = [ 글번호: " + num + ", 가격: " + price 
 					+ ", 이미지경로: " + goods_img + " ]");
 			System.out.println("==================================");
-			dbUpdate();
-			dbClose();
+			BoardConnectDB.dbUpdate();
+			BoardConnectDB.dbClose();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

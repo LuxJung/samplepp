@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BoardListDAO extends BoardDAO{
+public class BoardListDAO {
 	private final String BOARD_LIST_VIEW_QUERY = "SELECT num_aticle, nickname, title, deal_status, upload FROM board_t";
 
 	public BoardListDAO() {
@@ -19,7 +19,7 @@ public class BoardListDAO extends BoardDAO{
 		try {
 			System.out.println("BOARD_LIST_VIEW_QUERY 쿼리문 = [ " + BOARD_LIST_VIEW_QUERY + " ]");
 			
-			ResultSet rs = dbRead(dbQuery(BOARD_LIST_VIEW_QUERY));
+			ResultSet rs = BoardConnectDB.dbRead(BoardConnectDB.dbQuery(BOARD_LIST_VIEW_QUERY));
 			while (rs.next()) {
 				int num_aticle = rs.getInt("num_aticle");
 				String nickname = rs.getString("nickname");
@@ -44,7 +44,7 @@ public class BoardListDAO extends BoardDAO{
 			}
 			System.out.println("==================================");
 			rs.close();
-			dbClose();
+			BoardConnectDB.dbClose();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

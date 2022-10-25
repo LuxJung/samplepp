@@ -2,7 +2,7 @@ package board;
 
 import java.sql.Date;
 
-public class BoardUpdateDAO extends BoardDAO{
+public class BoardUpdateDAO extends BoardConnectDB{
 	private static String ARTICLE_IMAGE_REPO =  "D:\\JSP\\JSP_Workspace\\DbTest\\JspTeam\\src\\main\\webapp\\WEB-INF\\imgs";
 	private final String BOARD_UPDATE_QUERY = "UPDATE board_t (category, title, contents, goods_name)"
 			+ " VALUES (?, ?, ?, ?)";
