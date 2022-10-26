@@ -55,7 +55,7 @@ public class BoardContoller extends HttpServlet {
 		System.out.println("action: " + action);
 		try {
 			List<BoardVO> articlesList = new ArrayList<>();
-			if (action == null) {
+			/*if (action == null) {
 				
 				String _section=request.getParameter("section");
 				String _pageNum=request.getParameter("pageNum");
@@ -64,21 +64,21 @@ public class BoardContoller extends HttpServlet {
 				Map<String, Integer> pagingMap = new HashMap<String, Integer>();
 				pagingMap.put("section", section);
 				pagingMap.put("pageNum", pageNum);
-				Map articlesMap=boardService.listArticles(pagingMap);
+				Map<String, Object> articlesMap=boardService.listArticles(pagingMap);
 				articlesMap.put("section", section);
 				articlesMap.put("pageNum", pageNum);
 				request.setAttribute("articlesMap", articlesMap);
 				
 				nextPage = "/listboard.jsp";
-			}else if( action.equals("/listArticles.do")) {
+			}else */if(action == null|| action.equals("/listArticles.do")) {
 				String _section=request.getParameter("section");
 				String _pageNum=request.getParameter("pageNum");
 				int section = Integer.parseInt(((_section==null)? "1":_section) );
 				int pageNum = Integer.parseInt(((_pageNum==null)? "1":_pageNum));
-				Map pagingMap=new HashMap();
+				Map<String, Integer> pagingMap=new HashMap<String, Integer>();
 				pagingMap.put("section", section);
 				pagingMap.put("pageNum", pageNum);
-				Map articlesMap=boardService.listArticles(pagingMap);
+				Map<String, Object> articlesMap=boardService.listArticles(pagingMap);
 				articlesMap.put("section", section);
 				articlesMap.put("pageNum", pageNum);
 				request.setAttribute("articlesMap", articlesMap);

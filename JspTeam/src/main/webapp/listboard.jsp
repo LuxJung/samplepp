@@ -8,17 +8,22 @@
 <%
 request.setCharacterEncoding("UTF-8");
 %>
+<c:set var="articlesList" value="${articlesMap.articlesList}" />
+<c:set var="totArticles" value="${articlesMap.totArticles}" />
+<c:set var="section" value="${articlesMap.section}" />
+<c:set var="pageNum" value="${articlesMap.pageNum}" />
 <!DOCTYPE html>
 <html lang="ko">
 <head>
 
-<link rel="stylesheet" type="text/css"
-	href="../resource/css/bootstrap.min.css">
+
 <link rel="stylesheet" type="text/css" href="../resource/css/test.css">
+<link rel="stylesheet" type="text/css"
+	href="../resource/css/bootstrap.css">
 <script type="text/javascript"
 	src="../resource/js/bootstrap.bundle.min.js"></script>
 <script type="text/javascript" src="../resource/js/bootstrap.min.js"></script>
-<!-- <link href="carousel.css" rel="stylesheet"> -->
+
 <style>
 a {
 	color: #999999;
@@ -194,26 +199,38 @@ a {
 	<!--등록 제품 사진-->
 	<section>
 		<a class="newatcl" href="${contextPath}/board/addArticleForm.do">+</a>
+		<!--gpem-->
 		<div class="container d-flex flex-wrap justify-content-center">
 			<h2
 				class="d-flex align-items-center mb-3 mb-lg-0 me-lg-auto text-dark text-decoration-none mgt">오늘의
 				추천 상품</h2>
 		</div>
+
+
+		<!-- 서블릿에서 넘어온 articlesMap.articlesList값을 c set을통해 articlesList로 설정하여 판단 -->
+		<!-- articlesList를 articles로 재정의 하여 VO값을 꺼내온다 -->
+		<!-- 페이징 관련-->
+		<!-- 서블릿에서 넘어온 articlesMap.totArticles값을 c set을통해 totArticles로 설정하여 판단 -->
+		<!-- 서블릿에서 넘어온 articlesMap.section값을 c set을통해 section로 설정하여 판단 -->
+		<!-- 서블릿에서 넘어온 articlesMap.pageNum값을 c set을통해 pageNum로 설정하여 판단 -->
 		<div class="album py-5 bg-light">
 			<div class="container">
-
 				<div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3">
 					<c:choose>
+
 						<c:when test="${empty articlesList }">
 							<p>리스트가 없다능</p>
 						</c:when>
 						<c:when test="${!empty articlesList }">
+
 							<c:forEach var="articles" items="${articlesList }">
 								<div class="col">
-									<a href="${contextPath}/board/readArticle.do?num_aticle=${articles.num_aticle}">
+									<a
+										href="${contextPath}/board/readArticle.do?num_aticle=${articles.num_aticle}">
 										<span style="width: 150px; display: none;">${articles.num_aticle}</span>
 										<div class="card shadow-sm">
-											<div class="bd-placeholder-img card-img-top w-100" style="height:185px; border-bottom:1px solid #cccccc;">
+											<div class="bd-placeholder-img card-img-top w-100"
+												style="height: 185px; border-bottom: 1px solid #cccccc;">
 												<img src="../resource/banner/001.png"
 													class="d-block w-100 h-100">
 												<p>예약일때 표기 ex ${articles.deal_status}</p>
@@ -244,9 +261,76 @@ a {
 	</section>
 
 
+	<div>
+		<c:if test="${totArticles != null }">
+			<c:choose>
+				<c:when test="${totArticles >100 }">
+					<!-- 글 개수가 100 초과인경우 -->
+					<nav>
+						<ul class="pagination d-flex justify-content-center">
+							<c:forEach var="page" begin="1" end="10" step="1">
 
+								<c:if test="${section >1 && page==1 }">
+									<li class="page-item"><a class="page-link"
+										href="${contextPath }/board/listArticles.do?section=${section-1}&pageNum=${(section-1)*10 +1 }">pre
+									</a></li>
+								</c:if>
 
+								<li class="page-item"><a class="page-link"
+									href="${contextPath }/board/listArticles.do?section=${section}&pageNum=${page}">${(section-1)*10 +page }
+								</a></li>
 
+								<c:if test="${page ==10 }">
+
+									<li class="page-item"><a class="page-link"
+										href="${contextPath }/board/listArticles.do?section=${section+1}&pageNum=${section*10+1}">next</a>
+									</li>
+
+								</c:if>
+
+							</c:forEach>
+						</ul>
+					</nav>
+				</c:when>
+				<c:when test="${totArticles ==100 }">
+					<!--등록된 글 개수가 100개인경우  -->
+					<nav>
+						<ul class="pagination d-flex justify-content-center">
+							<c:forEach var="page" begin="1" end="10" step="1">
+								<li class="page-item"><a class="page-link" href="#">${page }</a>
+								</li>
+							</c:forEach>
+						</ul>
+					</nav>
+				</c:when>
+
+				<c:when test="${totArticles< 100 }">
+					<!--등록된 글 개수가 100개 미만인 경우  -->
+					<nav>
+						<ul class="pagination d-flex justify-content-center">
+							<c:forEach var="page" begin="1" end="${totArticles/10 +1}"
+								step="1">
+								<c:choose>
+									<c:when test="${page==pageNum }">
+										<li class="page-item active bs-green" aria-current="page">
+											<a class="page-link"
+											href="${contextPath }/board/listArticles.do?section=${section}&pageNum=${page}">${page }
+										</a>
+										</li>
+									</c:when>
+									<c:otherwise>
+										<li class="page-item"><a class="page-link"
+											href="${contextPath }/board/listArticles.do?section=${section}&pageNum=${page}">${page }
+										</a></li>
+									</c:otherwise>
+								</c:choose>
+							</c:forEach>
+						</ul>
+					</nav>
+				</c:when>
+			</c:choose>
+		</c:if>
+	</div>
 
 </body>
 </html>

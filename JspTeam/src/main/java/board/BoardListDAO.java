@@ -20,7 +20,7 @@ public class BoardListDAO {
 			+ "	num_aticle, nickname, title, deal_status, contents, upload, goods_name"
 			+ "	from board_t"
 			+ "	where num_aticle) as cnt"
-			+ " where cnt.recNum between(?-1)*100+(?-1)*8+1 and (?-1)*100+?*8";
+			+ " where cnt.recNum between(?-1)*100+(?-1)*10+1 and (?-1)*100+?*10";
 	Connection conn;
 	PreparedStatement pstmt;
 	private DataSource dataFactory;
@@ -72,8 +72,8 @@ public class BoardListDAO {
 		return atriclesList;
 	}
 	
-	public List selectAllArticles(Map pagingMap){
-		List articlesList = new ArrayList();
+	public List<BoardVO> selectAllArticles(Map<?, ?> pagingMap){
+		List<BoardVO> articlesList = new ArrayList<BoardVO>();
 		int section = (Integer)pagingMap.get("section");
 		int pageNum=(Integer)pagingMap.get("pageNum");
 		try{
@@ -104,12 +104,13 @@ public class BoardListDAO {
 		      
 		      BoardVO article = new BoardVO();
 		      
-		      article.setNum_aticle(articleNO);;
+		      article.setNum_aticle(articleNO);
 		      article.setNickname(nickname);
 		      article.setTitle(title);
 		      article.setDeal_status(deal_status);
 		      article.setUpload(upload);
 		      articlesList.add(article);	
+		      System.out.println("페이징부분 저장된 vo"+ article.getNum_aticle()+" / "+article.getNickname());
 		   } //end while
 		   rs.close();
 		   pstmt.close();
@@ -119,16 +120,21 @@ public class BoardListDAO {
 	  }
 	  return articlesList;
     } 
-	
 	public int selectTotArticles() {
 		try {
-			String query = "select count(num_aticle) from t_board ";
+			conn = dataFactory.getConnection();
+			String query = "select count(num_aticle) from board_t ";
 			System.out.println(query);
-			ResultSet rs = BoardConnectDB.dbRead(BoardConnectDB.dbQuery(BOARD_LIST_VIEW_QUERY));
-			if (rs.next())
+			pstmt = conn.prepareStatement(query);
+			ResultSet rs = pstmt.executeQuery();
+			if (rs.next()) {
+				System.out.println("rs.next() 있음");
+				System.out.println(rs.getInt(1));
 				return (rs.getInt(1));
+			}
 			rs.close();
-			BoardConnectDB.dbClose();
+			pstmt.close();
+			conn.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

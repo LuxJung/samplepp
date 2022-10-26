@@ -1,7 +1,5 @@
 package board;
 
-import java.io.PrintWriter;
-import java.sql.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,8 +26,8 @@ public class BoardService {
 		return atriclesList;
 	}
 	
-	public Map listArticles(Map<String, Integer> pagingMap) {
-		Map articlesMap = new HashMap();
+	public Map<String, Object> listArticles(Map<String, Integer> pagingMap) {
+		Map<String, Object> articlesMap = new HashMap<String, Object>();
 		List<BoardVO> articlesList = boardListDAO.selectAllArticles(pagingMap);
 		int totArticles = boardListDAO.selectTotArticles();
 		articlesMap.put("articlesList", articlesList);
