@@ -9,6 +9,7 @@ public class BoardReadDAO {
 												+ "JOIN  goods_t ON "
 												+ "goods_t.num_aticle=board_t.num_aticle "
 												+ "WHERE board_t.num_aticle=?";
+	
 ;	public BoardReadDAO() {
 		super();
 	}

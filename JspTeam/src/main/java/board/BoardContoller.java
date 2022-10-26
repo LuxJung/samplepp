@@ -88,8 +88,9 @@ public class BoardContoller extends HttpServlet {
 				 * request.setAttribute("articlesList", articlesList);
 				 */
 				nextPage = "/listboard.jsp";
-			} else if (action.equals("/addArticleForm.do")) {
+			} else if (action.equals("/addboard.do")) {
 				// 글쓰기 페이지로 이동
+				System.out.println("[글입력 폼 페이지: http://localhost:8090/JspTeam/board/addArticleForm.do] ");
 				nextPage = "/addboard.jsp";
 			} else if (action.equals("/createArticle.do")) {
 				// C-작업수행
@@ -111,21 +112,23 @@ public class BoardContoller extends HttpServlet {
 				boardVO.setGoods_name("디폴트");
 				boardVO.setPrice(Integer.parseInt(price));
 				boardVO.setGoods_img(imgFileName);
-				
+				System.out.println("[ addArticle 수행 이전 ]");
 				int num_aticle = boardService.addArticle(boardVO);
-
+				System.out.println("[ addArticle 수행 이후! ] num_aticle "+num_aticle);
+				System.out.println("[ addArticle 수행 이후! ] imgFileName "+imgFileName);
 				if (imgFileName != null && imgFileName.length() != 0) {
+					System.out.println("[ addArticle 수행 이후! ] imgFile 있기떄문에 여기로 온다");
 					File srcFile = new File(BOARD_IMG_REPOSITORY + "\\" + "temp" + "\\" + imgFileName);
 					File destDir = new File(BOARD_IMG_REPOSITORY + "\\" + num_aticle);
 					destDir.mkdirs();
 					FileUtils.moveFileToDirectory(srcFile, destDir, true);
 				}
+				System.out.println("[ 새 글 작성 alert() 띄우기 전]");
 				PrintWriter pw = response.getWriter();
 				pw.print("<script>" + "  alert('새글을 추가했습니다.');" + " location.href='" + request.getContextPath()
 						+ "/board/listArticles.do';" + "</script>");
-
+				System.out.println("[ 새 글 작성 alert() 띄운 후]");
 				return;
-
 			} else if (action.equals("/readArticle.do")) {
 				// R
 				String num_aticle = request.getParameter("num_aticle");

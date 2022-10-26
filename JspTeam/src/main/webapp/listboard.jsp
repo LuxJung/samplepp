@@ -198,7 +198,8 @@ a {
 
 	<!--등록 제품 사진-->
 	<section>
-		<a class="newatcl" href="${contextPath}/board/addArticleForm.do">+</a>
+		<!--새글 등록 fixed-->
+		<a class="newatcl" href="${contextPath}/board/addboard.do">+</a>
 		<!--gpem-->
 		<div class="container d-flex flex-wrap justify-content-center">
 			<h2
@@ -209,15 +210,11 @@ a {
 
 		<!-- 서블릿에서 넘어온 articlesMap.articlesList값을 c set을통해 articlesList로 설정하여 판단 -->
 		<!-- articlesList를 articles로 재정의 하여 VO값을 꺼내온다 -->
-		<!-- 페이징 관련-->
-		<!-- 서블릿에서 넘어온 articlesMap.totArticles값을 c set을통해 totArticles로 설정하여 판단 -->
-		<!-- 서블릿에서 넘어온 articlesMap.section값을 c set을통해 section로 설정하여 판단 -->
-		<!-- 서블릿에서 넘어온 articlesMap.pageNum값을 c set을통해 pageNum로 설정하여 판단 -->
+
 		<div class="album py-5 bg-light">
 			<div class="container">
 				<div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3">
 					<c:choose>
-
 						<c:when test="${empty articlesList }">
 							<p>리스트가 없다능</p>
 						</c:when>
@@ -231,8 +228,9 @@ a {
 										<div class="card shadow-sm">
 											<div class="bd-placeholder-img card-img-top w-100"
 												style="height: 185px; border-bottom: 1px solid #cccccc;">
-												<img src="../resource/banner/001.png"
+												<img src="../WEB-INF/imgs/${articles.num_aticle}/${articles.goods_img}"
 													class="d-block w-100 h-100">
+												<p>이미지 경로 ${articles.goods_img}</p>
 												<p>예약일때 표기 ex ${articles.deal_status}</p>
 											</div>
 											<div class="card-body">
@@ -260,7 +258,10 @@ a {
 		</div>
 	</section>
 
-
+	<!--페이징 넘버처리-->
+	<!-- 서블릿에서 넘어온 articlesMap.totArticles값을 c set을통해 totArticles로 설정하여 판단 -->
+	<!-- 서블릿에서 넘어온 articlesMap.section값을 c set을통해 section로 설정하여 판단 -->
+	<!-- 서블릿에서 넘어온 articlesMap.pageNum값을 c set을통해 pageNum로 설정하여 판단 -->
 	<div>
 		<c:if test="${totArticles != null }">
 			<c:choose>

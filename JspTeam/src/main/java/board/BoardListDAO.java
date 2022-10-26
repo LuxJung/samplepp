@@ -15,12 +15,24 @@ import javax.sql.DataSource;
 
 public class BoardListDAO {
 	private final String BOARD_LIST_VIEW_QUERY = "SELECT num_aticle, nickname, title, deal_status, upload FROM board_t";
-	private final String BOARD_LIST_PAGERVIEW_QUERY = "select * from ("
-			+ "	select row_number() over(order by num_aticle desc) as 'recNum',"
-			+ "	num_aticle, nickname, title, deal_status, contents, upload, goods_name"
-			+ "	from board_t"
-			+ "	where num_aticle) as cnt"
-			+ " where cnt.recNum between(?-1)*100+(?-1)*10+1 and (?-1)*100+?*10";
+	private final String BOARD_LIST_PAGERVIEW_QUERY_OLD = "select * from ("
+														+ "	select row_number() "
+														+ " over(order by num_aticle desc) as 'recNum',"
+														+ "	num_aticle, nickname, title, deal_status, contents, upload, goods_name"
+														+ "	from board_t where num_aticle) as cnt where cnt.recNum "
+														+ "between(?-1)*100+(?-1)*10+1 and (?-1)*100+?*10";
+	
+	private final String BOARD_LIST_PAGERVIEW_QUERY ="SELECT * FROM ("
+													+ "	SELECT ROW_NUMBER() "
+													+ "	OVER(ORDER BY board.num_aticle DESC) AS 'recNum', "
+													+ "	board.num_aticle, board.nickname, board.title, "
+													+ "	board.contents, board.upload, board.goods_name, "
+													+ "	board.category, board.deal_status, goods.price, goods.goods_img "
+													+ "	FROM board_t board LEFT JOIN goods_t goods "
+													+ "	ON goods.num_aticle = board.num_aticle "
+													+ "GROUP BY board.num_aticle) AS c "
+													+ "WHERE c.recNum "
+													+ "BETWEEN (?-1)*100+(?-1)*8+1 AND (?-1)*100+?*8;";
 	Connection conn;
 	PreparedStatement pstmt;
 	private DataSource dataFactory;
@@ -44,7 +56,9 @@ public class BoardListDAO {
 			while (rs.next()) {
 				int num_aticle = rs.getInt("num_aticle");
 				String nickname = rs.getString("nickname");
+				String category = rs.getString("category");
 				String title = rs.getString("title");
+				String contents = rs.getString("contents");
 				int intdeal_status = rs.getInt("deal_status");
 				String deal_status = null; //거래상태 문자형 반환해주기 위함
 				if (intdeal_status == 0) {
@@ -55,7 +69,10 @@ public class BoardListDAO {
 					deal_status = "판매완료";
 				}
 				Date upload = rs.getDate("upload");
-				BoardVO BoardVO = new BoardVO(num_aticle, nickname, title, deal_status, upload);
+				String goods_img = rs.getString("goods_img");
+				int price = rs.getInt("price");
+				BoardVO BoardVO = new BoardVO(num_aticle, nickname, category, title, 
+											contents,deal_status, upload,goods_img,price);
 				atriclesList.add(BoardVO);
 			}
 			for (BoardVO boardVO : atriclesList) {
@@ -83,15 +100,22 @@ public class BoardListDAO {
 			conn = dataFactory.getConnection();
 			pstmt= conn.prepareStatement(BOARD_LIST_PAGERVIEW_QUERY);
 			pstmt.setInt(1, section);
+			System.out.println("1.pagingMap.get(section): "+section);
 			pstmt.setInt(2, pageNum);
+			System.out.println("2.pagingMap.get(pageNum): "+pageNum);
 			pstmt.setInt(3, section);
+			System.out.println("3.pagingMap.get(section): "+section);
 			pstmt.setInt(4, pageNum);
+			System.out.println("4.pagingMap.get(pageNum): "+pageNum);
+
 			ResultSet rs =pstmt.executeQuery();
 		   while(rs.next()){
-		      int articleNO = rs.getInt("num_aticle");
-		      String nickname = rs.getString("nickname");
-		      String title = rs.getString("title");
-		      int intdeal_status = rs.getInt("deal_status");
+			   int articleNO = rs.getInt("num_aticle");
+				String nickname = rs.getString("nickname");
+				String category = rs.getString("category");
+				String title = rs.getString("title");
+				String contents = rs.getString("contents");
+				int intdeal_status = rs.getInt("deal_status");
 				String deal_status = null; //거래상태 문자형 반환해주기 위함
 				if (intdeal_status == 0) {
 					deal_status = "판매중";
@@ -100,15 +124,21 @@ public class BoardListDAO {
 				} else {
 					deal_status = "판매완료";
 				}
-		      Date upload= rs.getDate("upload");
+				Date upload = rs.getDate("upload");
+				String goods_img = rs.getString("goods_img");
+				int price = rs.getInt("price");
 		      
 		      BoardVO article = new BoardVO();
 		      
 		      article.setNum_aticle(articleNO);
 		      article.setNickname(nickname);
+		      article.setCategory(category);
 		      article.setTitle(title);
+		      article.setContents(contents);
 		      article.setDeal_status(deal_status);
 		      article.setUpload(upload);
+		      article.setGoods_img(goods_img);
+		      article.setPrice(price);
 		      articlesList.add(article);	
 		      System.out.println("페이징부분 저장된 vo"+ article.getNum_aticle()+" / "+article.getNickname());
 		   } //end while
