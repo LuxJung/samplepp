@@ -16,8 +16,8 @@ public class BoardReadDAO {
 			+ "goods_t.num_aticle=board_t.num_aticle " + "WHERE board_t.num_aticle=?";
 
 	private DataSource dataFactory;
-	private Connection conn;
-	private PreparedStatement pstmt;
+	 Connection conn;
+	 PreparedStatement pstmt;
 
 	;
 
@@ -40,7 +40,6 @@ public class BoardReadDAO {
 			System.out.println("BOARD_SELECT_VIEW_QUERY 쿼리문 = [ " + BOARD_SELECT_VIEW_QUERY + " ]");
 			conn = dataFactory.getConnection();
 			pstmt = conn.prepareStatement(BOARD_SELECT_VIEW_QUERY);
-			pstmt = BoardConnectDB.dbQuery(BOARD_SELECT_VIEW_QUERY);
 			pstmt.setInt(1, num_aticle);
 			ResultSet rs = pstmt.executeQuery();
 			rs.next();
@@ -55,7 +54,7 @@ public class BoardReadDAO {
 				String_deal_status = "판매중";
 			} else if (int_deal_status == 1) {
 				String_deal_status = "예약중";
-			} else {
+			} else if (int_deal_status == 2) {
 				String_deal_status = "판매완료";
 			}
 			Date upload = rs.getDate("upload");

@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -103,10 +102,10 @@ public class BoardContoller extends HttpServlet {
 				String price = articleMap.get("price");
 				String imgFileName = articleMap.get("goods_img");
 				
-				System.out.println("articleMap 에서 가져오는 title" + title);
-				System.out.println("articleMap 에서 가져오는 content" + content);
-				System.out.println("articleMap 에서 가져오는 price" + price);
-
+				System.out.println("articleMap 에서 가져오는 title==" + title);
+				System.out.println("articleMap 에서 가져오는 content==" + content);
+				System.out.println("articleMap 에서 가져오는 price==" + price);
+				System.out.println("articleMap 에서 가져오는 imgFileName==" + imgFileName);
 				boardVO.setNickname("테스트");
 				boardVO.setCategory("디폴트");
 				boardVO.setTitle(title); // addboard input을 map으로 줘서 받아옴
@@ -120,7 +119,7 @@ public class BoardContoller extends HttpServlet {
 				System.out.println("[ addArticle 수행 이후! ] imgFileName "+imgFileName);
 				if (imgFileName != null && imgFileName.length() != 0) {
 					System.out.println("[ addArticle 수행 이후! ] imgFile 있기떄문에 여기로 온다");
-					String path = request.getSession().getServletContext().getRealPath("src/main/webapp/resources/imgs");
+					/*String path = request.getSession().getServletContext().getRealPath("src/main/webapp/resources/imgs");
 				    String path2 = request.getSession().getServletContext().getRealPath("src/main/webapp/resources/imgs/temp");
 				    String path3 = request.getContextPath().concat("/src/main/webapp/resources/imgs");
 				    String path4 = request.getContextPath().concat("/src/main/webapp/resources/imgs/temp");
@@ -129,13 +128,19 @@ public class BoardContoller extends HttpServlet {
 				    System.out.println("path:"+path);
 				    System.out.println("path2:"+path2+"\n"+"path3:"+path3);
 				    System.out.println("path4:"+path4);
-				    System.out.println("path5:"+path5);
+				    System.out.println("path5:"+path5);*/
 				    
 				    //BOARD_IMG_REPOSITORY = path3;
 					File srcFile = new File(BOARD_IMG_REPOSITORY + "\\" + "temp" + "\\" + imgFileName);
+					System.out.println("srcFile");
 					File destDir = new File(BOARD_IMG_REPOSITORY + "\\" + num_aticle);
-					destDir.mkdirs();
+					/*
+					if(!srcFile.exists())srcFile.mkdirs();
+					System.out.println("destDir");
+					if(!destDir.exists())*/destDir.mkdirs();
+					System.out.println("destDir.mkdirs()");
 					FileUtils.moveFileToDirectory(srcFile, destDir, true);
+					System.out.println("FileUtils.moveFileToDirectory(srcFile, destDir, true)");
 				}
 				System.out.println("[ 새 글 작성 alert() 띄우기 전]");
 				PrintWriter pw = response.getWriter();
@@ -159,9 +164,9 @@ public class BoardContoller extends HttpServlet {
 				String deal_status = request.getParameter("deal_status");
 				int num_aticle = Integer.parseInt(request.getParameter("num_aticle"));
 				String nickname = request.getParameter("nickname");
-				System.out.println("deal_status = " + num_aticle);
+				System.out.println("num_aticle = " + num_aticle);
 				System.out.println("deal_status = " + deal_status);
-				System.out.println("deal_status = " + nickname);
+				System.out.println("nickname = " + nickname);
 				BoardVO boardVO = new BoardVO(num_aticle, nickname, deal_status);
 				boardVO =boardService.reservate(boardVO);
 				PrintWriter writer = response.getWriter();
@@ -210,56 +215,29 @@ public class BoardContoller extends HttpServlet {
 		}
 	}
 
-	private Map<String, String> upload(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	private Map<String,String> upload(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException {
+		request.setCharacterEncoding("utf-8");
 		String encoding = "utf-8";
 		Map<String, String> articleMap = new HashMap<String, String>();
-		//경로의 폴더가 없으면 폴더를 만들어준다
 		File currentDirPath = new File(BOARD_IMG_REPOSITORY);
-		File currentDirPath2 = new File(BOARD_IMG_REPOSITORY2);
-		if (!currentDirPath.exists()) {
-			try {
-				System.out.println(BOARD_IMG_REPOSITORY);
-				System.out.println("imgs 없음");
-				currentDirPath.mkdir(); // 폴더 생성합니다.
-				System.out.println("imgs폴더가 생성되었습니다.");
-				if (!currentDirPath2.exists()) {
-					System.out.println(BOARD_IMG_REPOSITORY2);
-					System.out.println("temp 없음");
-					try {
-						currentDirPath2.mkdir(); // 폴더 생성합니다.
-						System.out.println("temp폴더가 생성되었습니다.");
-					} catch (Exception e) {
-						e.getStackTrace();
-					}
-				}
-			}
-			catch (Exception e) {
-				e.getStackTrace();
-			}
-		}
-
 		DiskFileItemFactory factory = new DiskFileItemFactory();
 		factory.setRepository(currentDirPath);
-		factory.setSizeThreshold(500 * 500);
-		
+		factory.setSizeThreshold(1024 * 1024);
+
 		ServletFileUpload upload = new ServletFileUpload(factory);
 		try {
 			List items = upload.parseRequest(request);
-			System.out.println("items.size()????" + items.size());
-			
 			for (int i = 0; i < items.size(); i++) {
 				FileItem fileItem = (FileItem) items.get(i);
-				System.out.println("폼에서 넘어오니?" + fileItem.getFieldName());
-				System.out.println("???????????????????????????????????????"+fileItem.isFormField());
+
 				if (fileItem.isFormField()) {
 					System.out.println(fileItem.getFieldName() + "=" + fileItem.getString(encoding));
 					articleMap.put(fileItem.getFieldName(), fileItem.getString(encoding));
-					} else {
+				} else {
 					System.out.println("파라미터명:" + fileItem.getFieldName());
 					System.out.println("파일명:" + fileItem.getName());
 					System.out.println("파일크기:" + fileItem.getSize() + "bytes");
-					// articleMap.put(fileItem.getFieldName(), fileItem.getName());
+
 					if (fileItem.getSize() > 0) {
 						int idx = fileItem.getName().lastIndexOf("\\");
 						if (idx == -1) {
@@ -267,8 +245,7 @@ public class BoardContoller extends HttpServlet {
 						}
 						String fileName = fileItem.getName().substring(idx + 1);
 						System.out.println("파일명:" + fileName);
-						articleMap.put(fileItem.getFieldName(), fileName); // 익스플로러에서 업로드 파일의 경로 제거 후 map에 파일명 저장
-
+						articleMap.put(fileItem.getFieldName(), fileName);
 						File uploadFile = new File(currentDirPath + "\\temp\\" + fileName);
 						fileItem.write(uploadFile);
 					} // end if
@@ -278,5 +255,8 @@ public class BoardContoller extends HttpServlet {
 			e.printStackTrace();
 		}
 		return articleMap;
-	}  
+		
+	}
+
+
 }

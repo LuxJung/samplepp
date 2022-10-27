@@ -41,9 +41,8 @@ public class BoardService {
 	public int addArticle (BoardVO board) {
 		System.out.println("create 수행합니다");
 		boardCreateDAO.createArticle(board);
-		//boardCreateDAO.createArticleNum(board);
-		//boardCreateDAO.createArticleImg(board);
-		return boardCreateDAO.createArticle(board);
+		boardCreateDAO.createArticleImg(board);
+		return boardCreateDAO.createArticleNum();
 	}
 	
 	public BoardVO viewArticle (int num_article) {

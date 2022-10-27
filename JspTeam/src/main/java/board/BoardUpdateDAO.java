@@ -14,8 +14,8 @@ public class BoardUpdateDAO extends BoardConnectDB{
 			+ " VALUES (?, ?, ?, ?)";
 	
 	private DataSource dataFactory;
-	private Connection conn;
-	private PreparedStatement pstmt;
+	 Connection conn;
+	 PreparedStatement pstmt;
 	
 	
 	public BoardUpdateDAO () {

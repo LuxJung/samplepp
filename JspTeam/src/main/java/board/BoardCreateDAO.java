@@ -12,14 +12,13 @@ import javax.sql.DataSource;
 public class BoardCreateDAO {
 	
 	private final String BOARD_INSERT_QUERY = "INSERT INTO board_t (nickname, category, title, contents, goods_name)"
-			+ " VALUES (?, ?, ?, ?, ?); ";
-	private final String BOARD_NUMBERUNG_QUERY = "SELECT num_aticle FROM board_t ORDER BY num_aticle DESC LIMIT 1;";
+			+ " VALUES (?, ?, ?, ?, ?) ";
 	private final String BOARD_INSERT_IMG_QUERY = "INSERT INTO goods_T (num_aticle, price, goods_img) "
-			+"VALUES (?, ?, ?);";
-
+			+"VALUES ((select max(num_aticle) from board_t), ?, ?)";
+	private final String BOARD_NUMBERUNG_QUERY = "select max(num_aticle) num from board_t WHERE num_aticle ";
 	private DataSource dataFactory;
-	private Connection conn;
-	private PreparedStatement pstmt;
+	 Connection conn;
+	 PreparedStatement pstmt;
 	
 	public BoardCreateDAO() {
 		try {
@@ -31,7 +30,7 @@ public class BoardCreateDAO {
 		}
 	}
 	
-	public int createArticle(BoardVO bd) {
+	public void createArticle(BoardVO bd) {
 		try {
 			System.out.println("BOARD_INSERT 쿼리문 = [ " + BOARD_INSERT_QUERY + " ]");
 			String nickname = bd.getNickname();
@@ -51,78 +50,52 @@ public class BoardCreateDAO {
 			System.out.println("board_t 들어가는 내용 = [ 닉네임: " + nickname + ", 카테고리: " + category + ", 제목: " + title
 					+ ", 내용: " + contents + ", 상품명: " + goods_name + " ]");
 			System.out.println("==================================");
-			
-			pstmt = conn.prepareStatement(BOARD_NUMBERUNG_QUERY);
-			ResultSet rs=pstmt.executeQuery();
-			rs.next();
-			int setnum = rs.getInt("num_aticle");
-			System.out.println(setnum);
-			rs.close();
-			bd.setNum_aticle(setnum);
-			System.out.println("goods_T 마지막 번호 = [ 새로운 글번호: " + bd.getNum_aticle() + " ]");
-			System.out.println("==================================");
-			
-			
-			System.out.println("BOARD_INSERT_IMG_QUERY 쿼리문 = [ " + BOARD_INSERT_IMG_QUERY + " ]");
-			int num = bd.getNum_aticle();
-			int price = bd.getPrice();
-			String goods_img = bd.getGoods_img();
-			pstmt = conn.prepareStatement(BOARD_INSERT_IMG_QUERY);
-			pstmt.setInt(1, num);
-			pstmt.setInt(2, price);
-			pstmt.setString(3, goods_img);
-			System.out.println("goods_T 들어가는 내용 = [ 글번호: " + num + ", 가격: " + price 
-					+ ", 이미지경로: " + goods_img + " ]");
-			System.out.println("==================================");
-			
 			pstmt.executeUpdate();
 			pstmt.close();
 			conn.close();
-			return setnum;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return bd.getNum_aticle();
 		
 	}
 	
-	public int createArticleNum(BoardVO bd) {
+	public int createArticleNum() {
+		int setnum = 0;
 		try {
 			System.out.println("BOARD_NUMBERUNG_QUERY 쿼리문 = [ " + BOARD_NUMBERUNG_QUERY + " ]");	
 			conn = dataFactory.getConnection();
-			pstmt = conn.prepareStatement(BOARD_INSERT_QUERY);
-			ResultSet rs=pstmt.executeQuery();
-			rs.next();
-			int setnum = rs.getInt("num_aticle");
-			System.out.println(setnum);
 			
-			rs.close();
-			bd.setNum_aticle(setnum);
-			pstmt.close();
-			conn.close();
-			System.out.println("goods_T 마지막 번호 = [ 새로운 글번호: " + bd.getNum_aticle() + " ]");
+			pstmt = conn.prepareStatement(BOARD_NUMBERUNG_QUERY);
+			ResultSet rs = pstmt.executeQuery();
+			while(rs.next()) {
+				setnum= rs.getInt(1);
+			}
+			
+			System.out.println("goods_T 마지막 번호 = [ boart_T 마지막 번호: " + setnum + " ]");
 			System.out.println("==================================");
-			return setnum;			
+			rs.close();
+			pstmt.close();
+			conn.close();	
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return bd.getNum_aticle();
+		return setnum;
 		
 	}
 	
 	public void createArticleImg(BoardVO bd) {
 		try {
 			System.out.println("BOARD_INSERT_IMG_QUERY 쿼리문 = [ " + BOARD_INSERT_IMG_QUERY + " ]");
-			int num = bd.getNum_aticle();
 			int price = bd.getPrice();
+			System.out.println("price = "+price);
 			String goods_img = bd.getGoods_img();
+			System.out.println("goods_img = "+goods_img);
+			
 			conn = dataFactory.getConnection();
 			pstmt = conn.prepareStatement(BOARD_INSERT_IMG_QUERY);
-			pstmt.setInt(1, num);
-			pstmt.setInt(2, price);
-			pstmt.setString(3, goods_img);
-			System.out.println("goods_T 들어가는 내용 = [ 글번호: " + num + ", 가격: " + price 
-					+ ", 이미지경로: " + goods_img + " ]");
+			pstmt.setInt(1, price);
+			pstmt.setString(2, goods_img);
+			System.out.println("goods_T 들어가는 내용 = [ 가격: " + price + ", 이미지경로: " + goods_img + " ]");
 			System.out.println("==================================");
 			pstmt.executeUpdate();
 			pstmt.close();

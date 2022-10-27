@@ -19,8 +19,8 @@ public class BoardDelDAO {
 			+ "WHERE gt.num_aticle=?";
 	
 	private DataSource dataFactory;
-	private Connection conn;
-	private PreparedStatement pstmt;
+	 Connection conn;
+	 PreparedStatement pstmt;
 	
 	public BoardDelDAO() {
 		

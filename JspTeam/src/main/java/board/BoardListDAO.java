@@ -34,8 +34,8 @@ public class BoardListDAO {
 													+ "WHERE c.recNum "
 													+ "BETWEEN (?-1)*100+(?-1)*8+1 AND (?-1)*100+?*8;";
 	private DataSource dataFactory;
-	private Connection conn;
-	private PreparedStatement pstmt;
+	 Connection conn;
+	 PreparedStatement pstmt;
 	
 	public BoardListDAO() {
 		try {
@@ -68,7 +68,7 @@ public class BoardListDAO {
 					deal_status = "판매중";
 				} else if (intdeal_status == 1) {
 					deal_status = "예약중";
-				} else {
+				} else if (intdeal_status == 2) {
 					deal_status = "판매완료";
 				}
 				Date upload = rs.getDate("upload");

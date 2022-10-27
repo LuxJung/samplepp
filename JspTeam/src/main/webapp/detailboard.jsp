@@ -62,8 +62,8 @@ ul, li {
           type:"post",
           dataType:"text",
           async:true,  
-          url:"${contextPath}/board/resolve.do";,
-          data: {'deal_status':1, 'num_aticle':$('#num').val();, 'nickname':$('#id').val();},
+          url:"${contextPath}/board/resolve.do",
+          data: {'deal_status':1, 'num_aticle':$('#num').val(), 'nickname':$('#id').val()},
           success:function (data,textStatus){
              $('#message').append(data);
           },
@@ -72,6 +72,7 @@ ul, li {
           },
           complete:function(data,textStatus){
              alert("예약완료");
+             $('#deal_status').attr("value","예약중");
           }
        });	
     }	
@@ -120,13 +121,13 @@ ul, li {
 			<li style="clear: boath;">
 				<div class="conttl">판매상태</div>
 				<div class="clb">
-					<input type="text"	value="${article.deal_status}" name="content">
+					<input type="text" id="deal_status" value="${article.deal_status}" name="deal_status">
 				</div>
 			</li>
 			<li style="clear: boath;">
 				<div class="conttl">등록일</div>
 				<div class="clb">
-					<input type="text"	value="${article.upload}" name="content">
+					<input type="text"	value="${article.upload}" name="upload">
 				</div>
 			</li>
 			<li>
@@ -134,8 +135,7 @@ ul, li {
 					상품이미지 
 					
 				</div>
-				<img alt="goods_img" width="500" height="500" src="${contextPath}/download.do?
-goods_img=${article.goods_img }&num_aticle=${article.num_aticle}">
+				<img alt="goods_img" width="500" height="500" src="../resource/imgs/${article.num_aticle}/${article.goods_img }">
 				<div class="clb">
 					<ul>
 						<li>이미지 수정 
