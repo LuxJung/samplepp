@@ -18,6 +18,7 @@ request.setCharacterEncoding("UTF-8");
 
 
 <link rel="stylesheet" type="text/css" href="../resource/css/test.css">
+
 <link rel="stylesheet" type="text/css"
 	href="../resource/css/bootstrap.css">
 <script type="text/javascript"
@@ -197,10 +198,11 @@ a {
 	</main>
 
 	<!--등록 제품 사진-->
+
+	<!--새글 등록 fixed-->
+	<a class="newatcl" href="${contextPath}/board/addboard.do">+</a>
+	<!--gpem-->
 	<section>
-		<!--새글 등록 fixed-->
-		<a class="newatcl" href="${contextPath}/board/addboard.do">+</a>
-		<!--gpem-->
 		<div class="container d-flex flex-wrap justify-content-center">
 			<h2
 				class="d-flex align-items-center mb-3 mb-lg-0 me-lg-auto text-dark text-decoration-none mgt">오늘의
@@ -224,12 +226,13 @@ a {
 								<div class="col">
 									<a
 										href="${contextPath}/board/readArticle.do?num_aticle=${articles.num_aticle}">
-										<span style="width: 150px; display: none;">${articles.num_aticle}</span>
-										<div class="card shadow-sm">
+										<div class="card shadow-sm text-center">
+											<span style="width: 150px; display: none;">${articles.num_aticle}</span>
 											<div class="bd-placeholder-img card-img-top w-100"
 												style="height: 185px; border-bottom: 1px solid #cccccc;">
-												<img src="../WEB-INF/imgs/${articles.num_aticle}/${articles.goods_img}"
-													class="d-block w-100 h-100">
+												<img
+													src="../resource/imgs/${articles.num_aticle}/${articles.goods_img}"
+													class="d-block h-100 img-fluid img-thumbnail">
 												<p>이미지 경로 ${articles.goods_img}</p>
 												<p>예약일때 표기 ex ${articles.deal_status}</p>
 											</div>
@@ -257,6 +260,7 @@ a {
 			</div>
 		</div>
 	</section>
+
 
 	<!--페이징 넘버처리-->
 	<!-- 서블릿에서 넘어온 articlesMap.totArticles값을 c set을통해 totArticles로 설정하여 판단 -->
@@ -293,7 +297,7 @@ a {
 						</ul>
 					</nav>
 				</c:when>
-				<c:when test="${totArticles ==100 }">
+				<c:when test="${totArticles == 100 }">
 					<!--등록된 글 개수가 100개인경우  -->
 					<nav>
 						<ul class="pagination d-flex justify-content-center">
@@ -332,6 +336,8 @@ a {
 			</c:choose>
 		</c:if>
 	</div>
+
+
 
 </body>
 </html>

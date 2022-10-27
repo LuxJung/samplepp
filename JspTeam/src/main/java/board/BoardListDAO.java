@@ -33,11 +33,13 @@ public class BoardListDAO {
 													+ "GROUP BY board.num_aticle) AS c "
 													+ "WHERE c.recNum "
 													+ "BETWEEN (?-1)*100+(?-1)*8+1 AND (?-1)*100+?*8;";
-	Connection conn;
-	PreparedStatement pstmt;
 	private DataSource dataFactory;
+	private Connection conn;
+	private PreparedStatement pstmt;
+	
 	public BoardListDAO() {
 		try {
+			
 			Context ctx = new InitialContext();
 			Context envContext = (Context) ctx.lookup("java:/comp/env");
 			dataFactory = (DataSource) envContext.lookup("mariadb");
@@ -51,8 +53,9 @@ public class BoardListDAO {
 		List<BoardVO> atriclesList = new ArrayList<>();
 		try {
 			System.out.println("BOARD_LIST_VIEW_QUERY 쿼리문 = [ " + BOARD_LIST_VIEW_QUERY + " ]");
-			
-			ResultSet rs = BoardConnectDB.dbRead(BoardConnectDB.dbQuery(BOARD_LIST_VIEW_QUERY));
+			conn = dataFactory.getConnection();
+			pstmt = conn.prepareStatement(BOARD_LIST_VIEW_QUERY);
+			ResultSet rs = pstmt.executeQuery();
 			while (rs.next()) {
 				int num_aticle = rs.getInt("num_aticle");
 				String nickname = rs.getString("nickname");
@@ -82,7 +85,8 @@ public class BoardListDAO {
 			}
 			System.out.println("==================================");
 			rs.close();
-			BoardConnectDB.dbClose();
+			pstmt.close();
+			conn.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

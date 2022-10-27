@@ -18,8 +18,12 @@ public class BoardDelDAO {
 			+ "ON gt.num_aticle = bt.num_aticle "
 			+ "WHERE gt.num_aticle=?";
 	
+	private DataSource dataFactory;
+	private Connection conn;
+	private PreparedStatement pstmt;
+	
 	public BoardDelDAO() {
-		super();
+		
 	}
 	
 	public List<Integer> delBoard(int num_aticle) {
@@ -28,15 +32,17 @@ public class BoardDelDAO {
 		try {
 			System.out.println("==================================");
 			System.out.println("BOARD_DELETE_VIEW_QUERY 쿼리문 = [ " + BOARD_DELETE_VIEW_QUERY + " ]");
-			BoardConnectDB.pstmt= BoardConnectDB.dbQuery(BOARD_DELETE_VIEW_QUERY);
-			BoardConnectDB.pstmt.setInt(1, num_aticle);
-			ResultSet rs = BoardConnectDB.dbRead(BoardConnectDB.pstmt);
+			conn = dataFactory.getConnection();
+			pstmt = conn.prepareStatement(BOARD_DELETE_VIEW_QUERY);
+			pstmt.setInt(1, num_aticle);
+			ResultSet rs = pstmt.executeQuery();
 			while(rs.next()) {
 				num_aticle = rs.getInt("num_aticle");
 				atriclesList.add(num_aticle);
 			}
-			BoardConnectDB.dbUpdate();
-			BoardConnectDB.dbClose();
+			rs.close();
+			pstmt.close();
+			conn.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

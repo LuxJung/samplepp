@@ -1,17 +1,34 @@
 package board;
 
+import java.sql.Connection;
 import java.sql.Date;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.sql.DataSource;
+
 public class BoardReadDAO {
-	//private final String BOARD_SELECT_VIEW_QUERY = "SELECT * FROM board_t where num_aticle=?";
-	private final String BOARD_SELECT_VIEW_QUERY =  "SELECT * FROM board_t "
-												+ "JOIN  goods_t ON "
-												+ "goods_t.num_aticle=board_t.num_aticle "
-												+ "WHERE board_t.num_aticle=?";
-	
-;	public BoardReadDAO() {
-		super();
+	// private final String BOARD_SELECT_VIEW_QUERY = "SELECT * FROM board_t where
+	// num_aticle=?";
+	private final String BOARD_SELECT_VIEW_QUERY = "SELECT * FROM board_t " + "JOIN  goods_t ON "
+			+ "goods_t.num_aticle=board_t.num_aticle " + "WHERE board_t.num_aticle=?";
+
+	private DataSource dataFactory;
+	private Connection conn;
+	private PreparedStatement pstmt;
+
+	;
+
+	public BoardReadDAO() {
+		try {
+			Context ctx = new InitialContext();
+			Context envContext = (Context) ctx.lookup("java:/comp/env");
+			dataFactory = (DataSource) envContext.lookup("mariadb");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	// Read
@@ -21,9 +38,11 @@ public class BoardReadDAO {
 		try {
 			System.out.println("==================================");
 			System.out.println("BOARD_SELECT_VIEW_QUERY 쿼리문 = [ " + BOARD_SELECT_VIEW_QUERY + " ]");
-			BoardConnectDB.pstmt=BoardConnectDB.dbQuery(BOARD_SELECT_VIEW_QUERY);
-			BoardConnectDB.pstmt.setInt(1, num_aticle);
-			ResultSet rs = BoardConnectDB.dbRead(BoardConnectDB.pstmt);
+			conn = dataFactory.getConnection();
+			pstmt = conn.prepareStatement(BOARD_SELECT_VIEW_QUERY);
+			pstmt = BoardConnectDB.dbQuery(BOARD_SELECT_VIEW_QUERY);
+			pstmt.setInt(1, num_aticle);
+			ResultSet rs = pstmt.executeQuery();
 			rs.next();
 			int search_num_aticle = rs.getInt("num_aticle");
 			String nickname = rs.getString("nickname");
@@ -44,7 +63,7 @@ public class BoardReadDAO {
 			int num_cmnt = rs.getInt("num_cmnt");
 			String goods_img = rs.getString("goods_img");
 			int price = rs.getInt("price");
-			
+
 			boardVO.setNum_aticle(search_num_aticle);
 			boardVO.setNickname(nickname);
 			boardVO.setCategory(category);
@@ -56,25 +75,19 @@ public class BoardReadDAO {
 			boardVO.setNum_cmnt(num_cmnt);
 			boardVO.setGoods_img(goods_img);
 			boardVO.setPrice(price);
-			
-			System.out.println(
-					"boardVO 확인 = [ 넘버링 :"+boardVO.getNum_aticle()+
-					" | 닉네임 : " + boardVO.getNickname() + 
-					" | 글제목 : " + boardVO.getTitle() + " ]");
+
+			System.out.println("boardVO 확인 = [ 넘버링 :" + boardVO.getNum_aticle() + " | 닉네임 : " + boardVO.getNickname()
+					+ " | 글제목 : " + boardVO.getTitle() + " ]");
 			System.out.println("==================================");
-			
-			rs.close(); 
-			BoardConnectDB.dbClose();
+
+			rs.close();
+			pstmt.close();
+			conn.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return boardVO;
-		
+
 	}
-
-
-
-
-
 
 }

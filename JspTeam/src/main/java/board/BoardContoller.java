@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -23,8 +24,8 @@ import org.apache.commons.io.FileUtils;
 @WebServlet("/board/*")
 public class BoardContoller extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static final String BOARD_IMG_REPOSITORY = "D:\\JSP\\JSP_Workspace\\DbTest\\JspTeam\\src\\main\\webapp\\WEB-INF\\imgs";
-	private static final String BOARD_IMG_REPOSITORY2 = "D:\\JSP\\JSP_Workspace\\DbTest\\JspTeam\\src\\main\\webapp\\WEB-INF\\imgs\\temp";
+	private String BOARD_IMG_REPOSITORY = "D:\\JSP\\JSP_Workspace\\DbTest\\JspTeam\\src\\main\\webapp\\resource\\imgs";
+	private String BOARD_IMG_REPOSITORY2 = "D:\\JSP\\JSP_Workspace\\DbTest\\JspTeam\\src\\main\\webapp\\resource\\imgs\\temp";
 	BoardService boardService;
 	BoardVO boardVO;
 
@@ -53,6 +54,7 @@ public class BoardContoller extends HttpServlet {
 		String nextPage = "";
 		String action = request.getPathInfo();
 		System.out.println("action: " + action);
+		System.out.println(request.getServletContext());
 		try {
 			List<BoardVO> articlesList = new ArrayList<>();
 			/*if (action == null) {
@@ -82,7 +84,7 @@ public class BoardContoller extends HttpServlet {
 				articlesMap.put("section", section);
 				articlesMap.put("pageNum", pageNum);
 				request.setAttribute("articlesMap", articlesMap);
-				
+				System.out.println(request.getSession().getServletContext().getRealPath("/"));
 				/*
 				 * articlesList = boardService.showArticles(); // 전체 글 목록
 				 * request.setAttribute("articlesList", articlesList);
@@ -118,6 +120,18 @@ public class BoardContoller extends HttpServlet {
 				System.out.println("[ addArticle 수행 이후! ] imgFileName "+imgFileName);
 				if (imgFileName != null && imgFileName.length() != 0) {
 					System.out.println("[ addArticle 수행 이후! ] imgFile 있기떄문에 여기로 온다");
+					String path = request.getSession().getServletContext().getRealPath("src/main/webapp/resources/imgs");
+				    String path2 = request.getSession().getServletContext().getRealPath("src/main/webapp/resources/imgs/temp");
+				    String path3 = request.getContextPath().concat("/src/main/webapp/resources/imgs");
+				    String path4 = request.getContextPath().concat("/src/main/webapp/resources/imgs/temp");
+				    String path5 = request.getSession().getServletContext().getRealPath("/");
+				    
+				    System.out.println("path:"+path);
+				    System.out.println("path2:"+path2+"\n"+"path3:"+path3);
+				    System.out.println("path4:"+path4);
+				    System.out.println("path5:"+path5);
+				    
+				    //BOARD_IMG_REPOSITORY = path3;
 					File srcFile = new File(BOARD_IMG_REPOSITORY + "\\" + "temp" + "\\" + imgFileName);
 					File destDir = new File(BOARD_IMG_REPOSITORY + "\\" + num_aticle);
 					destDir.mkdirs();
@@ -135,12 +149,25 @@ public class BoardContoller extends HttpServlet {
 				System.out.println("readArticle.do 서블렛 왔어요" + num_aticle);
 				boardVO = boardService.viewArticle(Integer.parseInt(num_aticle));
 				/* 더미 데이터 name 보냈습니다. 앞으로는 세션값과 비교를 해야합니다. */
-				request.setAttribute("name", "테스트");
+				
+				request.setAttribute("name", "디폴트");
 
 				request.setAttribute("article", boardVO);
 				nextPage = "/detailboard.jsp";
 
-			} else if (action.equals("/modifyArticles.do")) {
+			} else if(action.equals("/resolve.do")) {
+				String deal_status = request.getParameter("deal_status");
+				int num_aticle = Integer.parseInt(request.getParameter("num_aticle"));
+				String nickname = request.getParameter("nickname");
+				System.out.println("deal_status = " + num_aticle);
+				System.out.println("deal_status = " + deal_status);
+				System.out.println("deal_status = " + nickname);
+				BoardVO boardVO = new BoardVO(num_aticle, nickname, deal_status);
+				boardVO =boardService.reservate(boardVO);
+				PrintWriter writer = response.getWriter();
+				writer.print("상품 구매예약 했습니다."); 
+				return;
+			}else if (action.equals("/modifyArticles.do")) {
 				// U
 				Map<String, String> articleMap = upload(request, response);
 				String title = articleMap.get("title");
@@ -192,10 +219,12 @@ public class BoardContoller extends HttpServlet {
 		File currentDirPath2 = new File(BOARD_IMG_REPOSITORY2);
 		if (!currentDirPath.exists()) {
 			try {
+				System.out.println(BOARD_IMG_REPOSITORY);
 				System.out.println("imgs 없음");
 				currentDirPath.mkdir(); // 폴더 생성합니다.
 				System.out.println("imgs폴더가 생성되었습니다.");
 				if (!currentDirPath2.exists()) {
+					System.out.println(BOARD_IMG_REPOSITORY2);
 					System.out.println("temp 없음");
 					try {
 						currentDirPath2.mkdir(); // 폴더 생성합니다.
@@ -222,21 +251,11 @@ public class BoardContoller extends HttpServlet {
 			for (int i = 0; i < items.size(); i++) {
 				FileItem fileItem = (FileItem) items.get(i);
 				System.out.println("폼에서 넘어오니?" + fileItem.getFieldName());
+				System.out.println("???????????????????????????????????????"+fileItem.isFormField());
 				if (fileItem.isFormField()) {
 					System.out.println(fileItem.getFieldName() + "=" + fileItem.getString(encoding));
-					
-					
 					articleMap.put(fileItem.getFieldName(), fileItem.getString(encoding));
-									//제목key								aaa value
-									//가격 								1111
-									//내용								ㅁㄴㅇㅁㄴㅇㄹ
-									//이미지								제목 없음(1)
-				
-				
-				
-				
-				
-				} else {
+					} else {
 					System.out.println("파라미터명:" + fileItem.getFieldName());
 					System.out.println("파일명:" + fileItem.getName());
 					System.out.println("파일크기:" + fileItem.getSize() + "bytes");
@@ -259,12 +278,5 @@ public class BoardContoller extends HttpServlet {
 			e.printStackTrace();
 		}
 		return articleMap;
-	}  /*
-			item[0]
-			item[1]
-			item[2]
-			item[3]
-			
-	*/
-
+	}  
 }

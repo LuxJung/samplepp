@@ -56,6 +56,26 @@ ul, li {
 	    obj.action="${contextPath}/board/listArticles.do";
 	    obj.submit();
 	  }
+	
+    function resolve(){
+        $.ajax({
+          type:"post",
+          dataType:"text",
+          async:true,  
+          url:"${contextPath}/board/resolve.do";,
+          data: {'deal_status':1, 'num_aticle':$('#num').val();, 'nickname':$('#id').val();},
+          success:function (data,textStatus){
+             $('#message').append(data);
+          },
+          error:function(data,textStatus){
+             alert("실패.");
+          },
+          complete:function(data,textStatus){
+             alert("예약완료");
+          }
+       });	
+    }	
+	
 </script>
 <meta charset="UTF-8">
 <title>Insert title here</title>
@@ -65,10 +85,13 @@ ul, li {
 		action="${contextPath}/board/modifyArticles.do"
 		enctype="multipart/form-data">
 		<ul>
+			<li style="display: none;">
+				<input id="num" type="text" name="num_aticle" value="${article.num_aticle}">
+			</li>
 			<li style="clear: boath;">
 				<div class="conttl">닉네임</div>
 				<div class="clb">
-					<input type="text" name="nickname" value="${article.nickname}">
+					<input id="id" type="text" name="nickname" value="${article.nickname}">
 				</div>
 			</li>
 			<li style="clear: boath;">
@@ -123,6 +146,7 @@ goods_img=${article.goods_img }&num_aticle=${article.num_aticle}">
 				</div>
 			</li>
 		</ul>
+		<div id="message"></div>
 		<div class="clb" id="map" style="width:50%;height:400px;"></div>
 
 <script>
@@ -303,7 +327,9 @@ point.toString(); // '(128,256)'
 			</div>
 			</c:when>
 			<c:otherwise>
+				<!--상품 에약쿼리 실행할 것 -->
 				<input type="button" value="목록보기" onClick="backToList(this.form)" />
+				<input type="button" value="예약하기" onClick="resolve()" />
 			</c:otherwise>
 		</c:choose>
 		

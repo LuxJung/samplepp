@@ -11,6 +11,7 @@ public class BoardService {
 	BoardReadDAO boardReadDAO;
 	BoardUpdateDAO boardUpdateDAO;
 	BoardDelDAO boardDelDAO;
+	BoardReservationDAO boardReservationDAO;
 	public BoardService() {
 		boardConnectDB = new BoardConnectDB();
 		boardListDAO = new BoardListDAO();
@@ -18,6 +19,7 @@ public class BoardService {
 		boardReadDAO = new BoardReadDAO();
 		boardUpdateDAO = new BoardUpdateDAO();
 		boardDelDAO = new BoardDelDAO();
+		boardReservationDAO = new BoardReservationDAO();
 	}
 	
 	//전체 글 목록
@@ -39,9 +41,9 @@ public class BoardService {
 	public int addArticle (BoardVO board) {
 		System.out.println("create 수행합니다");
 		boardCreateDAO.createArticle(board);
-		boardCreateDAO.createArticleNum(board);
-		boardCreateDAO.createArticleImg(board);
-		return boardCreateDAO.createArticleNum(board);
+		//boardCreateDAO.createArticleNum(board);
+		//boardCreateDAO.createArticleImg(board);
+		return boardCreateDAO.createArticle(board);
 	}
 	
 	public BoardVO viewArticle (int num_article) {
@@ -60,5 +62,12 @@ public class BoardService {
 		System.out.println("removeArticle() 수행합니다");
 		List<Integer> atriclesList =boardDelDAO.delBoard(num_aticle);
 		return atriclesList;
+	}
+	
+	public BoardVO reservate (BoardVO board) {
+		System.out.println("Reservate() 수행합니다");
+		BoardVO reserv = null;
+		reserv =boardReservationDAO.reservate(board);
+		return reserv;
 	}
 }

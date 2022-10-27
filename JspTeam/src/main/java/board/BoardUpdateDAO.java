@@ -1,14 +1,31 @@
 package board;
 
+import java.sql.Connection;
 import java.sql.Date;
+import java.sql.PreparedStatement;
+
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.sql.DataSource;
 
 public class BoardUpdateDAO extends BoardConnectDB{
-	private static String ARTICLE_IMAGE_REPO =  "D:\\JSP\\JSP_Workspace\\DbTest\\JspTeam\\src\\main\\webapp\\WEB-INF\\imgs";
+	private  String ARTICLE_IMAGE_REPO =  "D:\\JSP\\JSP_Workspace\\DbTest\\JspTeam\\src\\main\\webapp\\WEB-INF\\imgs";
 	private final String BOARD_UPDATE_QUERY = "UPDATE board_t (category, title, contents, goods_name)"
 			+ " VALUES (?, ?, ?, ?)";
 	
+	private DataSource dataFactory;
+	private Connection conn;
+	private PreparedStatement pstmt;
+	
+	
 	public BoardUpdateDAO () {
-		super();
+		try {
+			Context ctx = new InitialContext();
+			Context envContext = (Context) ctx.lookup("java:/comp/env");
+			dataFactory = (DataSource) envContext.lookup("mariadb");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	

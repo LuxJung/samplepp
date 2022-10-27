@@ -52,7 +52,13 @@ public class BoardVO {
 		System.out.println("BoardVO 생성자호출");
 	}
 	
-	
+	//글 리스트에 관한 내용에 대한 생성성자
+		public BoardVO (int num_aticle, String nickname, String deal_status) {
+			this.num_aticle = num_aticle;
+			this.nickname = nickname;
+			this.deal_status = deal_status;
+		}
+		
 	//글 리스트에 관한 내용에 대한 생성성자
 	public BoardVO (int num_aticle, String nickname, String title, String deal_status, Date upload) {
 		this.num_aticle = num_aticle;
