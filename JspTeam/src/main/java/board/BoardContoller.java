@@ -83,7 +83,6 @@ public class BoardContoller extends HttpServlet {
 				articlesMap.put("section", section);
 				articlesMap.put("pageNum", pageNum);
 				request.setAttribute("articlesMap", articlesMap);
-				System.out.println(request.getSession().getServletContext().getRealPath("/"));
 				/*
 				 * articlesList = boardService.showArticles(); // 전체 글 목록
 				 * request.setAttribute("articlesList", articlesList);
@@ -119,25 +118,13 @@ public class BoardContoller extends HttpServlet {
 				System.out.println("[ addArticle 수행 이후! ] imgFileName "+imgFileName);
 				if (imgFileName != null && imgFileName.length() != 0) {
 					System.out.println("[ addArticle 수행 이후! ] imgFile 있기떄문에 여기로 온다");
-					/*String path = request.getSession().getServletContext().getRealPath("src/main/webapp/resources/imgs");
-				    String path2 = request.getSession().getServletContext().getRealPath("src/main/webapp/resources/imgs/temp");
-				    String path3 = request.getContextPath().concat("/src/main/webapp/resources/imgs");
-				    String path4 = request.getContextPath().concat("/src/main/webapp/resources/imgs/temp");
-				    String path5 = request.getSession().getServletContext().getRealPath("/");
-				    
-				    System.out.println("path:"+path);
-				    System.out.println("path2:"+path2+"\n"+"path3:"+path3);
-				    System.out.println("path4:"+path4);
-				    System.out.println("path5:"+path5);*/
-				    
-				    //BOARD_IMG_REPOSITORY = path3;
 					File srcFile = new File(BOARD_IMG_REPOSITORY + "\\" + "temp" + "\\" + imgFileName);
 					System.out.println("srcFile");
 					File destDir = new File(BOARD_IMG_REPOSITORY + "\\" + num_aticle);
-					/*
+					
 					if(!srcFile.exists())srcFile.mkdirs();
 					System.out.println("destDir");
-					if(!destDir.exists())*/destDir.mkdirs();
+					if(!destDir.exists())destDir.mkdirs();
 					System.out.println("destDir.mkdirs()");
 					FileUtils.moveFileToDirectory(srcFile, destDir, true);
 					System.out.println("FileUtils.moveFileToDirectory(srcFile, destDir, true)");
