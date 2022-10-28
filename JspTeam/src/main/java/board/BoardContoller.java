@@ -204,6 +204,7 @@ public class BoardContoller extends HttpServlet {
 
 	private Map<String,String> upload(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
+		response.setContentType("text/html;charset=utf-8");
 		String encoding = "utf-8";
 		Map<String, String> articleMap = new HashMap<String, String>();
 		File currentDirPath = new File(BOARD_IMG_REPOSITORY);
