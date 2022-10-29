@@ -89,6 +89,14 @@ public class BoardListDAO {
 			conn.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
+		}finally {
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 		return atriclesList;
 	}
@@ -151,7 +159,15 @@ public class BoardListDAO {
 		   conn.close();
 	  }catch(Exception e){
 	     e.printStackTrace();	
-	  }
+	  }finally {
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
 	  return articlesList;
     } 
 	public int selectTotArticles() {
@@ -171,6 +187,14 @@ public class BoardListDAO {
 			conn.close();
 		} catch (Exception e) {
 			e.printStackTrace();
+		}finally {
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 		return 0;
 	}

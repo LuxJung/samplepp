@@ -3,12 +3,13 @@ package board;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
-public class BoardUpdateDAO extends BoardConnectDB{
+public class BoardUpdateDAO {
 	private  String ARTICLE_IMAGE_REPO =  "D:\\JSP\\JSP_Workspace\\DbTest\\JspTeam\\src\\main\\webapp\\WEB-INF\\imgs";
 	private final String BOARD_UPDATE_QUERY = "UPDATE board_t (category, title, contents, goods_name)"
 			+ " VALUES (?, ?, ?, ?)";
@@ -62,6 +63,14 @@ public class BoardUpdateDAO extends BoardConnectDB{
 			String err = "!!! updateArticle() 에러 !!!";
 			System.out.println(err);
 			e.printStackTrace();
+		}finally {
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 	}
 	

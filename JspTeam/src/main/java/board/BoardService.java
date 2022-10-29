@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 public class BoardService {
-	BoardConnectDB boardConnectDB;
+	//BoardConnectDB boardConnectDB;
 	BoardListDAO boardListDAO;
 	BoardCreateDAO boardCreateDAO;
 	BoardReadDAO boardReadDAO;
@@ -13,7 +13,7 @@ public class BoardService {
 	BoardDelDAO boardDelDAO;
 	BoardReservationDAO boardReservationDAO;
 	public BoardService() {
-		boardConnectDB = new BoardConnectDB();
+		//boardConnectDB = new BoardConnectDB();
 		boardListDAO = new BoardListDAO();
 		boardCreateDAO = new BoardCreateDAO();
 		boardReadDAO = new BoardReadDAO();

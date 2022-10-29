@@ -23,7 +23,13 @@ public class BoardDelDAO {
 	 PreparedStatement pstmt;
 	
 	public BoardDelDAO() {
-		
+		try {
+			Context ctx = new InitialContext();
+			Context envContext = (Context) ctx.lookup("java:/comp/env");
+			dataFactory = (DataSource) envContext.lookup("mariadb");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public List<Integer> delBoard(int num_aticle) {
@@ -45,6 +51,14 @@ public class BoardDelDAO {
 			conn.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
+		}finally {
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 		return atriclesList;
 	}

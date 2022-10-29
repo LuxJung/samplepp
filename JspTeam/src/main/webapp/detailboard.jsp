@@ -17,7 +17,11 @@ request.setCharacterEncoding("UTF-8");
 
 <script type="text/javascript" 
 src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=togeufhl9z&submodules=geocoder"></script>
-<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
+<link rel="stylesheet" type="text/css" href="../resource/css/bootstrap.css">
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script type="text/javascript" src="../resource/js/bootstrap.bundle.min.js"></script>
+<script type="text/javascript" src="../resource/js/bootstrap.min.js"></script>
+
 <style type="text/css">
 ul, li {
 	list-style: none;
@@ -32,7 +36,6 @@ ul, li {
 .btn_box_mdfy{display: none;}
 </style>
 
-<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script type="text/javascript">
 	function modify() {
 		$('.btn_box_mdfy').css( "display", "block" );
@@ -73,6 +76,7 @@ ul, li {
           complete:function(data,textStatus){
              alert("예약완료");
              $('#deal_status').attr("value","예약중");
+             $('#resov').attr("value","예약중").attr(disable);
           }
        });	
     }	
@@ -309,6 +313,7 @@ point.toString(); // '(128,256)'
 </script>
 		<!-- read.do에서 디폴트 네임 지정-->
 		<c:set var="name" value="${name }"></c:set>
+		<c:set var="deal" value="${article.deal_status }" />
 		<c:set var="nickname" value="${article.nickname }"></c:set>
 		<c:choose>
 			<c:when test="${nickname.equals(name)}">
@@ -328,8 +333,10 @@ point.toString(); // '(128,256)'
 			</c:when>
 			<c:otherwise>
 				<!--상품 에약쿼리 실행할 것 -->
-				<input type="button" value="목록보기" onClick="backToList(this.form)" />
-				<input type="button" value="예약하기" onClick="resolve()" />
+				<input type="button" value="목록보기" onClick="backToList(this.form)" />			
+				   
+				<input type="button" id="resov" value="예약하기" onClick="resolve()" />
+				
 			</c:otherwise>
 		</c:choose>
 		

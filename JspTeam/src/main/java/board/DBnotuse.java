@@ -12,14 +12,14 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
-public class BoardConnectDB {
+public class DBnotuse {
 	protected static DataSource dataFactory;
 	protected static Connection conn;
 	protected static PreparedStatement pstmt;
 	
 	
 	
-	public BoardConnectDB() {
+	public DBnotuse() {
 		try {
 			Context ctx = new InitialContext();
 			Context envContext = (Context) ctx.lookup("java:/comp/env");
