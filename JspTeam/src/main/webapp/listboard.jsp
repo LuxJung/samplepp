@@ -164,6 +164,7 @@ a {
 				<input type="search" class="form-control" placeholder="제품 검색"
 					aria-label="Search">
 			</form>
+			
 		</div>
 	</header>
 
