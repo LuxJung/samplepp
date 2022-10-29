@@ -8,10 +8,7 @@
 <%
 request.setCharacterEncoding("UTF-8");
 %>
-<c:set var="articlesList" value="${articlesMap.articlesList}" />
-<c:set var="totArticles" value="${articlesMap.totArticles}" />
-<c:set var="section" value="${articlesMap.section}" />
-<c:set var="pageNum" value="${articlesMap.pageNum}" />
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -118,7 +115,6 @@ a {
 <title>Insert title here</title>
 </head>
 <body>
-
 	<nav class="py-2 bg-light border-bottom">
 		<div class="container d-flex flex-wrap">
 			<ul class="nav me-auto">
@@ -157,14 +153,13 @@ a {
 		<div class="container d-flex flex-wrap justify-content-center">
 			<a href="/"
 				class="d-flex align-items-center mb-3 mb-lg-0 me-lg-auto text-dark text-decoration-none">
-				<img alt="#" class="bi me-2" src="../resource/banner/logo_green.png"><span
-				class="fs-4">Best Seller</span>
+				<img alt="#" class="bi me-2" src="../resource/banner/logo_green.png">
+				<span class="fs-4">Best Seller</span>
 			</a>
 			<form class="col-12 col-lg-auto mb-3 mb-lg-0" role="search">
 				<input type="search" class="form-control" placeholder="제품 검색"
 					aria-label="Search">
 			</form>
-			
 		</div>
 	</header>
 
@@ -213,7 +208,10 @@ a {
 
 		<!-- 서블릿에서 넘어온 articlesMap.articlesList값을 c set을통해 articlesList로 설정하여 판단 -->
 		<!-- articlesList를 articles로 재정의 하여 VO값을 꺼내온다 -->
-
+<c:set var="articlesList" value="${articlesMap.articlesList}" />
+<c:set var="totArticles" value="${articlesMap.totArticles}" />
+<c:set var="section" value="${articlesMap.section}" />
+<c:set var="pageNum" value="${articlesMap.pageNum}" />
 		<div class="album py-5 bg-light">
 			<div class="container">
 				<div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3">

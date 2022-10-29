@@ -20,7 +20,7 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.io.FileUtils;
 
-@WebServlet("/board/*")
+@WebServlet("/boardcon/*")
 public class BoardContoller extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private String BOARD_IMG_REPOSITORY = "D:\\JSP\\JSP_Workspace\\DbTest\\JspTeam\\src\\main\\webapp\\resource\\imgs";
@@ -87,7 +87,7 @@ public class BoardContoller extends HttpServlet {
 				 * articlesList = boardService.showArticles(); // 전체 글 목록
 				 * request.setAttribute("articlesList", articlesList);
 				 */
-				nextPage = "/listboard.jsp";
+				nextPage = "../index/index.jsp";
 			} else if (action.equals("/addboard.do")) {
 				// 글쓰기 페이지로 이동
 				System.out.println("[글입력 폼 페이지: http://localhost:8090/JspTeam/board/addArticleForm.do] ");
