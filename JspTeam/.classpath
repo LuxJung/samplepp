@@ -22,5 +22,8 @@
 	<classpathentry kind="lib" path="D:/JSP/JSP_Workspace/DbTest/JspTeam/src/main/webapp/WEB-INF/lib/commons-fileupload-1.3.3.jar"/>
 	<classpathentry kind="lib" path="D:/JSP/JSP_Workspace/DbTest/JspTeam/src/main/webapp/WEB-INF/lib/commons-io-2.6.jar"/>
 	<classpathentry kind="lib" path="D:/JSP/JSP_Workspace/DbTest/JspTeam/src/main/webapp/WEB-INF/lib/json-simple-1.1.1.jar"/>
+	<classpathentry kind="lib" path="D:/JSP/JSP_Workspace/DbTest/JspTeam/src/main/webapp/WEB-INF/lib/activation-1.1.1.jar"/>
+	<classpathentry kind="lib" path="D:/JSP/JSP_Workspace/DbTest/JspTeam/src/main/webapp/WEB-INF/lib/javax.mail.jar"/>
+	<classpathentry kind="lib" path="D:/JSP/JSP_Workspace/DbTest/JspTeam/src/main/webapp/WEB-INF/lib/mail-1.4.7.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
