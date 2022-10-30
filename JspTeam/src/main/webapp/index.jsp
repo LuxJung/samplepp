@@ -102,7 +102,7 @@ function kakaoLogout() {
 				<!--클래스로 로그인 유무 display 조정-->
 				<li class="nav-item login_true "><a href="">
 						<!--마이페이지 이동--> <!--로그인 자기 이미지 띄우기--> <img
-						src="../resource/users/${userInfo.profile_img }" alt="mdo"
+						src="../upload/${userInfo.profile_img }" alt="mdo"
 						width="40" height="40" class="rounded-circle">
 				</a></li>
 				<li class="nav-item login_true "><a

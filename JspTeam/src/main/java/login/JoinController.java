@@ -110,7 +110,12 @@ public class JoinController extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
 		String encoding = "utf-8";
 		Map<String, String> articleMap = new HashMap<String, String>();
-		File currentDirPath = new File("D:\\JSP\\JSP_Workspace\\DbTest\\JspTeam\\src\\main\\webapp\\resource\\imgs");
+		
+		//서버 경로로 이미지 폴더 수정 test
+		String realPath = "/var/webapps/upload";
+		String appPath = System.getProperty("catalina.home") + realPath;
+		File currentDirPath = new File(appPath);
+		
 		DiskFileItemFactory factory = new DiskFileItemFactory();
 		factory.setRepository(currentDirPath);
 		factory.setSizeThreshold(1024 * 1024);

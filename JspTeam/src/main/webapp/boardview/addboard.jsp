@@ -48,6 +48,25 @@ request.setCharacterEncoding("UTF-8");
 		obj.action = "${contextPath}/board/listArticles.do";
 		obj.submit();
 	}
+	function getNumber(obj) {
+		var num01;
+		var num02;
+		num01 = obj.value;
+		num02 = num01.replace(/\D/g, "");
+		num01 = setComma(num02);
+		obj.value = num01;
+
+		$('#test').text(num01);
+	}
+
+	function setComma(n) {
+		var reg = /(^[+-]?\d+)(\d{3})/;
+		n += '';
+		while (reg.test(n)) {
+			n = n.replace(reg, '$1' + ',' + '$2');
+		}
+		return n;
+	}
 </script>
 <meta charset="UTF-8">
 <title>글쓰기창</title>
@@ -71,9 +90,9 @@ request.setCharacterEncoding("UTF-8");
 		<div class="my-3 p-3 bg-body rounded shadow-sm">
 			<form name="articleForm" method="post" enctype="multipart/form-data"
 				action="${contextPath}/board/createArticle.do">
-				
-					<h4 class="font-monospace text-muted text-uppercase">제품 이미지</h4>
-				
+
+				<h4 class="font-monospace text-muted text-uppercase">제품 이미지</h4>
+
 				<div class="bd-example-snippet bd-code-snippet">
 					<div class="bd-example">
 						<!--디폴트 이미지-->
@@ -84,45 +103,30 @@ request.setCharacterEncoding("UTF-8");
 							<figcaption class="figure-caption">이미지를 등록해주세요</figcaption>
 						</figure>
 						<!--미리보기 이미지-->
-						<img src="..." id="preview"	class="bd-placeholder-img img-thumbnail" alt="..." width="400"
+						<img src="..." id="preview"
+							class="bd-placeholder-img img-thumbnail" alt="..." width="400"
 							height="300">
 					</div>
 					<div class="highlight mb-3">
-						
-						<input class="form-control" type="file" id="formFileMultiple" >
-						
+
+						<input class="form-control" type="file" id="formFileMultiple">
+
 					</div>
 				</div>
 				<div class="d-flex text-muted pt-3">
-					<svg class="bd-placeholder-img flex-shrink-0 me-2 rounded"
-						width="32" height="32" xmlns="http://www.w3.org/2000/svg"
-						role="img" aria-label="Placeholder: 32x32"
-						preserveAspectRatio="xMidYMid slice" focusable="false">
-						<title>Placeholder</title><rect width="100%" height="100%"
-							fill="#e83e8c"></rect>
-						<text x="50%" y="50%" fill="#e83e8c" dy=".3em">32x32</text></svg>
-
-					<p class="pb-3 mb-0 small lh-sm border-bottom">
-						<strong class="d-block text-gray-dark">@username</strong> Some
-						more representative placeholder content, related to this other
-						user. Another status update, perhaps.
-					</p>
+					<div class="input-group mb-3">
+						<span class="input-group-text" id="basic-addon1"> 제 목 </span> <input
+							name="title" type="text" class="form-control"
+							placeholder="상품 제목을 입력해주세요." aria-label="Username"
+							aria-describedby="basic-addon1">
+					</div>
 				</div>
 				<div class="d-flex text-muted pt-3">
-					<svg class="bd-placeholder-img flex-shrink-0 me-2 rounded"
-						width="32" height="32" xmlns="http://www.w3.org/2000/svg"
-						role="img" aria-label="Placeholder: 32x32"
-						preserveAspectRatio="xMidYMid slice" focusable="false">
-						<title>Placeholder</title><rect width="100%" height="100%"
-							fill="#6f42c1"></rect>
-						<text x="50%" y="50%" fill="#6f42c1" dy=".3em">32x32</text></svg>
-
-					<p class="pb-3 mb-0 small lh-sm border-bottom">
-						<strong class="d-block text-gray-dark">@username</strong> This
-						user also gets some representative placeholder content. Maybe they
-						did something interesting, and you really want to highlight this
-						in the recent updates.
-					</p>
+					<div class="input-group mb-3">
+						<span class="input-group-text" id="basic-addon1"> 가 격 </span> 
+						<input type="text" class="form-control" placeholder="가격을 입력해주세요." id="test"
+							aria-label="Username" aria-describedby="basic-addon1" onchange="getNumber(this);" onkeyup="getNumber(this);">
+					</div>
 				</div>
 				<small class="d-block text-end mt-3"> <a href="#">All
 						updates</a>
@@ -137,23 +141,6 @@ request.setCharacterEncoding("UTF-8");
 		<form name="articleForm" method="post" enctype="multipart/form-data"
 			action="${contextPath}/board/createArticle.do">
 			<ul>
-				<li>
-					<div class="conttl">상품이미지</div>
-					<div class="clb">
-						<ul>
-							<li><img src="..." id="preview" class="img-thumbnail"
-								alt="..." width="200" height="200">이미지 등록 <input
-								type="file" name="goods_img" onchange="readURL(this)" /> <img
-								alt="img" id="preview" src="#" width="200" height="200"></li>
-						</ul>
-					</div>
-				</li>
-				<li style="clear: boath;">
-					<div class="conttl">제목</div>
-					<div class="clb">
-						<input type="text" placeholder="상품 제목을 입력해주세요." name="title">
-					</div>
-				</li>
 				<li style="clear: boath;">
 					<div class="conttl">가격</div>
 					<div class="clb">
