@@ -1,4 +1,5 @@
 package login;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
@@ -80,18 +81,18 @@ public class JoinController extends HttpServlet {
 		UserVO userVO = new UserVO(id, password, nickname, phone_number,profile_img,addr,detail_addr);
 		userDAO.addMember(userVO);
 		//nextPage="../index/index.jsp";
-		response.sendRedirect("../index/index.jsp");
+		response.sendRedirect("../board/listArticles.do");
 		
 		//RequestDispatcher dispatch = request.getRequestDispatcher("../index/index.jsp");
 		//dispatch.forward(request, response);
 		
 	}
 	
-	private Map<String,String> upload(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	private Map<String,String> upload(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		String encoding = "utf-8";
 		Map<String, String> articleMap = new HashMap<String, String>();
-		File currentDirPath = new File("D:\\TeamProject\\jspTeam\\src\\main\\webapp\\img");
+		File currentDirPath = new File("D:\\JSP\\JSP_Workspace\\DbTest\\JspTeam\\src\\main\\webapp\\resource\\users");
 		DiskFileItemFactory factory = new DiskFileItemFactory();
 		factory.setRepository(currentDirPath);
 		factory.setSizeThreshold(1024 * 1024);

@@ -25,6 +25,8 @@ request.setCharacterEncoding("UTF-8");
 
 <link rel="stylesheet" type="text/css"
 	href="../resource/css/bootstrap.css">
+<link rel="stylesheet" type="text/css"
+	href="../resource/css/override.css">
 <script type="text/javascript"
 	src="../resource/js/bootstrap.bundle.min.js"></script>
 <script type="text/javascript" src="../resource/js/bootstrap.min.js"></script>
@@ -32,17 +34,17 @@ request.setCharacterEncoding("UTF-8");
 
 <script type="text/javascript">
 $(document).ready(function(){
-	
-	var link = '${contextPath}/boardcon/listArticles.do'; 
+	/*
+	var link = '${contextPath}/board/listArticles.do'; 
 	
 	$.ajax({
 	    type:"post",
 	    dataType:"text",
 	    async:true,  
-	    url:"${contextPath}/boardcon/listArticles.do",
+	    url:"${contextPath}/board/listArticles.do",
 	    data: "${contextPath}",
 	    success:function (data,textStatus){
-	    	console.log(${articlesMap.articlesList});
+	    	//console.log(${articlesMap.articlesList});
 	    },
 	    error:function(data,textStatus){
 	       alert("실패.");
@@ -50,101 +52,35 @@ $(document).ready(function(){
 	    complete:function(data,textStatus){
 	    	location.replace(link);
 	    }
-	 });	
+	 });	*/
+	
 });
+
+function kakaoLogout() {
+	if (!Kakao.isInitialized()) {
+		Kakao.init('a9bd1d62db585f44286b5451460b4031');
+	};
+    if (Kakao.Auth.getAccessToken()) {
+      Kakao.API.request({
+        url: '/v1/user/unlink',
+        success: function (response) {
+            console.log(response)
+            console.log('로그아웃 성공')
+        },
+        fail: function (error) {
+          console.log(error)
+        },
+      })
+    }
+}
 </script>
 
 <style>
-a {
-	color: #999999;
-	text-decoration: none;
-}
-
-.newatcl {
-	position: fixed;
-	right: 50px;
-	bottom: 50px;
-	font-size: 50px;
-	width: 60px;
-	height: 60px;
-	background-color: #80d100;
-	text-align: center;
-	line-height: 50px;
-	border-radius: 50%;
-}
-
-.bd-placeholder-img {
-	font-size: 1.125rem;
-	text-anchor: middle;
-	-webkit-user-select: none;
-	user-select: none;
-}
-
-@media ( min-width : 768px) {
-	.bd-placeholder-img-lg {
-		font-size: 3.5rem;
-	}
-}
-
-.b-example-divider {
-	height: 3rem;
-	background-color: rgba(0, 0, 0, .1);
-	border: solid rgba(0, 0, 0, .15);
-	border-width: 1px 0;
-	box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em
-		rgba(0, 0, 0, .15);
-}
-
-.b-example-vr {
-	flex-shrink: 0;
-	width: 1.5rem;
-	height: 100vh;
-}
-
-.nav-scroller {
-	position: relative;
-	z-index: 2;
-	height: 2.75rem;
-	overflow-y: hidden;
-}
-
-.nav-scroller .nav {
-	display: flex;
-	flex-wrap: nowrap;
-	padding-bottom: 1rem;
-	margin-top: -1px;
-	overflow-x: auto;
-	text-align: center;
-	white-space: nowrap;
-	-webkit-overflow-scrolling: touch;
-}
-
-.bi {
-	vertical-align: -.125em;
-	fill: currentColor;
-	color: #80d100;
-	width: 40px;
-	height: 40px;
-}
-
-.login_false {
-	display: none;
-}
-
-.login_true {
-	display: inline-block;
-}
-
-.c {
-	background-color: #80d100;
-}
-
-.mgt {
-	margin-top: 30px;
-}
 </style>
 </head>
 <body>
+	<!-- 헤더 -->
+	<%-- <%@ include file="../include/login_nav.jsp" %> --%>
 
 	<nav class="py-2 bg-light border-bottom">
 		<div class="container d-flex flex-wrap">
@@ -161,32 +97,21 @@ a {
 			</ul>
 			<ul class="nav">
 				<%
-				Cookie[] cookies = request.getCookies();
-				boolean sw = true;
-				String picname = "";
-				if (cookies != null) {
-					for (Cookie tempCookie : cookies) {
-						if (tempCookie.getName().equals("id")) {
-					session.setAttribute("sessionID", tempCookie.getValue());
-						} else if (tempCookie.getName().equals("picname")) {
-					picname = tempCookie.getValue();
-					sw = false;
-						}
-					}
-				}
-
-				if (session.getAttribute("sessionID") != null || sw == false) {
+				if (session.getAttribute("sessionID") != null || session.getAttribute("kakaosessionID") != null) {
 				%>
 				<!--클래스로 로그인 유무 display 조정-->
-				<li class="nav-item login_true "><a href=""> <!--마이페이지 이동-->
-						<!--로그인 자기 이미지 띄우기--> <img src="../img/<%=picname%>" alt="mdo"
+				<li class="nav-item login_true "><a href="">
+						<!--마이페이지 이동--> <!--로그인 자기 이미지 띄우기--> <img
+						src="../resource/users/${userInfo.profile_img }" alt="mdo"
 						width="40" height="40" class="rounded-circle">
 				</a></li>
 				<li class="nav-item login_true "><a
 					href="${contextPath}/userController/logout.do"
-					class="nav-link link-dark px-2">Logout</a></li>
+					onclick="kakaoLogout()" ; class="nav-link link-dark px-2">Logout</a>
+				</li>
+
 				<%
-				} else if (session.getAttribute("sessionID") == null) {
+				} else if (session.getAttribute("sessionID") == null || session.getAttribute("kakaosessionID") == null) {
 				%>
 				<!--클래스로 로그인 유무 display 조정-->
 
@@ -206,54 +131,12 @@ a {
 			</ul>
 		</div>
 	</nav>
+	<%@ include file="../include/head_title.jsp"%>
+	<!-- 배너 -->
+	<%@ include file="../include/banner.jsp"%>
 
-	<header class="py-3 mb-4 border-bottom">
-		<div class="container d-flex flex-wrap justify-content-center">
-			<a href="/"
-				class="d-flex align-items-center mb-3 mb-lg-0 me-lg-auto text-dark text-decoration-none">
-				<img alt="#" class="bi me-2" src="../resource/banner/logo_green.png">
-				<span class="fs-4">Best Seller</span>
-			</a>
-			<form class="col-12 col-lg-auto mb-3 mb-lg-0" role="search">
-				<input type="search" class="form-control" placeholder="제품 검색"
-					aria-label="Search">
-			</form>
-		</div>
-	</header>
-
-
-	<main>
-		<div id="carouselExampleFade" class="carousel slide carousel-fade"
-			data-bs-ride="carousel">
-			<div class="carousel-inner">
-				<div class="carousel-item active" data-bs-interval="500">
-					<img src="../resource/banner/001.png" class="d-block w-100">
-
-				</div>
-				<div class="carousel-item" data-bs-interval="500">
-					<img src="../resource/banner/002.png" class="d-block w-100">
-
-				</div>
-				<div class="carousel-item" data-bs-interval="500">
-					<img src="../resource/banner/003.png" class="d-block w-100">
-
-				</div>
-			</div>
-			<button class="carousel-control-prev" type="button"
-				data-bs-target="#carouselExampleFade" data-bs-slide="prev">
-				<span class="carousel-control-prev-icon" aria-hidden="true"></span>
-				<span class="visually-hidden">Previous</span>
-			</button>
-			<button class="carousel-control-next" type="button"
-				data-bs-target="#carouselExampleFade" data-bs-slide="next">
-				<span class="carousel-control-next-icon" aria-hidden="true"></span>
-				<span class="visually-hidden">Next</span>
-			</button>
-		</div>
-	</main>
-
-	<!--새글 등록 fixed-->
-	<a class="newatcl" href="${contextPath}/board/addboard.do">+</a>
+	<!-- 새 글 등록 fixed -->
+	<a class="newatcl" href="../boardview/addboard.jsp">+</a>
 
 	<section>
 		<div class="container d-flex flex-wrap justify-content-center">

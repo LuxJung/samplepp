@@ -20,7 +20,7 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.io.FileUtils;
 
-@WebServlet("/boardcon/*")
+@WebServlet("/board/*")
 public class BoardContoller extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private String BOARD_IMG_REPOSITORY = "D:\\JSP\\JSP_Workspace\\DbTest\\JspTeam\\src\\main\\webapp\\resource\\imgs";
@@ -83,15 +83,19 @@ public class BoardContoller extends HttpServlet {
 				articlesMap.put("section", section);
 				articlesMap.put("pageNum", pageNum);
 				request.setAttribute("articlesMap", articlesMap);
+				//response.sendRedirect("../index/index.jsp");
+				
+				
 				/*
 				 * articlesList = boardService.showArticles(); // 전체 글 목록
 				 * request.setAttribute("articlesList", articlesList);
 				 */
 				nextPage = "../index/index.jsp";
+			
 			} else if (action.equals("/addboard.do")) {
 				// 글쓰기 페이지로 이동
-				System.out.println("[글입력 폼 페이지: http://localhost:8090/JspTeam/board/addArticleForm.do] ");
-				nextPage = "/addboard.jsp";
+				System.out.println("[글입력 폼 페이지: http://localhost:8090/JspTeam/boardview/addboard.jsp] ");
+				nextPage = "../boardview/addboard.jsp";
 			} else if (action.equals("/createArticle.do")) {
 				// C-작업수행
 				Map<String, String> articleMap = upload(request, response);
@@ -135,7 +139,7 @@ public class BoardContoller extends HttpServlet {
 						+ "/board/listArticles.do';" + "</script>");
 				System.out.println("[ 새 글 작성 alert() 띄운 후]");
 				return;
-			} else if (action.equals("/readArticle.do")) {
+			} else if (action.equals("../boardview/readArticle.do")) {
 				// R
 				String num_aticle = request.getParameter("num_aticle");
 				System.out.println("readArticle.do 서블렛 왔어요" + num_aticle);
@@ -145,7 +149,7 @@ public class BoardContoller extends HttpServlet {
 				request.setAttribute("name", "디폴트");
 
 				request.setAttribute("article", boardVO);
-				nextPage = "/detailboard.jsp";
+				nextPage = "../boardview/detailboard.jsp";
 
 			} else if(action.equals("/resolve.do")) {
 				String deal_status = request.getParameter("deal_status");
@@ -159,7 +163,7 @@ public class BoardContoller extends HttpServlet {
 				PrintWriter writer = response.getWriter();
 				writer.print("상품 구매예약 했습니다."); 
 				return;
-			}else if (action.equals("/modifyArticles.do")) {
+			}else if (action.equals("../boardview/modifyArticles.do")) {
 				// U
 				Map<String, String> articleMap = upload(request, response);
 				String title = articleMap.get("title");
@@ -177,7 +181,7 @@ public class BoardContoller extends HttpServlet {
 				boardVO.setGoods_img(imgFileName);
 
 				boardService.modifyArticle(boardVO);
-				nextPage = "/addboard.jsp";
+				nextPage = "../boardview/addboard.jsp";
 			} 
 			else if (action.equals("/deleteArticles.do")) {
 				// D
@@ -202,7 +206,8 @@ public class BoardContoller extends HttpServlet {
 		}
 	}
 
-	private Map<String,String> upload(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException {
+	private Map<String,String> upload(HttpServletRequest request, HttpServletResponse response)
+	throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		response.setContentType("text/html;charset=utf-8");
 		String encoding = "utf-8";

@@ -1,6 +1,5 @@
 package login;
 
-
 import java.util.Date;
 import java.util.Properties;
 import java.util.Random;
@@ -76,13 +75,11 @@ class MyAuthentication extends Authenticator {
     public MyAuthentication(){
          
         String id = "jsh00999";  //네이버 이메일 아이디
-        String pw = "jilw3187088!"; //네이버 비밀번호
+        String pw = "qlqjscrazy!"; //네이버 비밀번호
  
-        // ID와 비밀번호를 입력한다.
         pa = new PasswordAuthentication(id, pw);
     }
  
-    // 시스템에서 사용하는 인증정보
     public PasswordAuthentication getPasswordAuthentication() {
         return pa;
     }

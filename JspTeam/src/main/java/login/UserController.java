@@ -88,25 +88,9 @@ public class UserController extends HttpServlet {
 				session.setAttribute("sessionID", id);
 				session.setMaxInactiveInterval(20*60);
 				UserVO userInfo=userDAO.readUser(id);
-				
-				 if(loginChk != null){
-		                Cookie cookie = new Cookie("id", id);
-		                
-		                cookie.setMaxAge(60);
-		                cookie.setPath("/");
-		                response.addCookie(cookie);
-		            }
-				 
-				 session.setAttribute("userInfo", userInfo);
-				 String picname=userInfo.getProfile_img();
-				 Cookie cookie2 = new Cookie("picname", picname);
-				 cookie2.setMaxAge(60);
-	                cookie2.setPath("/");
-	                response.addCookie(cookie2);
-				 System.out.println(userInfo.getProfile_img());
-				 
-				 
-				
+				session.setAttribute("userInfo", userInfo);
+				String picname=userInfo.getProfile_img();
+				System.out.println(userInfo.getProfile_img());
 				System.out.println(session.getAttribute("sessionID"));
 				nextPage="../index/index.jsp";
 			}else {
@@ -176,9 +160,6 @@ public class UserController extends HttpServlet {
 			mailnumber=email.SendEmail(emailadr);
 			System.out.println("mailnumber="+mailnumber);
 			System.out.println("이메일 전송 성공");
-			nextPage="../join/joinForm.jsp";
-			RequestDispatcher dispatch = request.getRequestDispatcher(nextPage);
-			dispatch.forward(request, response);
 		}else if(action.equals("/emailConfirm.do")) {
 			
 			int numberChk;
@@ -196,8 +177,6 @@ public class UserController extends HttpServlet {
 			out.write(numberChk+"");
 			System.out.println("numberChk="+numberChk);
 		}else if(action.equals("/logout.do")) {
-			//request.getSession().invalidate();
-			//HttpSession session=request.getSession();
 			
 			 Cookie[] cookies = request.getCookies();
 			    if(cookies!=null){
@@ -209,7 +188,7 @@ public class UserController extends HttpServlet {
 			            }
 			        }
 			    }
-			    request.getSession().removeAttribute("sessionID");//세션제거
+			    request.getSession().invalidate();//세션제거
 				response.sendRedirect("../index/index.jsp");
 				
 		}else if(action.equals("/kakaologin.do")) {
@@ -220,8 +199,8 @@ public class UserController extends HttpServlet {
 			String id=request.getParameter("email");
 			String loginChk = request.getParameter("loginChk");
 			
-			/*
-			//KakaouserVO userInfo=userDAO.readkakaoUser(id);
+			
+			KakaouserVO userInfo=userDAO.readkakaoUser(id);
 			System.out.println("컨트롤러에 넘어오는지 확인"+userInfo.getId());
 			if(userInfo.getId().equals(id)) {
 				System.out.println("아이디가 DB에 있음.");
@@ -242,14 +221,11 @@ public class UserController extends HttpServlet {
 	                response.addCookie(cookie2);
 				 System.out.println(userInfo.getProfile_img());
 				System.out.println(session.getAttribute("kakaosessionID"));
-			}
-			else {
+			}else {
 				System.out.println("로그인실패");
 				nextPage="../login/loginForm_.jsp";
 				
-			}*/
-			//RequestDispatcher dispatch = request.getRequestDispatcher(nextPage);
-			//dispatch.forward(request, response);
+			}
 			response.sendRedirect("../index/index.jsp");
 		}
 	}

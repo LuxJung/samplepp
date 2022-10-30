@@ -86,6 +86,8 @@ ul, li {
 <title>Insert title here</title>
 </head>
 <body>
+<%@ include file="../include/login_nav.jsp" %>
+	<%@ include file="../include/head_title.jsp" %>
 	<form name="articleForm" method="post"
 		action="${contextPath}/board/modifyArticles.do"
 		enctype="multipart/form-data">
