@@ -79,6 +79,7 @@ if (cookies != null) {
 
 
 		</form>
+		<!--
 		<form id="login_kakao" method="post"
 			action="${contextPath}/KaoController/kaologin.do">
 			<input type="hidden" name="email" /> <input type="hidden"
@@ -89,8 +90,8 @@ if (cookies != null) {
 					width="200" alt="카카오 로그인 버튼" />
 				</a>
 			</div>
-			<!-- <input type="button" value="로그아웃" onclick="kakaoLogout()"/>	-->
-		</form>
+			 <input type="button" value="로그아웃" onclick="kakaoLogout()"/>	
+		</form>-->
 
 	</main>
 
