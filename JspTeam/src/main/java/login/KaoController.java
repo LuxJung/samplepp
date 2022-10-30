@@ -2,6 +2,8 @@ package login;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -11,17 +13,22 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import board.BoardService;
+
 
 @WebServlet("/KaoController/*")
 public class KaoController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	UserDAO userDAO;
 	KakaouserVO kakaouserVO;
+	BoardService boardService;
 	int loginResult;
        
    
 	public void init() throws ServletException{
     	userDAO = new UserDAO();
+    	boardService = new BoardService();
+
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -40,36 +47,17 @@ public class KaoController extends HttpServlet {
 		String action = request.getPathInfo();
 		System.out.println("action:" + action);
 		
-		/*
-		if(action.equals("/kaologin.do")) {
-			String id=request.getParameter("email");
-			System.out.println(id);
-			
-			loginResult=userDAO.kakaologin(id);
-			System.out.println("loginResult=" + loginResult);
-			
-			if(loginResult==1) {
-				System.out.println("로그인 성공");
-				request.setAttribute("loginResult", loginResult);
-				HttpSession session = request.getSession();
-				session.setAttribute("kakaosessionID", id);
-				session.setMaxInactiveInterval(20*60);
-				KakaouserVO userInfo=userDAO.readkakaoUser(id);
-				session.setAttribute("userInfo", userInfo);
-				 String picname=userInfo.getProfile_img();
-				 System.out.println(userInfo.getProfile_img());
-				 System.out.println(session.getAttribute("kakaosessionID"));
-					nextPage="../index/index.jsp";
-			}else {
-				System.out.println("로그인실패");
-				request.setAttribute("loginResult", loginResult);
-				nextPage="../login/loginForm_.jsp";
-			}
-			RequestDispatcher dispatch = request.getRequestDispatcher(nextPage);
-			dispatch.forward(request, response);
-			
-		}
-		*/
+		String _section=request.getParameter("section");
+		String _pageNum=request.getParameter("pageNum");
+		int section = Integer.parseInt(((_section==null)? "1":_section) );
+		int pageNum = Integer.parseInt(((_pageNum==null)? "1":_pageNum));
+		Map<String, Integer> pagingMap=new HashMap<String, Integer>();
+		pagingMap.put("section", section);
+		pagingMap.put("pageNum", pageNum);
+		Map<String, Object> articlesMap=boardService.listArticles(pagingMap);
+		articlesMap.put("section", section);
+		articlesMap.put("pageNum", pageNum);
+		request.setAttribute("articlesMap", articlesMap);
 		
 		if(action.equals("/addkaouser.do")) {
 			String id=request.getParameter("email");
@@ -115,7 +103,7 @@ public class KaoController extends HttpServlet {
 				session.setAttribute("userInfo", userInfo);
 				 System.out.println(userInfo.getProfile_img());
 				 System.out.println(session.getAttribute("kakaosessionID"));
-					nextPage="../index/index.jsp";
+					nextPage="../index.jsp";
 			}else {
 				System.out.println("로그인실패");
 				request.setAttribute("loginResult", loginResult);
@@ -125,7 +113,7 @@ public class KaoController extends HttpServlet {
 			
 			
 			
-			nextPage="../index/index.jsp";
+			nextPage="../index.jsp";
 			RequestDispatcher dispatch = request.getRequestDispatcher(nextPage);
 			dispatch.forward(request, response);
 			

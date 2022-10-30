@@ -84,13 +84,7 @@ public class BoardContoller extends HttpServlet {
 				articlesMap.put("pageNum", pageNum);
 				request.setAttribute("articlesMap", articlesMap);
 				//response.sendRedirect("../index/index.jsp");
-				
-				
-				/*
-				 * articlesList = boardService.showArticles(); // 전체 글 목록
-				 * request.setAttribute("articlesList", articlesList);
-				 */
-				nextPage = "../index/index.jsp";
+				nextPage = "../index.jsp";
 			
 			} else if (action.equals("/addboard.do")) {
 				// 글쓰기 페이지로 이동

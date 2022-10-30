@@ -18,6 +18,8 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
+import board.BoardService;
+
 
 @WebServlet("/logintest.do")
 public class JoinController extends HttpServlet {
@@ -26,10 +28,12 @@ public class JoinController extends HttpServlet {
 	UserDAO userDAO;
 	UserVO userVO;
 	String nextPage="";
+	BoardService boardService;
 	
 	  public void init() throws ServletException{
 			userDAO=new UserDAO();
 			userVO=new UserVO();
+			boardService = new BoardService();
 	    }
 
 	
@@ -49,6 +53,20 @@ public class JoinController extends HttpServlet {
 
 		request.setCharacterEncoding("utf-8");
 		response.setContentType("text/html;charset=utf-8");
+		
+		String _section=request.getParameter("section");
+		String _pageNum=request.getParameter("pageNum");
+		int section = Integer.parseInt(((_section==null)? "1":_section) );
+		int pageNum = Integer.parseInt(((_pageNum==null)? "1":_pageNum));
+		Map<String, Integer> pagingMap=new HashMap<String, Integer>();
+		pagingMap.put("section", section);
+		pagingMap.put("pageNum", pageNum);
+		Map<String, Object> articlesMap=boardService.listArticles(pagingMap);
+		articlesMap.put("section", section);
+		articlesMap.put("pageNum", pageNum);
+		request.setAttribute("articlesMap", articlesMap);
+		//response.sendRedirect("../index/index.jsp");
+		nextPage = "../index.jsp";
 		
 		Map<String,String> articleMap=upload(request,response);
 		System.out.println("서블릿접근");
@@ -81,7 +99,7 @@ public class JoinController extends HttpServlet {
 		UserVO userVO = new UserVO(id, password, nickname, phone_number,profile_img,addr,detail_addr);
 		userDAO.addMember(userVO);
 		//nextPage="../index/index.jsp";
-		response.sendRedirect("../board/listArticles.do");
+		response.sendRedirect("../index.jsp");
 		
 		//RequestDispatcher dispatch = request.getRequestDispatcher("../index/index.jsp");
 		//dispatch.forward(request, response);
@@ -92,7 +110,7 @@ public class JoinController extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
 		String encoding = "utf-8";
 		Map<String, String> articleMap = new HashMap<String, String>();
-		File currentDirPath = new File("D:\\JSP\\JSP_Workspace\\DbTest\\JspTeam\\src\\main\\webapp\\resource\\users");
+		File currentDirPath = new File("D:\\JSP\\JSP_Workspace\\DbTest\\JspTeam\\src\\main\\webapp\\resource\\imgs");
 		DiskFileItemFactory factory = new DiskFileItemFactory();
 		factory.setRepository(currentDirPath);
 		factory.setSizeThreshold(1024 * 1024);

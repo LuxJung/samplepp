@@ -29,9 +29,9 @@ request.setCharacterEncoding("UTF-8");
 										clientId=togeufhl9z&callback=initMap"></script> -->
 
 <script type="text/javascript">
-$(document).ready(function(){
-	$('#preview').css('visibility', 'hidden');
-});
+	$(document).ready(function() {
+		$('#preview').css('visibility', 'hidden');
+	});
 
 	function readURL(input) {
 		if (input.files && input.files[0]) {
@@ -71,31 +71,26 @@ $(document).ready(function(){
 		<div class="my-3 p-3 bg-body rounded shadow-sm">
 			<form name="articleForm" method="post" enctype="multipart/form-data"
 				action="${contextPath}/board/createArticle.do">
-				<div class="d-flex align-items-center highlight-toolbar bg-light ps-3 pe-2 py-1">
-					<h4 class="font-monospace text-muted text-uppercase">이미지 등록</h4>
-				</div>
+				
+					<h4 class="font-monospace text-muted text-uppercase">제품 이미지</h4>
+				
 				<div class="bd-example-snippet bd-code-snippet">
 					<div class="bd-example">
 						<!--디폴트 이미지-->
 						<figure class="figure" id="default_img">
-							<img src="../resource/banner/default_img.png" class="figure-img img-fluid rounded" alt="...">
-							<figcaption class="figure-caption">
-								이미지를 등록해주세요
-							</figcaption>
+							<!--이미지를 선택하면 사라짐-->
+							<img src="../resource/banner/default_img.png"
+								class="figure-img img-fluid rounded" alt="...">
+							<figcaption class="figure-caption">이미지를 등록해주세요</figcaption>
 						</figure>
 						<!--미리보기 이미지-->
-						<img src="..." id="preview" style="visibility: "
-							class="bd-placeholder-img img-thumbnail" alt="..." width="400"
+						<img src="..." id="preview"	class="bd-placeholder-img img-thumbnail" alt="..." width="400"
 							height="300">
 					</div>
-					<div class="highlight">
-					    <label for="ex_file">업로드</label> 
-						<input type="file" name="goods_img" 
-						class="btn btn-outline-secondary btn-lg px-4 form-control" id="ex_file" onchange="readURL(this)" />
-						<div class="mb-3">
-  <label for="formFileMultiple" class="form-label">Multiple files input example</label>
-  <input class="form-control" type="file" id="formFileMultiple" multiple>
-</div>
+					<div class="highlight mb-3">
+						
+						<input class="form-control" type="file" id="formFileMultiple" >
+						
 					</div>
 				</div>
 				<div class="d-flex text-muted pt-3">

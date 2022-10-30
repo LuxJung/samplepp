@@ -2,6 +2,8 @@ package login;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -12,6 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import board.BoardService;
+
 
 @WebServlet("/userController/*")
 public class UserController extends HttpServlet {
@@ -19,13 +23,14 @@ public class UserController extends HttpServlet {
 	UserDAO userDAO;
 	String mailnumber;
 	int loginResult;
-	
+	BoardService boardService;
     public UserController() {
     }
     
     
     public void init() throws ServletException{
     	userDAO = new UserDAO();
+    	boardService = new BoardService();
     }
 
     
@@ -46,6 +51,19 @@ public class UserController extends HttpServlet {
 		String action = request.getPathInfo();
 		System.out.println("action:" + action);
 		
+		
+		String _section=request.getParameter("section");
+		String _pageNum=request.getParameter("pageNum");
+		int section = Integer.parseInt(((_section==null)? "1":_section) );
+		int pageNum = Integer.parseInt(((_pageNum==null)? "1":_pageNum));
+		Map<String, Integer> pagingMap=new HashMap<String, Integer>();
+		pagingMap.put("section", section);
+		pagingMap.put("pageNum", pageNum);
+		Map<String, Object> articlesMap=boardService.listArticles(pagingMap);
+		articlesMap.put("section", section);
+		articlesMap.put("pageNum", pageNum);
+		request.setAttribute("articlesMap", articlesMap);
+		
 		if(action.equals("/addUser.do")) {
 			String id=request.getParameter("id");
 			String password=request.getParameter("password");
@@ -65,7 +83,7 @@ public class UserController extends HttpServlet {
 			
 			UserVO userVO = new UserVO(id, password, nickname, phone_number,profile_img,addr,detail_addr);
 			userDAO.addMember(userVO);
-			nextPage="../index/index.jsp";
+			nextPage="../index.jsp";
 			RequestDispatcher dispatch = request.getRequestDispatcher(nextPage);
 			dispatch.forward(request, response);
 			
@@ -92,7 +110,10 @@ public class UserController extends HttpServlet {
 				String picname=userInfo.getProfile_img();
 				System.out.println(userInfo.getProfile_img());
 				System.out.println(session.getAttribute("sessionID"));
-				nextPage="../index/index.jsp";
+				
+				
+				
+				nextPage="../index.jsp";
 			}else {
 				System.out.println("로그인실패");
 				request.setAttribute("loginResult", loginResult);
@@ -189,7 +210,7 @@ public class UserController extends HttpServlet {
 			        }
 			    }
 			    request.getSession().invalidate();//세션제거
-				response.sendRedirect("../index/index.jsp");
+				response.sendRedirect("../board/listArticles.do");
 				
 		}else if(action.equals("/kakaologin.do")) {
 			System.out.println("카카오컨트롤러접근");
@@ -226,7 +247,7 @@ public class UserController extends HttpServlet {
 				nextPage="../login/loginForm_.jsp";
 				
 			}
-			response.sendRedirect("../index/index.jsp");
+			response.sendRedirect("../index.jsp");
 		}
 	}
 }
