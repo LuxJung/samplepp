@@ -25,6 +25,15 @@ public class UserVO {
 		this.detail_addr=detail_addr;
 	}
 
+	public UserVO(String id, String nickname, String phone_number, String profile_img, String addr,	String detail_addr) {
+		this.id = id;
+		this.nickname = nickname;
+		this.phone_number = phone_number;
+		this.profile_img = profile_img;
+		this.addr=addr;
+		this.detail_addr=detail_addr;
+	}
+
 	public String getId() {
 		return id;
 	}

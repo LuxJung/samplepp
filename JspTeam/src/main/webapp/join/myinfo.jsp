@@ -1,14 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>회원탈퇴</title>
-
+<title>회원 정보 조회</title>
 <style>
+@charset "utf-8";
+
 ul,li{
     list-style:none;
 }
@@ -36,8 +35,8 @@ input,button{
 
 #join_wrap{
     border:1px solid rgba(135,135,135,0.5);
-    width:430px;
-    height:80px;
+    width:450px;
+    height:400px;
     padding:20px;
     margin-left:auto;
     margin-right:auto;
@@ -72,74 +71,38 @@ input,button{
 
 #join ul li input{
     float:left;
-    width:200px;
+    width:250px;
     height:25px;
     border:1px solid #cccccc;
     text-align:center;
     color:#666666;
 }
 
-.btnconfirm{
-    background-color:#218b5a; 
-}
-
-.btnconfirm:hover{
-    background-color:#000000;
-    cursor: pointer;
-    transition: all 0.5s ease-out;
-}
 
 </style>
-<script type="text/javascript" src="../resource/js/jquery-3.6.0.js"></script>
 </head>
 <body>
-
-<% 
-	
-%>
 <div id="join_wrap">
-    <form action="${contextPath}/userController/deleteUser.do" method="post" id="join">
+    <form action="join.asp" method="post" id="join">
         <fieldset>
-            <legend>■회원탈퇴</legend>
+            <legend>■가입정보</legend>
             <ul>
-                <li><label for="password">비밀번호 입력</label><input type="password" class="inputpwd" name="password" id="password" value ="">
-                <input style="
-                margin-left:10px; 
-                width:40px; 
-                color:white;" class="btnconfirm btn" type="submit" value="확인"></li>
+                <li><label for="uname">아이디</label><input type="text" id="uname" value ="${userInfo.id }" readonly></li>
+                
+                <li><label for="pwd1">닉네임</label><input type="text" id="nickname" value="${userInfo.nickname }" readonly></li>
+                
+                <li><label for="phone_number">핸드폰번호</label><input type="text" id="phone_number" value="${userInfo.phone_number }" readonly></li>
+                
+                <li><label for="addr">주소</label><input type="text" id="addr" value="${userInfo.addr }" readonly></li>
+                
+                <li><label for="detail_addr">상세주소</label><input type="text" id="detail_addr" value="${userInfo.detail_addr }" readonly></li>
             </ul>
         </fieldset>
+        
+        
+        
+               
     </form>
 </div>
-
-
-
-
-
-<script>
-$('.btn').click(function(){
-	let userPwd=$('.inputpwd').val();//input_id에 입력되는 값.
-	//const link='${contextPath}/userController/deleteUser.do'
-	
-	$.ajax({
-		url:"${contextPath}/userController/overlappwd.do",
-		type:"post",
-		data:{userPwd: userPwd},
-		dataType:'json',
-		success:function(result){ 
-			if(result!=0){
-				alert('비밀번호가 일치하지 않습니다. 다시 입력해주세요');
-				$('.inputpwd').text('');
-				$('.inputpwd').focus();
-			}else{
-				$('btn').submit();
-			}
-		},
-		error:function(){
-			alert("서버요청실패");
-		}
-	})
-})
-</script>
 </body>
 </html>

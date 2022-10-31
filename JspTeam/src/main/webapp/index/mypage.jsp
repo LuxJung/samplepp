@@ -5,7 +5,6 @@
 <%@ page import="java.io.PrintWriter"%>
 <%@ page import="java.util.*"%>
 <%@ page import="board.*"%>
-
 <%
 request.setCharacterEncoding("UTF-8");
 %>
@@ -14,89 +13,31 @@ request.setCharacterEncoding("UTF-8");
 <c:set var="totArticles" value="${articlesMap.totArticles}" />
 <c:set var="section" value="${articlesMap.section}" />
 <c:set var="pageNum" value="${articlesMap.pageNum}" />
-
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="utf-8">
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>Best Seller</title>
+<title>Insert title here</title>
 
-<link rel="stylesheet" type="text/css" href="../resource/css/bootstrap.css">
-<link rel="stylesheet" type="text/css" href="../resource/css/override.css">
+<link rel="stylesheet" type="text/css"
+	href="../resource/css/bootstrap.css">
+<link rel="stylesheet" type="text/css"
+	href="../resource/css/override.css">
 <script type="text/javascript"
 	src="../resource/js/bootstrap.bundle.min.js"></script>
 <script type="text/javascript" src="../resource/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="../resource/js/jquery-3.6.0.js"></script>
 
-<script type="text/javascript">
-$(document).ready(function(){
-	/*
-	var link = '${contextPath}/board/listArticles.do'; 
-	
-	$.ajax({
-	    type:"post",
-	    dataType:"text",
-	    async:true,  
-	    url:"${contextPath}/board/listArticles.do",
-	    data: "${contextPath}",
-	    success:function (data,textStatus){
-	    	//console.log(${articlesMap.articlesList});
-	    },
-	    error:function(data,textStatus){
-	       alert("실패.");
-	    },
-	    complete:function(data,textStatus){
-	    	location.replace(link);
-	    }
-	 });	*/
-	
-});
-
-function kakaoLogout() {
-	if (!Kakao.isInitialized()) {
-		Kakao.init('a9bd1d62db585f44286b5451460b4031');
-	};
-    if (Kakao.Auth.getAccessToken()) {
-      Kakao.API.request({
-        url: '/v1/user/unlink',
-        success: function (response) {
-            console.log(response)
-            console.log('로그아웃 성공')
-        },
-        fail: function (error) {
-          console.log(error)
-        },
-      })
-    }
-}
-
-function newArticle() {
-	var loginUser =  '<%=(String)session.getAttribute("sessionID")%>';
-	console.log(loginUser);
-	
-	if(loginUser=="null"){
-		alert("로그인이 필요한 서비스 입니다.");
-		$(location).attr("href", "../login/loginForm_.jsp");
-	}else{
-		$(location).attr("href", "../boardview/addboard.jsp");
-	}
-}
-</script>
-
-<style>
-</style>
 </head>
 <body>
-	<!-- 헤더 -->
-	<%-- <%@ include file="../include/login_nav.jsp" %> --%>
-
 	<nav class="py-2 bg-light border-bottom ">
 		<div class="container d-flex flex-wrap">
 			<ul class="nav me-auto">
 				<!--여기 뭐 넣을지 생각....-->
-				<li class="nav-item"><a href="${contextPath}/board/listArticles.do"
+				<li class="nav-item"><a
+					href="${contextPath}/board/listArticles.do"
 					class="nav-link link-dark px-2 active" aria-current="page">Home</a></li>
 				<li class="nav-item"><a href="#"
 					class="nav-link link-dark px-2">Features</a></li>
@@ -110,9 +51,9 @@ function newArticle() {
 				if (session.getAttribute("sessionID") != null || session.getAttribute("kakaosessionID") != null) {
 				%>
 				<!--클래스로 로그인 유무 display 조정-->
-				<li class="nav-item login_true "><a href="${contextPath}/index/mypage.jsp">
-						<!--마이페이지 이동--> <!--로그인 자기 이미지 띄우기--> <img
-						src="../resource/users/${userInfo.profile_img }" alt="mdo"
+				<li class="nav-item login_true "><a
+					href="${contextPath}/index/mypage.jsp"> <!--마이페이지 이동--> <!--로그인 자기 이미지 띄우기-->
+						<img src="../resource/users/${userInfo.profile_img }" alt="mdo"
 						width="40" height="40" class="rounded-circle">
 				</a></li>
 				<li class="nav-item login_true "><a
@@ -142,78 +83,53 @@ function newArticle() {
 		</div>
 	</nav>
 	<%@ include file="../include/head_title.jsp"%>
-	<!-- 배너 -->
-	<%@ include file="../include/banner.jsp"%>
-
-	<!-- 새 글 등록 fixed -->
-	<a class="newatcl" onClick="newArticle()" style="z-index: 1;">+</a>
-
-	<section>
-		<div class="container d-flex flex-wrap justify-content-center">
-			<h2
-				class="d-flex align-items-center mb-3 mb-lg-0 me-lg-auto text-dark text-decoration-none mgt">오늘의
-				추천 상품</h2>
+	<main class="container">
+		<div class="container d-flex justify-content-evenly">
+			<h2 style="text-align: center;"
+				class="font-monospace text-muted text-uppercase">${userInfo.nickname }님 <span style="#666666">마이페이지</span>	<br> 
+			</h2>
 		</div>
 
-
-		<!-- 서블릿에서 넘어온 articlesMap.articlesList값을 c set을통해 articlesList로 설정하여 판단 -->
-		<!-- articlesList를 articles로 재정의 하여 VO값을 꺼내온다 -->
-
-		<div class="album py-5 bg-light">
-			<div class="container">
-				<div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3">
-					<c:choose>
-						<c:when test="${empty articlesList }">
-							<p>리스트가 없다능</p>
-						</c:when>
-						<c:when test="${!empty articlesList }">
-
-							<c:forEach var="articles" items="${articlesList }">
-								<div class="col">
-									<a href="${contextPath}/board/readArticle.do?num_aticle=${articles.num_aticle}">
-									
-										<div class="card shadow-sm text-center">
-											<span style="width: 150px; display: none;">${articles.num_aticle}</span>
-											<div class="bd-placeholder-img card-img-top w-100"
-												style="height: 185px; border-bottom: 1px solid #cccccc;">
-												
-												<img
-													src="../resource/imgs/${articles.num_aticle}/${articles.goods_img}"
-													class="d-block h-100 img-fluid img-thumbnail" ">
-												<p>이미지 경로 ${articles.goods_img}</p>
-												<p>예약일때 표기 ex ${articles.deal_status}</p>
-											</div>
-											<div class="card-body">
-												<p class="card-text">${articles.title}</p>
-												<p class="card-text">${articles.contents}</p>
-												<div
-													class="d-flex justify-content-between align-items-center">
-													<div class="btn-group">
-														<button type="button"
-															class="btn btn-sm btn-outline-secondary">View</button>
-														<button type="button"
-															class="btn btn-sm btn-outline-secondary">Edit</button>
-													</div>
-													<small class="text-muted">${articles.upload}</small>
-												</div>
-											</div>
-										</div>
-									</a>
-								</div>
-							</c:forEach>
-						</c:when>
-					</c:choose>
+		<div class="container">
+			<div class="row ">
+				<div class="col">
+					<div
+						class="bd-example-snippet d-flex bd-code-snippet justify-content-end">
+						<div class="col-lg-2 imgContainer justify-content-end">
+							<img style="width: 100%; height: 100%;"
+								src="../resource/users/${userInfo.profile_img}"
+								class="figure-img img-fluid rounded mt-2 " alt="preview">
+						</div>
+					</div>
 				</div>
+				<div class="col">
+					<div class="input-group mb-3 mt-2 row">
+						<a href="../join/myinfo.jsp"
+							class="btn btn-outline-success btn-sm  w-25" tabindex="-1"
+							role="button" aria-disabled="true">정보조회</a>
+					</div>
+					<div class="input-group mb-1 mt-3 row">
+						<a href="../join/updateform.jsp"
+							class="btn btn-outline-success btn-sm w-25" tabindex="-1"
+							role="button" aria-disabled="true">정보수정</a>
+					</div>
+					<div class="input-group mb-3 mt-3 row">
+						<a href="../join/deleteForm.jsp"
+							class="btn btn-outline-success btn-sm w-25" tabindex="-1"
+							role="button" aria-disabled="true">회원탈퇴</a>
+					</div>
+
+				</div>
+				<hr style="color: green; margin-top:1em;" >
 			</div>
 		</div>
-	</section>
-
-
+	</main>
+	
 	<!--페이징 넘버처리-->
 	<!-- 서블릿에서 넘어온 articlesMap.totArticles값을 c set을통해 totArticles로 설정하여 판단 -->
 	<!-- 서블릿에서 넘어온 articlesMap.section값을 c set을통해 section로 설정하여 판단 -->
 	<!-- 서블릿에서 넘어온 articlesMap.pageNum값을 c set을통해 pageNum로 설정하여 판단 -->
-	<div>
+	<!--<%-- 	<div>
 		<c:if test="${totArticles != null }">
 			<c:choose>
 				<c:when test="${totArticles >100 }">
@@ -283,7 +199,7 @@ function newArticle() {
 			</c:choose>
 		</c:if>
 	</div>
+ --%>-->
 
 </body>
 </html>
-

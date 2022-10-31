@@ -115,7 +115,7 @@ public class UserController extends HttpServlet {
 				request.setAttribute("articlesMap", articlesMap);
 				
 				
-				nextPage="../index.jsp";
+				nextPage="../board/listArticles.do";
 			}else {
 				System.out.println("로그인실패");
 				request.setAttribute("loginResult", loginResult);
@@ -125,19 +125,25 @@ public class UserController extends HttpServlet {
 			dispatch.forward(request, response);
 		}else if(action.equals("/deleteUser.do")) {
 			
-			String id=request.getParameter("id");
+			HttpSession session = request.getSession();
+            String id = (String)session.getAttribute("sessionID");
 			String password=request.getParameter("password");
+			
 			
 			System.out.println(id);
 			System.out.println(password);
 			
 			if(userDAO.login(id, password)==1) {
 				userDAO.deleteUser(id, password);
-				nextPage="../login/logout.jsp";
+				 session.removeAttribute("sessionID");//세션제거
+				 session.invalidate();
+				 nextPage="../board/listArticles.do";
+				 
 			}else {
-				request.setAttribute("text", "fail");
-				RequestDispatcher dis = request.getRequestDispatcher("deleteForm.jsp");
-				dis.forward(request, response);
+				
+				nextPage="../join/deleteForm.jsp";
+				
+				
 			}
 			RequestDispatcher dispatch = request.getRequestDispatcher(nextPage);
 			dispatch.forward(request, response);
@@ -177,6 +183,25 @@ public class UserController extends HttpServlet {
 			}
 			out.write(nickCheck+"");
 		}
+		else if(action.equals("/overlappwd.do")) {
+            String userPwd=request.getParameter("userPwd");
+            System.out.println("userPwd="+userPwd);
+            PrintWriter out = response.getWriter();
+            
+            UserDAO userDAO = new UserDAO();
+            
+            int pwdCheck=userDAO.checkPassword(userPwd);
+            System.out.println("pwdCheck="+pwdCheck);
+            
+            //개발자용 성공여부 확인
+            if(pwdCheck==0) {
+                    System.out.println("비밀번호가 일치합니다.");
+            }else if(pwdCheck==1) {
+                    System.out.println("비밀번호가 일치하지 않습니다.");
+            }
+            out.write(pwdCheck+"");
+		}
+		
 		else if(action.equals("/sendEmail.do")) {
 			String emailadr=request.getParameter("emailAdr");
 			EmailSMTP email=new EmailSMTP();
@@ -249,7 +274,27 @@ public class UserController extends HttpServlet {
 				nextPage="../login/loginForm_.jsp";
 				
 			}
-			response.sendRedirect("../index.jsp");
-		}
+			response.sendRedirect("../board/listArticles.do");
+		}else if(action.equals("/updateuser.do")){
+            String id=request.getParameter("id");
+            String password=request.getParameter("password");
+            String nickname=request.getParameter("nickname");
+            String phone_number=request.getParameter("phone_number");
+            String profile_img=request.getParameter("profile_img");
+            String addr=request.getParameter("addr");
+            String detail_addr=request.getParameter("detail_addr");
+            
+            System.out.println("업데이트서블렛="+nickname);
+            System.out.println(phone_number);
+            System.out.println(profile_img);
+            System.out.println(addr);
+            System.out.println(detail_addr);
+            
+            UserVO userVO = new UserVO(id,password,nickname, phone_number,profile_img,addr,detail_addr);
+            userDAO.updateMember(userVO);
+            nextPage="../index/mypage.jsp";
+            RequestDispatcher dispatch = request.getRequestDispatcher(nextPage);
+            dispatch.forward(request, response);
+    }
 	}
 }
