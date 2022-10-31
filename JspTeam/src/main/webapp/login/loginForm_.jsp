@@ -97,9 +97,9 @@ if (cookies != null) {
 
 
 	<script type="text/javascript">
-	if (!Kakao.isInitialized()) {
-		Kakao.init('a9bd1d62db585f44286b5451460b4031');
-	};
+		if (!Kakao.isInitialized()) {
+			Kakao.init('a9bd1d62db585f44286b5451460b4031');
+		};
 		function kakaoLogout() {
 			if (!Kakao.isInitialized()) {
 				Kakao.init('a9bd1d62db585f44286b5451460b4031');
@@ -121,20 +121,15 @@ if (cookies != null) {
 		}
 
 		$(function() {
-			$("#login_kakao")
-					.click(
-							function(event) {
-								//event.preventDefault();
-								if (!Kakao.isInitialized()) {
-									Kakao
-											.init('a9bd1d62db585f44286b5451460b4031');
-								}
-								;
-								Kakao.Auth
-										.login({
-											success : function(auth) {
-												Kakao.API
-														.request({
+			$("#login_kakao").click(function(event) {
+			//event.preventDefault();
+				if (!Kakao.isInitialized()) {
+					Kakao.init('a9bd1d62db585f44286b5451460b4031');
+				};
+				Kakao.Auth.login(
+						{success : function(auth) {
+							Kakao.API.request(
+									{
 															url : '/v2/user/me',
 															success : function(
 																	response) {
@@ -191,15 +186,11 @@ if (cookies != null) {
 																				}
 																			}
 																		});
-															},
-															fail : function(
-																	error) {
-																console
-																		.log('오류가 발생했습니다.');
+															},fail : function(error) {
+																console.log('오류가 발생했습니다.');
 															}
 														});
-											},
-											fail : function(error) {
+											},fail : function(error) {
 												console.log('오류가 발생했습니다.');
 											}
 										});

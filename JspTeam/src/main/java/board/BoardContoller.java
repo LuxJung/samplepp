@@ -85,7 +85,8 @@ public class BoardContoller extends HttpServlet {
 			} else if (action.equals("/createArticle.do")) {
 				// C-작업수행
 				Map<String, String> articleMap = upload(request, response);
-				String id = articleMap.get("id");
+				HttpSession session = request.getSession();
+				String id=(String) session.getAttribute("sessionID");
 				String title = articleMap.get("title");
 				String content = articleMap.get("content");
 				String price = articleMap.get("price");
@@ -167,25 +168,40 @@ public class BoardContoller extends HttpServlet {
 				PrintWriter writer = response.getWriter();
 				writer.print("상품 구매예약 했습니다."); 
 				return;
-			}else if (action.equals("../boardview/modifyArticles.do")) {
+			}else if (action.equals("/modifyArticles.do")) {
 				// U
 				Map<String, String> articleMap = upload(request, response);
+				int num_aticle = Integer.parseInt(articleMap.get("num_aticle"));
 				String title = articleMap.get("title");
 				String content = articleMap.get("content");
+				String price = articleMap.get("price");
 				String imgFileName = articleMap.get("goods_img");
 				System.out.println("오냐?");
-				System.out.println("1");
-				System.out.println("2" + boardVO.getNum_aticle());
-				boardVO.setNickname("디폴트");
-				System.out.println("3");
-				boardVO.setCategory("디폴트");
+				boardVO.setNum_aticle(num_aticle);
 				boardVO.setTitle(title); // addboard input에서 받아옴
 				boardVO.setContents(content);
-				boardVO.setGoods_name("디폴트");
+				boardVO.setPrice(price);
 				boardVO.setGoods_img(imgFileName);
-
 				boardService.modifyArticle(boardVO);
-				nextPage = "../boardview/addboard.jsp";
+				System.out.println("[ addArticle 수행 이후! ] num_aticle "+num_aticle);
+				System.out.println("[ addArticle 수행 이후! ] imgFileName "+imgFileName);
+				if (imgFileName != null && imgFileName.length() != 0) {
+					System.out.println("[ addArticle 수행 이후! ] imgFile 있기떄문에 여기로 온다");
+					File srcFile = new File(BOARD_IMG_REPOSITORY + "\\" + "temp" + "\\" + imgFileName);
+					System.out.println("srcFile");
+					File destDir = new File(BOARD_IMG_REPOSITORY + "\\" + num_aticle);
+					
+					if(!srcFile.exists())srcFile.mkdirs();
+					System.out.println("destDir");
+					if(!destDir.exists())destDir.mkdirs();
+					System.out.println("destDir.mkdirs()");
+					FileUtils.moveFileToDirectory(srcFile, destDir, true);
+					System.out.println("FileUtils.moveFileToDirectory(srcFile, destDir, true)");
+				}
+				PrintWriter pw = response.getWriter();
+				pw.print("<script>" + "  alert('글을 수정했습니다.');" + " location.href='" + request.getContextPath()
+						+ "/board/readArticle.do?num_aticle='"+num_aticle+";" + "</script>");
+				response.sendRedirect("/board/readArticle.do?num_aticle="+num_aticle);
 			} 
 			else if (action.equals("/deleteArticles.do")) {
 				// D

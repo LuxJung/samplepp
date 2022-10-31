@@ -63,6 +63,12 @@ ul, li {
 
 <script type="text/javascript">
 	$(document).ready(function() {
+		
+		reload() {
+		    (location || window.location || document.location).reload();
+		}
+		location.reload(true);
+		
 		$('#preview').css('display', 'none');
 	});
 	function modify() {
@@ -72,18 +78,26 @@ ul, li {
 
 	function remove_aticle(url, num_aticle) {
 		var form = document.createElement("form");
-		var num = $('#num').val();
+		//var num = $('#num').val();
 		var url = "${contextPath}/board/deleteArticles.do";
+		
 		form.setAttribute("method", "post");
 		form.setAttribute("action", url);
+		
 		var aricleNo = document.createElement("input");
+		
 		aricleNo.setAttribute("type", "hidden");
 		aricleNo.setAttribute("name", "num_aticle");
 		aricleNo.setAttribute("value", num_aticle);
+		
 		form.appendChild(aricleNo);
 		document.body.appendChild(form);
+		
 		form.submit();
 	}
+	
+	
+	
 	function backToList() {
 		$(location).attr("href", "../board/listArticles.do");
 	}
@@ -151,11 +165,14 @@ ul, li {
 	}
 	
 	function modifyArticle() {
-		$('#v1').addClass('hiddenVlue')
+		$('#v1').addClass('hiddenVlue');
+		$('#v2').removeClass('hiddenVlue');
 	}
+	
 	function newArticle() {
 		var loginUser =  '<%=(String)session.getAttribute("sessionID")%>';
 		console.log(loginUser);
+		
 		if(loginUser=="null"){
 			alert("로그인이 필요한 서비스 입니다.");
 			$(location).attr("href", "../login/loginForm_.jsp");
@@ -163,12 +180,64 @@ ul, li {
 			$(location).attr("href", "../boardview/addboard.jsp");
 		}
 	}
+	
 </script>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
 <body>
-	<%@ include file="../include/login_nav.jsp"%>
+		<!-- 헤더 -->
+	<%-- <%@ include file="../include/login_nav.jsp" %> --%>
+
+	<nav class="py-2 bg-light border-bottom ">
+		<div class="container d-flex flex-wrap">
+			<ul class="nav me-auto">
+				<!--여기 뭐 넣을지 생각....-->
+				<li class="nav-item"><a href="${contextPath}/board/listArticles.do"
+					class="nav-link link-dark px-2 active" aria-current="page">Home</a></li>
+				<li class="nav-item"><a href="#"
+					class="nav-link link-dark px-2">Features</a></li>
+				<li class="nav-item"><a href="#"
+					class="nav-link link-dark px-2">Pricing</a></li>
+				<li class="nav-item"><a href="#"
+					class="nav-link link-dark px-2">About</a></li>
+			</ul>
+			<ul class="nav">
+				<%
+				if (session.getAttribute("sessionID") != null || session.getAttribute("kakaosessionID") != null) {
+				%>
+				<!--클래스로 로그인 유무 display 조정-->
+				<li class="nav-item login_true "><a href="">
+						<!--마이페이지 이동--> <!--로그인 자기 이미지 띄우기--> <img
+						src="../resource/users/${userInfo.profile_img }" alt="mdo"
+						width="40" height="40" class="rounded-circle">
+				</a></li>
+				<li class="nav-item login_true "><a
+					href="${contextPath}/userController/logout.do"
+					onclick="kakaoLogout()" class="nav-link link-dark px-2">Logout</a>
+				</li>
+
+				<%
+				} else if (session.getAttribute("sessionID") == null || session.getAttribute("kakaosessionID") == null) {
+				%>
+				<!--클래스로 로그인 유무 display 조정-->
+
+				<!--클래스로 로그인 유무 display 조정-->
+				<li class="nav-item login_true">
+					<!--로그인 페이지 이동--> <a href="../login/loginForm_.jsp"
+					class="nav-link link-dark px-2">Login</a>
+				</li>
+
+				<li class="nav-item login_true">
+					<!--회원가입 페이지 이동--> <a href="../join/joinForm_2.jsp"
+					class="nav-link link-dark px-2">Sign up</a>
+				</li>
+				<%
+				}
+				%>
+			</ul>
+		</div>
+	</nav>
 	<%@ include file="../include/head_title.jsp"%>
 
 	<!-- read.do에서 디폴트 네임 지정-->
@@ -333,7 +402,7 @@ ul, li {
 
 			<div class="my-3 p-3 bg-body rounded shadow-sm">
 				<form name="articleForm" method="post" enctype="multipart/form-data"
-					action="${contextPath}/board/createArticle.do">
+					action="${contextPath}/board/modifyArticles.do">
 					<input name="num_aticle" class="hiddenVlue" value="${article.num_aticle}">
 
 					<h4 class="font-monospace text-muted text-uppercase">제품 이미지</h4>
@@ -386,9 +455,13 @@ ul, li {
 
 					<div class="col-lg-6 mx-auto pt-3">
 						<div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
-							<input type="submit" class="btn btn-success btn-lg px-4 gap-3" value="수정하기" /> 
-							<input type="button" class="btn btn-outline-secondary btn-lg px-4" value="삭제하기"
-								onClick="remove_aticle('${contextPath}/board/deleteArticles.do?num_aticle=${article.num_aticle}','${article.num_aticle}')" />
+							<input type="submit" class="btn btn-success btn-lg px-4 gap-3" value="수정하기" 
+							onClick="modify_aticle('${contextPath}/board/modifyArticles.do','${article.num_aticle}')"
+							/> 
+							<input type="button" 
+							class="btn btn-outline-secondary btn-lg px-4" 
+							value="삭제하기"
+							onClick="remove_aticle('${contextPath}/board/deleteArticles.do','${article.num_aticle}')" />
 							<input type="button" class="btn btn-outline-secondary btn-lg px-4" value="뒤로가기"
 								onClick="backToList()" />
 						</div>

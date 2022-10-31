@@ -74,7 +74,7 @@ public class JoinController extends HttpServlet {
 		String password=articleMap2.get("password");
 		String nickname=articleMap2.get("nickname");
 		String phone_number=articleMap2.get("phone_number");
-		String profile_img=articleMap2.get("profile_img");
+		String profile_img=(!(articleMap2.get("profile_img")==null))?articleMap2.get("profile_img"):"userProfile.jpg";
 		String addr=articleMap2.get("addr");
 		String detail_addr=articleMap2.get("detail_addr");
 		
@@ -99,7 +99,7 @@ public class JoinController extends HttpServlet {
 		UserVO userVO = new UserVO(id, password, nickname, phone_number,profile_img,addr,detail_addr);
 		userDAO.addMember(userVO);
 		//nextPage="../index/index.jsp";
-		response.sendRedirect("../index.jsp");
+		response.sendRedirect("../board/listArticles.do");
 		
 		//RequestDispatcher dispatch = request.getRequestDispatcher("../index/index.jsp");
 		//dispatch.forward(request, response);
@@ -112,9 +112,9 @@ public class JoinController extends HttpServlet {
 		Map<String, String> articleMap = new HashMap<String, String>();
 		
 		//서버 경로로 이미지 폴더 수정 test
-		String realPath = "/var/webapps/upload";
+		String realPath = "D:\\JSP\\JSP_Workspace\\DbTest\\JspTeam\\src\\main\\webapp\\resource\\users";
 		String appPath = System.getProperty("catalina.home") + realPath;
-		File currentDirPath = new File(appPath);
+		File currentDirPath = new File(realPath);
 		
 		DiskFileItemFactory factory = new DiskFileItemFactory();
 		factory.setRepository(currentDirPath);

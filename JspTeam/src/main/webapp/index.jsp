@@ -71,6 +71,18 @@ function kakaoLogout() {
       })
     }
 }
+
+function newArticle() {
+	var loginUser =  '<%=(String)session.getAttribute("sessionID")%>';
+	console.log(loginUser);
+	
+	if(loginUser=="null"){
+		alert("로그인이 필요한 서비스 입니다.");
+		$(location).attr("href", "../login/loginForm_.jsp");
+	}else{
+		$(location).attr("href", "../boardview/addboard.jsp");
+	}
+}
 </script>
 
 <style>
@@ -134,7 +146,7 @@ function kakaoLogout() {
 	<%@ include file="../include/banner.jsp"%>
 
 	<!-- 새 글 등록 fixed -->
-	<a class="newatcl" href="../boardview/addboard.jsp" style="z-index: 1;">+</a>
+	<a class="newatcl" onClick="newArticle()" style="z-index: 1;">+</a>
 
 	<section>
 		<div class="container d-flex flex-wrap justify-content-center">
