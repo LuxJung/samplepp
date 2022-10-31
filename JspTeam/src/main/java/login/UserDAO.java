@@ -41,6 +41,15 @@ public class UserDAO {
 		
 		}catch (Exception e) {
 			e.printStackTrace();
+		}finally {
+			if (conn != null) {
+				try {
+					pstmt.close();
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 		return -1;
 		
@@ -61,6 +70,15 @@ public class UserDAO {
 		
 		}catch (Exception e) {
 			e.printStackTrace();
+		}finally {
+			if (conn != null) {
+				try {
+					pstmt.close();
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 		return -1;
 		
@@ -78,6 +96,15 @@ public class UserDAO {
 			conn.close();
 			
 		} catch (Exception e) {
+		}finally {
+			if (conn != null) {
+				try {
+					pstmt.close();
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 	}
 	
@@ -112,6 +139,15 @@ public class UserDAO {
 			conn.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
+		}finally {
+			if (conn != null) {
+				try {
+					pstmt.close();
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 	}
 	
@@ -143,6 +179,15 @@ public void addKakaoMember(KakaouserVO u) {
 			conn.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
+		}finally {
+			if (conn != null) {
+				try {
+					pstmt.close();
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 	}
 	
@@ -166,6 +211,15 @@ public void addKakaoMember(KakaouserVO u) {
 			
 		} catch (Exception e) {
 			e.printStackTrace();
+		}finally {
+			if (conn != null) {
+				try {
+					pstmt.close();
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 		return idCheck;
 	}
@@ -189,6 +243,15 @@ public void addKakaoMember(KakaouserVO u) {
 			
 		} catch (Exception e) {
 			e.printStackTrace();
+		}finally {
+			if (conn != null) {
+				try {
+					pstmt.close();
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 		return nickCheck;
 	}
@@ -234,6 +297,15 @@ public void addKakaoMember(KakaouserVO u) {
 		
 		}catch (Exception e) {
 			e.printStackTrace();
+		}finally {
+			if (conn != null) {
+				try {
+					pstmt.close();
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 		return user;
 	}
@@ -276,6 +348,15 @@ public void addKakaoMember(KakaouserVO u) {
 		}		
 		}catch (Exception e) {
 			e.printStackTrace();
+		}finally {
+			if (conn != null) {
+				try {
+					pstmt.close();
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 		return user;
 		

@@ -14,16 +14,16 @@ public class BoardVO {
 	private String goods_name; //not null
 	private int num_cmnt; //null ok
 	
-	private int price; //NOT NULL
+	private String price; //NOT NULL
 	private String goods_img; // TEXT NOT NULL,
 	private String tag; // TEXT
 	
-	public int getPrice() {
+	public String getPrice() {
 		return price;
 	}	
 
 
-	public void setPrice(int price) {
+	public void setPrice(String price) {
 		this.price = price;
 	}
 
@@ -70,7 +70,7 @@ public class BoardVO {
 	
 	//글내용 전체 속성에 대한 생성자
 	public BoardVO(int num_aticle, String nickname, String category, String title, String contents,
-			String deal_status, Date upload, String goods_name, int num_cmnt ) {
+			String deal_status, Date upload, String goods_name, String price ) {
 		
 		this.num_aticle = num_aticle;
 		this.nickname = nickname;
@@ -80,7 +80,7 @@ public class BoardVO {
 		this.deal_status = deal_status;
 		this.upload = upload;
 		this.goods_name = goods_name;
-		this.num_cmnt = num_cmnt;
+		this.price = price;
 	}
 
 

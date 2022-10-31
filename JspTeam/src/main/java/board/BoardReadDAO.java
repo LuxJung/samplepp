@@ -62,7 +62,7 @@ public class BoardReadDAO {
 			String goods_name = rs.getString("goods_name");
 			int num_cmnt = rs.getInt("num_cmnt");
 			String goods_img = rs.getString("goods_img");
-			int price = rs.getInt("price");
+			String price = rs.getString("price");
 
 			boardVO.setNum_aticle(search_num_aticle);
 			boardVO.setNickname(nickname);
@@ -87,7 +87,7 @@ public class BoardReadDAO {
 			e.printStackTrace();
 		}finally {
 			if (conn != null) {
-				try {
+				try {pstmt.close();
 					conn.close();
 				} catch (SQLException e) {
 					e.printStackTrace();

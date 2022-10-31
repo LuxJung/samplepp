@@ -52,17 +52,7 @@ public class UserController extends HttpServlet {
 		System.out.println("action:" + action);
 		
 		
-		String _section=request.getParameter("section");
-		String _pageNum=request.getParameter("pageNum");
-		int section = Integer.parseInt(((_section==null)? "1":_section) );
-		int pageNum = Integer.parseInt(((_pageNum==null)? "1":_pageNum));
-		Map<String, Integer> pagingMap=new HashMap<String, Integer>();
-		pagingMap.put("section", section);
-		pagingMap.put("pageNum", pageNum);
-		Map<String, Object> articlesMap=boardService.listArticles(pagingMap);
-		articlesMap.put("section", section);
-		articlesMap.put("pageNum", pageNum);
-		request.setAttribute("articlesMap", articlesMap);
+		
 		
 		if(action.equals("/addUser.do")) {
 			String id=request.getParameter("id");
@@ -111,6 +101,18 @@ public class UserController extends HttpServlet {
 				System.out.println(userInfo.getProfile_img());
 				System.out.println(session.getAttribute("sessionID"));
 				
+				
+				String _section=request.getParameter("section");
+				String _pageNum=request.getParameter("pageNum");
+				int section = Integer.parseInt(((_section==null)? "1":_section) );
+				int pageNum = Integer.parseInt(((_pageNum==null)? "1":_pageNum));
+				Map<String, Integer> pagingMap=new HashMap<String, Integer>();
+				pagingMap.put("section", section);
+				pagingMap.put("pageNum", pageNum);
+				Map<String, Object> articlesMap=boardService.listArticles(pagingMap);
+				articlesMap.put("section", section);
+				articlesMap.put("pageNum", pageNum);
+				request.setAttribute("articlesMap", articlesMap);
 				
 				
 				nextPage="../index.jsp";

@@ -41,6 +41,7 @@ public class BoardUpdateDAO {
 		Date upload = boardVO.getUpload(); 				//default
 		String goods_name = boardVO.getGoods_name(); 	//not null
 		int num_cmnt = boardVO.getNum_cmnt(); 		 	//null ok
+		String price = boardVO.getPrice(); 
 		// 추가 작업요망 String goods_img = boardVO.getGoods_img();
 		try {
 			conn = dataFactory.getConnection();

@@ -14,11 +14,15 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.io.FileUtils;
+
+import login.UserDAO;
+import login.UserVO;
 
 @WebServlet("/board/*")
 public class BoardContoller extends HttpServlet {
@@ -27,12 +31,15 @@ public class BoardContoller extends HttpServlet {
 	private String BOARD_IMG_REPOSITORY2 = "D:\\JSP\\JSP_Workspace\\DbTest\\JspTeam\\src\\main\\webapp\\resource\\imgs\\temp";
 	BoardService boardService;
 	BoardVO boardVO;
+	UserDAO userDAO;
+	int loginResult;
 
 	// BoardDAO boardDAO;
 	public void init() throws ServletException {
 		// boardDAO = new BoardDAO();
 		boardService = new BoardService();
 		boardVO = new BoardVO();
+		userDAO = new UserDAO();
 		System.out.println("초기화");
 	}
 
@@ -56,22 +63,7 @@ public class BoardContoller extends HttpServlet {
 		System.out.println(request.getServletContext());
 		try {
 			List<BoardVO> articlesList = new ArrayList<>();
-			/*if (action == null) {
-				
-				String _section=request.getParameter("section");
-				String _pageNum=request.getParameter("pageNum");
-				int section = Integer.parseInt(((_section==null)? "1":_section) );
-				int pageNum = Integer.parseInt(((_pageNum==null)? "1":_pageNum));
-				Map<String, Integer> pagingMap = new HashMap<String, Integer>();
-				pagingMap.put("section", section);
-				pagingMap.put("pageNum", pageNum);
-				Map<String, Object> articlesMap=boardService.listArticles(pagingMap);
-				articlesMap.put("section", section);
-				articlesMap.put("pageNum", pageNum);
-				request.setAttribute("articlesMap", articlesMap);
-				
-				nextPage = "/listboard.jsp";
-			}else */if(action == null|| action.equals("/listArticles.do")) {
+			if(action == null|| action.equals("/listArticles.do")) {
 				String _section=request.getParameter("section");
 				String _pageNum=request.getParameter("pageNum");
 				int section = Integer.parseInt(((_section==null)? "1":_section) );
@@ -93,22 +85,23 @@ public class BoardContoller extends HttpServlet {
 			} else if (action.equals("/createArticle.do")) {
 				// C-작업수행
 				Map<String, String> articleMap = upload(request, response);
-				
+				String id = articleMap.get("id");
 				String title = articleMap.get("title");
 				String content = articleMap.get("content");
 				String price = articleMap.get("price");
 				String imgFileName = articleMap.get("goods_img");
 				
+				System.out.println("articleMap 에서 가져오는 id==" + id);
 				System.out.println("articleMap 에서 가져오는 title==" + title);
 				System.out.println("articleMap 에서 가져오는 content==" + content);
 				System.out.println("articleMap 에서 가져오는 price==" + price);
 				System.out.println("articleMap 에서 가져오는 imgFileName==" + imgFileName);
-				boardVO.setNickname("테스트");
+				boardVO.setNickname(id);
 				boardVO.setCategory("디폴트");
 				boardVO.setTitle(title); // addboard input을 map으로 줘서 받아옴
 				boardVO.setContents(content);
 				boardVO.setGoods_name("디폴트");
-				boardVO.setPrice(Integer.parseInt(price));
+				boardVO.setPrice(price);
 				boardVO.setGoods_img(imgFileName);
 				System.out.println("[ addArticle 수행 이전 ]");
 				int num_aticle = boardService.addArticle(boardVO);
@@ -133,8 +126,23 @@ public class BoardContoller extends HttpServlet {
 						+ "/board/listArticles.do';" + "</script>");
 				System.out.println("[ 새 글 작성 alert() 띄운 후]");
 				return;
-			} else if (action.equals("../boardview/readArticle.do")) {
-				// R
+			} 
+			// Read Article
+			else if (action.equals("/readArticle.do")) {
+				//로그인 정보 확인
+				//세션 받아오기
+				HttpSession session = request.getSession();
+				String id=(String) session.getAttribute("sessionID");    
+				
+				System.out.println("세션아이디: "+ id);
+				UserVO userInfo=userDAO.readUser(id);
+				session.setAttribute("userInfo", userInfo);
+				String picname=userInfo.getProfile_img();
+				
+				System.out.println(userInfo.getProfile_img());
+				System.out.println(session.getAttribute("sessionID"));
+				System.out.println(request.getParameter("num_aticle"));
+				
 				String num_aticle = request.getParameter("num_aticle");
 				System.out.println("readArticle.do 서블렛 왔어요" + num_aticle);
 				boardVO = boardService.viewArticle(Integer.parseInt(num_aticle));
@@ -145,7 +153,9 @@ public class BoardContoller extends HttpServlet {
 				request.setAttribute("article", boardVO);
 				nextPage = "../boardview/detailboard.jsp";
 
-			} else if(action.equals("/resolve.do")) {
+			} 
+			
+			else if(action.equals("/resolve.do")) {
 				String deal_status = request.getParameter("deal_status");
 				int num_aticle = Integer.parseInt(request.getParameter("num_aticle"));
 				String nickname = request.getParameter("nickname");

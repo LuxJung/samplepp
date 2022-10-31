@@ -30,7 +30,7 @@ request.setCharacterEncoding("UTF-8");
 
 <script type="text/javascript">
 	$(document).ready(function() {
-		$('#preview').css('visibility', 'hidden');
+		$('#preview').css('display', 'none');
 	});
 
 	function readURL(input) {
@@ -38,16 +38,24 @@ request.setCharacterEncoding("UTF-8");
 			var reader = new FileReader();
 			reader.onload = function(e) {
 				$('#preview').attr('src', e.target.result);
-				$('#preview').css('visibility', 'visible');
+				$('#preview').css('display', 'block');
 				$('#default_img').css('display', 'none');
 			}
 			reader.readAsDataURL(input.files[0]);
 		}
 	}
+	
 	function backToList(obj) {
 		obj.action = "${contextPath}/board/listArticles.do";
 		obj.submit();
 	}
+
+	function replaceNumSubmit(obj) {
+		var num = $('#test').val();
+		var number = num.replace(/,/g, "");
+		obj.submit();
+	}
+
 	function getNumber(obj) {
 		var num01;
 		var num02;
@@ -82,92 +90,76 @@ request.setCharacterEncoding("UTF-8");
 			<h1 class="display-5 fw-bold">상품등록</h1>
 		</div>
 
-
-
 		<hr class="my-4">
-
+		<c:out value="${userInfo.id }"></c:out>
+${userInfo.id }
 
 		<div class="my-3 p-3 bg-body rounded shadow-sm">
 			<form name="articleForm" method="post" enctype="multipart/form-data"
 				action="${contextPath}/board/createArticle.do">
-
+		
 				<h4 class="font-monospace text-muted text-uppercase">제품 이미지</h4>
-
+				<input name="id" style="visibility: hidden;" value="${userInfo.id }">
 				<div class="bd-example-snippet bd-code-snippet">
 					<div class="bd-example">
 						<!--디폴트 이미지-->
 						<figure class="figure" id="default_img">
 							<!--이미지를 선택하면 사라짐-->
 							<img src="../resource/banner/default_img.png"
-								class="figure-img img-fluid rounded" alt="...">
+								class="figure-img img-fluid rounded" alt="preview">
 							<figcaption class="figure-caption">이미지를 등록해주세요</figcaption>
 						</figure>
 						<!--미리보기 이미지-->
-						<img src="..." id="preview"
-							class="bd-placeholder-img img-thumbnail" alt="..." width="400"
+						<img src=""  id="preview"
+							class="bd-placeholder-img img-thumbnail" alt="preview" width="400"
 							height="300">
 					</div>
 					<div class="highlight mb-3">
-
-						<input class="form-control" type="file" id="formFileMultiple">
-
+						<input class="form-control" type="file"
+							name="goods_img" onchange="readURL(this)">
 					</div>
 				</div>
 				<div class="d-flex text-muted pt-3">
 					<div class="input-group mb-3">
-						<span class="input-group-text" id="basic-addon1"> 제 목 </span> <input
-							name="title" type="text" class="form-control"
+						<span class="input-group-text" id="basic-addon1"> 　제 목　 </span> <input
+							name="title" type="text" class="form-control" id="tit"
 							placeholder="상품 제목을 입력해주세요." aria-label="Username"
 							aria-describedby="basic-addon1">
 					</div>
 				</div>
 				<div class="d-flex text-muted pt-3">
 					<div class="input-group mb-3">
-						<span class="input-group-text" id="basic-addon1"> 가 격 </span> 
-						<input type="text" class="form-control" placeholder="가격을 입력해주세요." id="test"
-							aria-label="Username" aria-describedby="basic-addon1" onchange="getNumber(this);" onkeyup="getNumber(this);">
+						<span class="input-group-text" id="basic-addon1"> 　가 격　 </span> <input
+							type="text" class="form-control" placeholder="가격을 입력해주세요."
+							id="test" aria-label="Username" aria-describedby="basic-addon1"
+							onchange="getNumber(this);" onkeyup="getNumber(this);" name="price"> <span
+							class="input-group-text" >원</span>
 					</div>
 				</div>
-				<small class="d-block text-end mt-3"> <a href="#">All
-						updates</a>
-				</small>
+				<div class="input-group pt-3">
+					<span class="input-group-text"> 　내 용　 </span>
+					<textarea class="form-control" aria-label="With textarea"
+						style="resize: none; height: 150px;" name="content" id="con"
+						placeholder="여러 장의 상품 사진과 구입 연도, 브랜드, 사용감, 하자 유무 등 구매자에게 필요한 정보를 꼭 포함해 주세요. (10자 이상)"></textarea>
+				</div>
 
+
+				<div class="col-lg-6 mx-auto pt-3">
+					<div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+						<input type="submit" class="btn btn-success btn-lg px-4 gap-3"
+							value="제품등록"  /> <input
+							type="button" class="btn btn-outline-secondary btn-lg px-4"
+							value="뒤로가기" onClick="backToList(this.form)" />
+					</div>
+				</div>
 			</form>
 		</div>
 		<hr class="my-4">
+	</main>
+</body>
+</html>
 
-
-
-		<form name="articleForm" method="post" enctype="multipart/form-data"
-			action="${contextPath}/board/createArticle.do">
-			<ul>
-				<li style="clear: boath;">
-					<div class="conttl">가격</div>
-					<div class="clb">
-						<input type="text" placeholder="숫자만 입력해주세요." name="price">원
-					</div>
-				</li>
-				<li style="clear: boath;">
-					<div class="conttl">내용</div>
-					<div class="clb">
-						<input type="text" name="content"
-							placeholder="여러 장의 상품 사진과 구입 연도, 브랜드, 사용감, 하자 유무 등 구매자에게 필요한 정보를 꼭 포함해 주세요. (10자 이상)" />
-					</div>
-				</li>
-
-			</ul>
-			<div class="col-lg-6 mx-auto">
-
-				<div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
-
-					<input type="submit" class="btn btn-success btn-lg px-4 gap-3"
-						value="제품등록" /> <input type="button"
-						class="btn btn-outline-secondary btn-lg px-4" value="목록보기"
-						onClick="backToList(this.form)" />
-
-				</div>
-			</div>
-			<!-- <div id="map" style="width: 100%; height: 400px;"></div>
+<!-- <div id="map" style="width: 100%; height: 400px;"></div>
 			<script>
 				var map = new naver.maps.Map("map", {
 					center : new naver.maps.LatLng(37.3595316, 127.1052133),
@@ -337,7 +329,3 @@ request.setCharacterEncoding("UTF-8");
 				point.toString(); // '(128,256)'
 			</script>
  -->
-		</form>
-	</main>
-</body>
-</html>

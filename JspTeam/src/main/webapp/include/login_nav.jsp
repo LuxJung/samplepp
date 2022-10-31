@@ -7,11 +7,11 @@
 <title>로그인 부분</title>
 </head>
 <body>
-   <nav class="py-2 bg-light border-bottom">
+   <nav class="py-2 bg-light border-bottom ">
       <div class="container d-flex flex-wrap">
          <ul class="nav me-auto">
            <!--여기 뭐 넣을지 생각....-->
-            <li class="nav-item"><a href="#" class="nav-link link-dark px-2 active" aria-current="page">Home</a></li>
+            <li class="nav-item"><a href="${contextPath}/board/listArticles.do" class="nav-link link-dark px-2 active" aria-current="page">Home</a></li>
             <li class="nav-item"><a href="#" class="nav-link link-dark px-2">Features</a></li>
             <li class="nav-item"><a href="#" class="nav-link link-dark px-2">Pricing</a></li>
             <li class="nav-item"><a href="#" class="nav-link link-dark px-2">About</a></li>

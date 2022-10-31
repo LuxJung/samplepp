@@ -101,14 +101,14 @@ public class BoardCreateDAO {
 	public void createArticleImg(BoardVO bd) {
 		try {
 			System.out.println("BOARD_INSERT_IMG_QUERY 쿼리문 = [ " + BOARD_INSERT_IMG_QUERY + " ]");
-			int price = bd.getPrice();
+			String price = bd.getPrice();
 			System.out.println("price = " + price);
 			String goods_img = bd.getGoods_img();
 			System.out.println("goods_img = " + goods_img);
 
 			conn = dataFactory.getConnection();
 			pstmt = conn.prepareStatement(BOARD_INSERT_IMG_QUERY);
-			pstmt.setInt(1, price);
+			pstmt.setString(1, price);
 			pstmt.setString(2, goods_img);
 			System.out.println("goods_T 들어가는 내용 = [ 가격: " + price + ", 이미지경로: " + goods_img + " ]");
 			System.out.println("==================================");

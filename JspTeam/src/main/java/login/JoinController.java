@@ -68,15 +68,15 @@ public class JoinController extends HttpServlet {
 		//response.sendRedirect("../index/index.jsp");
 		nextPage = "../index.jsp";
 		
-		Map<String,String> articleMap=upload(request,response);
+		Map<String,String> articleMap2=upload(request,response);
 		System.out.println("서블릿접근");
-		String id=articleMap.get("id");
-		String password=articleMap.get("password");
-		String nickname=articleMap.get("nickname");
-		String phone_number=articleMap.get("phone_number");
-		String profile_img=articleMap.get("profile_img");
-		String addr=articleMap.get("addr");
-		String detail_addr=articleMap.get("detail_addr");
+		String id=articleMap2.get("id");
+		String password=articleMap2.get("password");
+		String nickname=articleMap2.get("nickname");
+		String phone_number=articleMap2.get("phone_number");
+		String profile_img=articleMap2.get("profile_img");
+		String addr=articleMap2.get("addr");
+		String detail_addr=articleMap2.get("detail_addr");
 		
 		
 		System.out.println("이건가?"+id);
@@ -124,7 +124,7 @@ public class JoinController extends HttpServlet {
 
 		ServletFileUpload upload = new ServletFileUpload(factory);
 		try {
-			List items = upload.parseRequest(request);
+			List<FileItem> items = upload.parseRequest(request);
 			for (int i = 0; i < items.size(); i++) {
 				FileItem fileItem = (FileItem) items.get(i);
 

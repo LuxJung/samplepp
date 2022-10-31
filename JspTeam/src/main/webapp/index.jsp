@@ -23,10 +23,8 @@ request.setCharacterEncoding("UTF-8");
 
 <title>Best Seller</title>
 
-<link rel="stylesheet" type="text/css"
-	href="../resource/css/bootstrap.css">
-<link rel="stylesheet" type="text/css"
-	href="../resource/css/override.css">
+<link rel="stylesheet" type="text/css" href="../resource/css/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="../resource/css/override.css">
 <script type="text/javascript"
 	src="../resource/js/bootstrap.bundle.min.js"></script>
 <script type="text/javascript" src="../resource/js/bootstrap.min.js"></script>
@@ -82,11 +80,11 @@ function kakaoLogout() {
 	<!-- 헤더 -->
 	<%-- <%@ include file="../include/login_nav.jsp" %> --%>
 
-	<nav class="py-2 bg-light border-bottom">
+	<nav class="py-2 bg-light border-bottom ">
 		<div class="container d-flex flex-wrap">
 			<ul class="nav me-auto">
 				<!--여기 뭐 넣을지 생각....-->
-				<li class="nav-item"><a href="#"
+				<li class="nav-item"><a href="${contextPath}/board/listArticles.do"
 					class="nav-link link-dark px-2 active" aria-current="page">Home</a></li>
 				<li class="nav-item"><a href="#"
 					class="nav-link link-dark px-2">Features</a></li>
@@ -102,12 +100,12 @@ function kakaoLogout() {
 				<!--클래스로 로그인 유무 display 조정-->
 				<li class="nav-item login_true "><a href="">
 						<!--마이페이지 이동--> <!--로그인 자기 이미지 띄우기--> <img
-						src="../upload/${userInfo.profile_img }" alt="mdo"
+						src="../resource/users/${userInfo.profile_img }" alt="mdo"
 						width="40" height="40" class="rounded-circle">
 				</a></li>
 				<li class="nav-item login_true "><a
 					href="${contextPath}/userController/logout.do"
-					onclick="kakaoLogout()" ; class="nav-link link-dark px-2">Logout</a>
+					onclick="kakaoLogout()" class="nav-link link-dark px-2">Logout</a>
 				</li>
 
 				<%
@@ -136,7 +134,7 @@ function kakaoLogout() {
 	<%@ include file="../include/banner.jsp"%>
 
 	<!-- 새 글 등록 fixed -->
-	<a class="newatcl" href="../boardview/addboard.jsp">+</a>
+	<a class="newatcl" href="../boardview/addboard.jsp" style="z-index: 1;">+</a>
 
 	<section>
 		<div class="container d-flex flex-wrap justify-content-center">
@@ -160,15 +158,16 @@ function kakaoLogout() {
 
 							<c:forEach var="articles" items="${articlesList }">
 								<div class="col">
-									<a
-										href="${contextPath}/board/readArticle.do?num_aticle=${articles.num_aticle}">
+									<a href="${contextPath}/board/readArticle.do?num_aticle=${articles.num_aticle}">
+									
 										<div class="card shadow-sm text-center">
 											<span style="width: 150px; display: none;">${articles.num_aticle}</span>
 											<div class="bd-placeholder-img card-img-top w-100"
 												style="height: 185px; border-bottom: 1px solid #cccccc;">
+												
 												<img
 													src="../resource/imgs/${articles.num_aticle}/${articles.goods_img}"
-													class="d-block h-100 img-fluid img-thumbnail">
+													class="d-block h-100 img-fluid img-thumbnail" ">
 												<p>이미지 경로 ${articles.goods_img}</p>
 												<p>예약일때 표기 ex ${articles.deal_status}</p>
 											</div>

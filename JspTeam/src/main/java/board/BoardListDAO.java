@@ -73,7 +73,7 @@ public class BoardListDAO {
 				}
 				Date upload = rs.getDate("upload");
 				String goods_img = rs.getString("goods_img");
-				int price = rs.getInt("price");
+				String price = rs.getString("price");
 				BoardVO BoardVO = new BoardVO(num_aticle, nickname, category, title, 
 											contents,deal_status, upload,goods_img,price);
 				atriclesList.add(BoardVO);
@@ -138,7 +138,7 @@ public class BoardListDAO {
 				}
 				Date upload = rs.getDate("upload");
 				String goods_img = rs.getString("goods_img");
-				int price = rs.getInt("price");
+				String price = rs.getString("price");
 		      
 		      BoardVO article = new BoardVO();
 		      
