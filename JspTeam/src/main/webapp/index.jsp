@@ -164,7 +164,7 @@ function newArticle() {
 				<div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3">
 					<c:choose>
 						<c:when test="${empty articlesList }">
-							<p>리스트가 없다능</p>
+							<% response.sendRedirect("/board/listArticles.do"); %>
 						</c:when>
 						<c:when test="${!empty articlesList }">
 
@@ -174,25 +174,27 @@ function newArticle() {
 									
 										<div class="card shadow-sm text-center">
 											<span style="width: 150px; display: none;">${articles.num_aticle}</span>
-											<div class="bd-placeholder-img card-img-top w-100"
+											<div class="bd-placeholder-img card-img-top w-100  d-flex justify-content-center"
 												style="height: 185px; border-bottom: 1px solid #cccccc;">
-												
-												<img
-													src="../resource/imgs/${articles.num_aticle}/${articles.goods_img}"
-													class="d-block h-100 img-fluid img-thumbnail" ">
-												<p>이미지 경로 ${articles.goods_img}</p>
-												<p>예약일때 표기 ex ${articles.deal_status}</p>
+												<img src="../resource/imgs/${articles.num_aticle}/${articles.goods_img}"
+													class="d-block h-100 img-fluid img-thumbnail" >
+												<%-- <p>이미지 경로 ${articles.goods_img}</p>
+												<p>예약일때 표기 ex ${articles.deal_status}</p> --%>
 											</div>
 											<div class="card-body">
-												<p class="card-text">${articles.title}</p>
-												<p class="card-text">${articles.contents}</p>
+												<p class="card-text d-flex ">
+													<span class="justify-content-left">제목:　</span>
+													<span class="d-flex card-text">${articles.title} </span>
+												</p>
+												<p class="card-text d-flex ">
+													<span class="justify-content-left">내용:　</span>
+													<span class="d-flex card-text">${articles.contents} </span>
+												</p>
 												<div
 													class="d-flex justify-content-between align-items-center">
 													<div class="btn-group">
 														<button type="button"
 															class="btn btn-sm btn-outline-secondary">View</button>
-														<button type="button"
-															class="btn btn-sm btn-outline-secondary">Edit</button>
 													</div>
 													<small class="text-muted">${articles.upload}</small>
 												</div>
@@ -216,40 +218,37 @@ function newArticle() {
 	<div>
 		<c:if test="${totArticles != null }">
 			<c:choose>
+			
 				<c:when test="${totArticles >100 }">
 					<!-- 글 개수가 100 초과인경우 -->
 					<nav>
 						<ul class="pagination d-flex justify-content-center">
 							<c:forEach var="page" begin="1" end="10" step="1">
-
 								<c:if test="${section >1 && page==1 }">
 									<li class="page-item"><a class="page-link"
-										href="${contextPath }/board/listArticles.do?section=${section-1}&pageNum=${(section-1)*10 +1 }">pre
-									</a></li>
+										href="${contextPath }/board/listArticles.do?section=${section-1}&pageNum=${(section-1)*10 +1 }">pre</a>
+									</li>
 								</c:if>
-
 								<li class="page-item"><a class="page-link"
-									href="${contextPath }/board/listArticles.do?section=${section}&pageNum=${page}">${(section-1)*10 +page }
-								</a></li>
-
+									href="${contextPath }/board/listArticles.do?section=${section}&pageNum=${page}">${(section-1)*10 +page }</a>
+								</li>
 								<c:if test="${page ==10 }">
-
 									<li class="page-item"><a class="page-link"
 										href="${contextPath }/board/listArticles.do?section=${section+1}&pageNum=${section*10+1}">next</a>
 									</li>
-
 								</c:if>
-
 							</c:forEach>
 						</ul>
 					</nav>
 				</c:when>
+				
 				<c:when test="${totArticles == 100 }">
 					<!--등록된 글 개수가 100개인경우  -->
 					<nav>
 						<ul class="pagination d-flex justify-content-center">
 							<c:forEach var="page" begin="1" end="10" step="1">
-								<li class="page-item"><a class="page-link" href="#">${page }</a>
+								<li class="page-item">
+									<a class="page-link" href="#">${page }</a>
 								</li>
 							</c:forEach>
 						</ul>
@@ -260,20 +259,19 @@ function newArticle() {
 					<!--등록된 글 개수가 100개 미만인 경우  -->
 					<nav>
 						<ul class="pagination d-flex justify-content-center">
-							<c:forEach var="page" begin="1" end="${totArticles/10 +1}"
-								step="1">
+							<c:forEach var="page" begin="1" end="${totArticles/10 +1}" step="1">
 								<c:choose>
 									<c:when test="${page==pageNum }">
 										<li class="page-item active bs-green" aria-current="page">
-											<a class="page-link"
-											href="${contextPath }/board/listArticles.do?section=${section}&pageNum=${page}">${page }
-										</a>
+											<a class="page-link" 
+											href="${contextPath }/board/listArticles.do?section=${section}&pageNum=${page}">${page } </a>
 										</li>
 									</c:when>
 									<c:otherwise>
-										<li class="page-item"><a class="page-link"
-											href="${contextPath }/board/listArticles.do?section=${section}&pageNum=${page}">${page }
-										</a></li>
+										<li class="page-item">
+											<a class="page-link" 
+											href="${contextPath }/board/listArticles.do?section=${section}&pageNum=${page}">${page } </a>
+										</li>
 									</c:otherwise>
 								</c:choose>
 							</c:forEach>

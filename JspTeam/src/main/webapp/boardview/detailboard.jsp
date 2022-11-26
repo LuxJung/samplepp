@@ -63,12 +63,7 @@ ul, li {
 
 <script type="text/javascript">
 	$(document).ready(function() {
-		
-		reload() {
-		    (location || window.location || document.location).reload();
-		}
-		location.reload(true);
-		
+	
 		$('#preview').css('display', 'none');
 	});
 	function modify() {
@@ -245,16 +240,16 @@ ul, li {
 	<c:set var="deal" value="${article.deal_status }" />
 	<c:set var="nickname" value="${article.nickname }"></c:set>
 	<c:set var="num_aticle" value="${article.num_aticle }"></c:set>
-	<span id="num">${num_aticle} </span><span id="loguser">${userInfo.id} </span>
-	<main class="container">
+<%-- 	<span id="num">${num_aticle} </span><span id="loguser">${userInfo.id} </span>
+ --%>	<main class="container">
 		<section id="v1">
 			<div class="px-4 my-3 text-center " style="height: 50px;">
 				<h1 class="display-5 fw-bold">제품 상세정보</h1>
 			</div>
 			<hr class="my-4">
 
-			유저인포${userInfo.id }/ 아티클네임${ article.nickname }
-
+<%-- 유저인포${userInfo.id }/ 아티클네임${ article.nickname }
+ --%>
 			<div class="container">
 				<div class="row">
 					<div class="col">
@@ -378,7 +373,7 @@ ul, li {
 								<input type="button" value="제품등록"
 									class="btn btn-success btn-lg px-4 gap-3" onclick="newArticle();"/>
 								<input type="button" value="제품수정"
-									class="btn btn-success btn-lg px-4 gap-3" onClick="modifyArticle()"/>
+									class="btn btn-success btn-lg px-4 gap-3" onClick="modifyArticle();"/>
 								<input type="button" value="뒤로가기"
 									class="btn btn-outline-secondary btn-lg px-4"
 									onClick="backToList()" />
@@ -397,8 +392,8 @@ ul, li {
 			</div>
 
 			<hr class="my-4">
-			<c:out value="${userInfo.id }"></c:out>
-			${userInfo.id }
+			<%-- <c:out value="${userInfo.id }"></c:out>
+			${userInfo.id } --%>
 
 			<div class="my-3 p-3 bg-body rounded shadow-sm">
 				<form name="articleForm" method="post" enctype="multipart/form-data"
@@ -456,14 +451,11 @@ ul, li {
 					<div class="col-lg-6 mx-auto pt-3">
 						<div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
 							<input type="submit" class="btn btn-success btn-lg px-4 gap-3" value="수정하기" 
-							onClick="modify_aticle('${contextPath}/board/modifyArticles.do','${article.num_aticle}')"
-							/> 
-							<input type="button" 
-							class="btn btn-outline-secondary btn-lg px-4" 
-							value="삭제하기"
+							onClick="modify_aticle('${contextPath}/board/modifyArticles.do','${article.num_aticle}')"/> 
+							<input type="button" class="btn btn-outline-secondary btn-lg px-4" value="삭제하기"
 							onClick="remove_aticle('${contextPath}/board/deleteArticles.do','${article.num_aticle}')" />
 							<input type="button" class="btn btn-outline-secondary btn-lg px-4" value="뒤로가기"
-								onClick="backToList()" />
+							onClick="backToList();" />
 						</div>
 					</div>
 				</form>

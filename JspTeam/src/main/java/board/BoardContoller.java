@@ -63,7 +63,7 @@ public class BoardContoller extends HttpServlet {
 		System.out.println(request.getServletContext());
 		try {
 			List<BoardVO> articlesList = new ArrayList<>();
-			if(action == null|| action.equals("/listArticles.do")) {
+			if(action == null|| action.equals("/listArticles.do")|| action.equals("")) {
 				String _section=request.getParameter("section");
 				String _pageNum=request.getParameter("pageNum");
 				int section = Integer.parseInt(((_section==null)? "1":_section) );
@@ -86,46 +86,34 @@ public class BoardContoller extends HttpServlet {
 				// C-작업수행
 				Map<String, String> articleMap = upload(request, response);
 				HttpSession session = request.getSession();
-				String id=(String) session.getAttribute("sessionID");
-				String title = articleMap.get("title");
-				String content = articleMap.get("content");
-				String price = articleMap.get("price");
-				String imgFileName = articleMap.get("goods_img");
+				String id=(String) session.getAttribute("sessionID");												System.out.println("articleMap 에서 가져오는 id==" + id);
+				String title = articleMap.get("title");																System.out.println("articleMap 에서 가져오는 title==" + title);
+				String content = articleMap.get("content");															System.out.println("articleMap 에서 가져오는 content==" + content);
+				String price = articleMap.get("price");																System.out.println("articleMap 에서 가져오는 price==" + price);
+				String imgFileName = articleMap.get("goods_img");													System.out.println("articleMap 에서 가져오는 imgFileName==" + imgFileName);
 				
-				System.out.println("articleMap 에서 가져오는 id==" + id);
-				System.out.println("articleMap 에서 가져오는 title==" + title);
-				System.out.println("articleMap 에서 가져오는 content==" + content);
-				System.out.println("articleMap 에서 가져오는 price==" + price);
-				System.out.println("articleMap 에서 가져오는 imgFileName==" + imgFileName);
 				boardVO.setNickname(id);
 				boardVO.setCategory("디폴트");
 				boardVO.setTitle(title); // addboard input을 map으로 줘서 받아옴
 				boardVO.setContents(content);
 				boardVO.setGoods_name("디폴트");
 				boardVO.setPrice(price);
-				boardVO.setGoods_img(imgFileName);
-				System.out.println("[ addArticle 수행 이전 ]");
-				int num_aticle = boardService.addArticle(boardVO);
-				System.out.println("[ addArticle 수행 이후! ] num_aticle "+num_aticle);
-				System.out.println("[ addArticle 수행 이후! ] imgFileName "+imgFileName);
-				if (imgFileName != null && imgFileName.length() != 0) {
-					System.out.println("[ addArticle 수행 이후! ] imgFile 있기떄문에 여기로 온다");
-					File srcFile = new File(BOARD_IMG_REPOSITORY + "\\" + "temp" + "\\" + imgFileName);
-					System.out.println("srcFile");
+				boardVO.setGoods_img(imgFileName);																	System.out.println("[ addArticle 수행 이전 ]");
+				
+				int num_aticle = boardService.addArticle(boardVO);													System.out.println("[ addArticle 수행 이후! ] num_aticle "+num_aticle);
+																													System.out.println("[ addArticle 수행 이후! ] imgFileName "+imgFileName);
+				if (imgFileName != null && imgFileName.length() != 0) {												System.out.println("[ addArticle 수행 이후! ] imgFile 있기떄문에 여기로 온다");
+					File srcFile = new File(BOARD_IMG_REPOSITORY + "\\" + "temp" + "\\" + imgFileName);				System.out.println("srcFile");
 					File destDir = new File(BOARD_IMG_REPOSITORY + "\\" + num_aticle);
-					
-					if(!srcFile.exists())srcFile.mkdirs();
-					System.out.println("destDir");
-					if(!destDir.exists())destDir.mkdirs();
-					System.out.println("destDir.mkdirs()");
-					FileUtils.moveFileToDirectory(srcFile, destDir, true);
-					System.out.println("FileUtils.moveFileToDirectory(srcFile, destDir, true)");
+					if(!srcFile.exists())srcFile.mkdirs();															System.out.println("destDir");
+					if(!destDir.exists())destDir.mkdirs();															System.out.println("destDir.mkdirs()");
+					FileUtils.moveFileToDirectory(srcFile, destDir, true);											System.out.println("FileUtils.moveFileToDirectory(srcFile, destDir, true)");
 				}
-				System.out.println("[ 새 글 작성 alert() 띄우기 전]");
-				PrintWriter pw = response.getWriter();
-				pw.print("<script>" + "  alert('새글을 추가했습니다.');" + " location.href='" + request.getContextPath()
-						+ "/board/listArticles.do';" + "</script>");
-				System.out.println("[ 새 글 작성 alert() 띄운 후]");
+				PrintWriter pw = response.getWriter();																System.out.println("[ 새 글 작성 alert() 띄우기 전]");
+				pw.print("<script>" + "  alert('새글을 추가했습니다.');" 			
+						+ " location.href='" + request.getContextPath()
+						+ "/board/listArticles.do';" + "</script>");												System.out.println("[ 새 글 작성 alert() 띄운 후]");
+				
 				return;
 			} 
 			// Read Article
@@ -133,27 +121,15 @@ public class BoardContoller extends HttpServlet {
 				//로그인 정보 확인
 				//세션 받아오기
 				HttpSession session = request.getSession();
-				String id=(String) session.getAttribute("sessionID");    
+				String id=(String) session.getAttribute("sessionID");    											System.out.println("세션아이디: "+ id);
+				UserVO userInfo=userDAO.readUser(id);																System.out.println(userInfo.getProfile_img());
+				session.setAttribute("userInfo", userInfo);															System.out.println(session.getAttribute("sessionID"));
+				String picname=userInfo.getProfile_img();															System.out.println(request.getParameter("num_aticle"));
+				String num_aticle = request.getParameter("num_aticle");												System.out.println("readArticle.do 서블렛 왔어요" + num_aticle);
 				
-				System.out.println("세션아이디: "+ id);
-				UserVO userInfo=userDAO.readUser(id);
-				session.setAttribute("userInfo", userInfo);
-				String picname=userInfo.getProfile_img();
-				
-				System.out.println(userInfo.getProfile_img());
-				System.out.println(session.getAttribute("sessionID"));
-				System.out.println(request.getParameter("num_aticle"));
-				
-				String num_aticle = request.getParameter("num_aticle");
-				System.out.println("readArticle.do 서블렛 왔어요" + num_aticle);
-				boardVO = boardService.viewArticle(Integer.parseInt(num_aticle));
-				/* 더미 데이터 name 보냈습니다. 앞으로는 세션값과 비교를 해야합니다. */
-				
-				request.setAttribute("name", "디폴트");
-
+				boardVO = boardService.viewArticle(Integer.parseInt(num_aticle));									request.setAttribute("name", "디폴트");/* 더미 데이터 name 보냈습니다. 앞으로는 세션값과 비교를 해야합니다. */
 				request.setAttribute("article", boardVO);
 				nextPage = "../boardview/detailboard.jsp";
-
 			} 
 			
 			else if(action.equals("/resolve.do")) {
@@ -175,28 +151,21 @@ public class BoardContoller extends HttpServlet {
 				String title = articleMap.get("title");
 				String content = articleMap.get("content");
 				String price = articleMap.get("price");
-				String imgFileName = articleMap.get("goods_img");
-				System.out.println("오냐?");
+				String imgFileName = articleMap.get("goods_img");													System.out.println("오냐?");
+				
 				boardVO.setNum_aticle(num_aticle);
-				boardVO.setTitle(title); // addboard input에서 받아옴
+				boardVO.setTitle(title); 
 				boardVO.setContents(content);
 				boardVO.setPrice(price);
-				boardVO.setGoods_img(imgFileName);
-				boardService.modifyArticle(boardVO);
-				System.out.println("[ addArticle 수행 이후! ] num_aticle "+num_aticle);
-				System.out.println("[ addArticle 수행 이후! ] imgFileName "+imgFileName);
-				if (imgFileName != null && imgFileName.length() != 0) {
-					System.out.println("[ addArticle 수행 이후! ] imgFile 있기떄문에 여기로 온다");
-					File srcFile = new File(BOARD_IMG_REPOSITORY + "\\" + "temp" + "\\" + imgFileName);
-					System.out.println("srcFile");
+				boardVO.setGoods_img(imgFileName);																	System.out.println("[ addArticle 수행 이후! ] num_aticle "+num_aticle);
+				boardService.modifyArticle(boardVO);																System.out.println("[ addArticle 수행 이후! ] imgFileName "+imgFileName);
+				
+				if (imgFileName != null && imgFileName.length() != 0) {												System.out.println("[ addArticle 수행 이후! ] imgFile 있기떄문에 여기로 온다");
+					File srcFile = new File(BOARD_IMG_REPOSITORY + "\\" + "temp" + "\\" + imgFileName);				System.out.println("srcFile");
 					File destDir = new File(BOARD_IMG_REPOSITORY + "\\" + num_aticle);
-					
-					if(!srcFile.exists())srcFile.mkdirs();
-					System.out.println("destDir");
-					if(!destDir.exists())destDir.mkdirs();
-					System.out.println("destDir.mkdirs()");
-					FileUtils.moveFileToDirectory(srcFile, destDir, true);
-					System.out.println("FileUtils.moveFileToDirectory(srcFile, destDir, true)");
+					if(!srcFile.exists())srcFile.mkdirs();															System.out.println("destDir");
+					if(!destDir.exists())destDir.mkdirs();															System.out.println("destDir.mkdirs()");
+					FileUtils.moveFileToDirectory(srcFile, destDir, true);											System.out.println("FileUtils.moveFileToDirectory(srcFile, destDir, true)");
 				}
 				PrintWriter pw = response.getWriter();
 				pw.print("<script>" + "  alert('글을 수정했습니다.');" + " location.href='" + request.getContextPath()

@@ -11,11 +11,17 @@ import javax.sql.DataSource;
 
 public class BoardCreateDAO {
 
-	private final String BOARD_INSERT_QUERY = "INSERT INTO board_t (nickname, category, title, contents, goods_name)"
+	private final String BOARD_INSERT_QUERY 
+	= "INSERT INTO board_t (nickname, category, title, contents, goods_name)"
 			+ " VALUES (?, ?, ?, ?, ?) ";
-	private final String BOARD_INSERT_IMG_QUERY = "INSERT INTO goods_T (num_aticle, price, goods_img) "
+	
+	private final String BOARD_INSERT_IMG_QUERY 
+	= "INSERT INTO goods_T (num_aticle, price, goods_img) "
 			+ "VALUES ((select max(num_aticle) from board_t), ?, ?)";
-	private final String BOARD_NUMBERUNG_QUERY = "select max(num_aticle) num from board_t WHERE num_aticle ";
+	
+	private final String BOARD_NUMBERUNG_QUERY 
+	= "select max(num_aticle) num from board_t WHERE num_aticle ";
+	
 	private DataSource dataFactory;
 	Connection conn;
 	PreparedStatement pstmt;
@@ -32,8 +38,7 @@ public class BoardCreateDAO {
 
 	public void createArticle(BoardVO bd) {
 		try {
-			System.out.println("BOARD_INSERT 쿼리문 = [ " + BOARD_INSERT_QUERY + " ]");
-			String nickname = bd.getNickname();
+			String nickname = bd.getNickname();													System.out.println("BOARD_INSERT 쿼리문 = [ " + BOARD_INSERT_QUERY + " ]");
 			String category = bd.getCategory();
 			String title = bd.getTitle();
 			String contents = bd.getContents();
@@ -44,12 +49,9 @@ public class BoardCreateDAO {
 			pstmt.setString(1, nickname);
 			pstmt.setString(2, category);
 			pstmt.setString(3, title);
-			pstmt.setString(4, contents);
-			pstmt.setString(5, goods_name);
+			pstmt.setString(4, contents);														System.out.println("board_t 들어가는 내용 = [ 닉네임: " + nickname + ", 카테고리: " + category + ", 제목: " + title+ ", 내용: " + contents + ", 상품명: " + goods_name + " ]");
+			pstmt.setString(5, goods_name);														System.out.println("==================================");
 
-			System.out.println("board_t 들어가는 내용 = [ 닉네임: " + nickname + ", 카테고리: " + category + ", 제목: " + title
-					+ ", 내용: " + contents + ", 상품명: " + goods_name + " ]");
-			System.out.println("==================================");
 			pstmt.executeUpdate();
 			pstmt.close();
 			conn.close();
@@ -69,17 +71,12 @@ public class BoardCreateDAO {
 	public int createArticleNum() {
 		int setnum = 0;
 		try {
-			System.out.println("BOARD_NUMBERUNG_QUERY 쿼리문 = [ " + BOARD_NUMBERUNG_QUERY + " ]");
-			conn = dataFactory.getConnection();
-
+			conn = dataFactory.getConnection();									System.out.println("BOARD_NUMBERUNG_QUERY 쿼리문 = [ " + BOARD_NUMBERUNG_QUERY + " ]");
 			pstmt = conn.prepareStatement(BOARD_NUMBERUNG_QUERY);
-			ResultSet rs = pstmt.executeQuery();
+			ResultSet rs = pstmt.executeQuery();								System.out.println("goods_T 마지막 번호 = [ boart_T 마지막 번호: " + setnum + " ]");System.out.println("==================================");
 			while (rs.next()) {
 				setnum = rs.getInt(1);
-			}
-
-			System.out.println("goods_T 마지막 번호 = [ boart_T 마지막 번호: " + setnum + " ]");
-			System.out.println("==================================");
+			}			
 			rs.close();
 			pstmt.close();
 			conn.close();
@@ -100,8 +97,7 @@ public class BoardCreateDAO {
 
 	public void createArticleImg(BoardVO bd) {
 		try {
-			System.out.println("BOARD_INSERT_IMG_QUERY 쿼리문 = [ " + BOARD_INSERT_IMG_QUERY + " ]");
-			String price = bd.getPrice();
+			String price = bd.getPrice();										System.out.println("BOARD_INSERT_IMG_QUERY 쿼리문 = [ " + BOARD_INSERT_IMG_QUERY + " ]");
 			System.out.println("price = " + price);
 			String goods_img = bd.getGoods_img();
 			System.out.println("goods_img = " + goods_img);
@@ -109,9 +105,8 @@ public class BoardCreateDAO {
 			conn = dataFactory.getConnection();
 			pstmt = conn.prepareStatement(BOARD_INSERT_IMG_QUERY);
 			pstmt.setString(1, price);
-			pstmt.setString(2, goods_img);
-			System.out.println("goods_T 들어가는 내용 = [ 가격: " + price + ", 이미지경로: " + goods_img + " ]");
-			System.out.println("==================================");
+			pstmt.setString(2, goods_img);										System.out.println("goods_T 들어가는 내용 = [ 가격: " + price + ", 이미지경로: " + goods_img + " ]");System.out.println("==================================");
+			
 			pstmt.executeUpdate();
 			pstmt.close();
 			conn.close();

@@ -13,8 +13,10 @@ import javax.sql.DataSource;
 public class BoardReadDAO {
 	// private final String BOARD_SELECT_VIEW_QUERY = "SELECT * FROM board_t where
 	// num_aticle=?";
-	private final String BOARD_SELECT_VIEW_QUERY = "SELECT * FROM board_t " + "JOIN  goods_t ON "
-			+ "goods_t.num_aticle=board_t.num_aticle " + "WHERE board_t.num_aticle=?";
+	private final String BOARD_SELECT_VIEW_QUERY 
+	= "SELECT * FROM board_t " + "JOIN  goods_t ON "
+	+ "goods_t.num_aticle=board_t.num_aticle " 
+	+ "WHERE board_t.num_aticle=?";
 
 	private DataSource dataFactory;
 	 Connection conn;
@@ -34,13 +36,10 @@ public class BoardReadDAO {
 
 	// Read
 	public BoardVO readArticle(int num_aticle) {
-		System.out.println("selectArticle 시작하냐?");
-		BoardVO boardVO = new BoardVO();
+		BoardVO boardVO = new BoardVO();									System.out.println("selectArticle 시작하냐?");
 		try {
-			System.out.println("==================================");
-			System.out.println("BOARD_SELECT_VIEW_QUERY 쿼리문 = [ " + BOARD_SELECT_VIEW_QUERY + " ]");
-			conn = dataFactory.getConnection();
-			pstmt = conn.prepareStatement(BOARD_SELECT_VIEW_QUERY);
+			conn = dataFactory.getConnection();								System.out.println("==================================");
+			pstmt = conn.prepareStatement(BOARD_SELECT_VIEW_QUERY);			System.out.println("BOARD_SELECT_VIEW_QUERY 쿼리문 = [ " + BOARD_SELECT_VIEW_QUERY + " ]");
 			pstmt.setInt(1, num_aticle);
 			ResultSet rs = pstmt.executeQuery();
 			rs.next();

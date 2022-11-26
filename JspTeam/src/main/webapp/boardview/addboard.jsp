@@ -91,8 +91,8 @@ request.setCharacterEncoding("UTF-8");
 		</div>
 
 		<hr class="my-4">
-		<c:out value="${userInfo.id }"></c:out>
-${userInfo.id }
+	<%-- 	<c:out value="${userInfo.id }"></c:out>
+${userInfo.id } --%>
 
 		<div class="my-3 p-3 bg-body rounded shadow-sm">
 			<form name="articleForm" method="post" enctype="multipart/form-data"
